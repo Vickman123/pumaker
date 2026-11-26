@@ -996,23 +996,23 @@ export const fallbackProjects = [
   },
   {
     "id": "ffe1d751-2f1e-4d6e-88f1-872ce9277cf2",
-    "slug": "soporte-celular-paramétrico-3d",
+    "slug": "soporte-celular-parametrico-3d",
     "title": "Soporte Ajustable para Celular con Ranura de Carga",
-    "summary": "Diseña e imprime un soporte de escritorio ergonómico para smartphone con ángulo de visión óptimo y paso de cable USB.",
-    "content": "Un proyecto introductorio perfecto para familiarizarse con tolerancias mecánicas, voladizos sin soportes y altura de capa en impresión 3D.",
+    "summary": "Diseña, parametriza e imprime en 3D un soporte de escritorio ergonómico para smartphone con canal pasante de cable USB, dominando tolerancias, voladizos y anisotropía de capas.",
+    "content": "Una experiencia educativa integral desde cero para aprender fabricación aditiva FDM: cálculo ergonómico de ángulo de visión (65°), compensación de contracción térmica de termoplásticos (+0.8 mm), modelado paramétrico en OpenSCAD / Tinkercad y laminación estratégica sin soportes en Cura/PrusaSlicer.",
     "categoryId": "d3a5403b-822a-4674-ab0a-719c31a7d255",
     "level": "principiante",
-    "estimatedTime": "2 horas de impresión + 30 min modelado",
-    "materials": "50g de filamento PLA (cualquier color)",
-    "tools": "Impresora 3D FDM con boquilla de 0.4mm, espátula para despegar piezas",
-    "software": "Tinkercad o FreeCAD, UltiMaker Cura o PrusaSlicer",
-    "stepsJson": "[{\"step\":1,\"title\":\"Medición Ergonómica y Geometría en Tinkercad\",\"detail\":\"1. Mide el grosor de tu teléfono celular con funda utilizando un calibrador o regla milimétrica (el estándar actual oscila entre 10.5 mm y 13.0 mm).\\n2. Abre Tinkercad.com y coloca un prisma rectangular de 65 mm de ancho, 70 mm de profundidad y 80 mm de alto.\\n3. Aplica un ángulo de inclinación de 65 grados respecto a la mesa: este ángulo es el óptimo ergonómico para evitar reflejos de luz y permitir videollamadas con encuadre frontal natural.\\n4. Genera una ranura pasante vertical de 14 mm de ancho y 15 mm de alto en la parte inferior para que el conector USB-C o Lightning pase sin doblar el cable.\",\"codeLanguage\":\"text\",\"code\":\"COTAS Y DIMENSIONES CRÍTICAS DEL SOPORTE:\\n- Ancho de base (X): 65.0 mm\\n- Profundidad de apoyo (Y): 75.0 mm\\n- Altura del respaldo (Z): 85.0 mm\\n- Grosor de labios frontales de sujeción: 14.5 mm (permite fundas gruesas de uso rudo)\\n- Abertura de cable de carga: 16.0 mm x 12.0 mm\\n- Ángulo de visión posterior: 65° respecto al plano horizontal\",\"testing\":\"En Tinkercad coloca un objeto de prueba con las medidas de tu teléfono celular y agrúpalo con la base para verificar visualmente que el centro de masa quede por dentro del triángulo de apoyo para que el soporte no se vuelque hacia atrás al tocar la pantalla.\",\"tip\":\"Agrega un redondeo (fillet) de 2.0 mm en todas las aristas vivas de la base para suavizar los bordes y evitar concentración de tensiones mecánicas durante la impresión.\"},{\"step\":2,\"title\":\"Laminación en Cura / PrusaSlicer y Orientación Óptima de Capas\",\"detail\":\"El mayor secreto para que un soporte de celular no se parta bajo el peso del teléfono radica en la orientación de las capas:\\nNUNCA imprimas el soporte parado verticalmente sobre su base delgada; colócalo acostado de costado sobre uno de sus flancos laterales. Al imprimirlo de lado, las líneas de filamento se orientan en la dirección de la carga mecánica, multiplicando por 4 su resistencia estructural.\",\"codeLanguage\":\"text\",\"code\":\"CONFIGURACIÓN EXACTA DE PERFIL EN ULTIMAKER CURA / PRUSASLICER:\\n- Altura de capa (Layer Height): 0.20 mm\\n- Altura de primera capa: 0.24 mm (Mejora adherencia a la cama)\\n- Paredes perimétricas (Wall line count): 3 (Grosor total de pared: 1.2 mm)\\n- Capas superiores e inferiores: 4 sólidas\\n- Densidad de relleno (Infill): 20%\\n- Patrón de relleno: Gyroid o Cúbico (Distribuye fuerzas tridimensionalmente)\\n- Velocidad de impresión: 50 mm/s (Primera capa: 20 mm/s)\\n- Temperatura de boquilla (PLA): 205°C\\n- Temperatura de cama caliente: 60°C\\n- Soportes: DESACTIVADOS (Colocándolo de costado la pieza tiene ángulo menor a 45°)\",\"testing\":\"En la vista de previsualización (\\\"Vista previa\\\" o \\\"Preview\\\"), arrastra el deslizador de capas desde la capa 1 hasta la última. Confirma que no existan líneas rojas suspendidas en el aire sin material de soporte debajo.\",\"tip\":\"Limpia la superficie de la cama con una servilleta de papel humedecida con alcohol isopropílico antes de comenzar para remover restos grasos de huellas dactilares.\"}]",
+    "estimatedTime": "2.5 horas (30 min diseño/personalización + 2 horas impresión)",
+    "materials": "50g de filamento PLA de 1.75 mm (color a elección), alcohol isopropílico al 70-99% y servilleta sin pelusa para limpieza de la cama, 4 gotas de adhesivo en barra (opcional si la cama no es PEI).",
+    "tools": "Impresora 3D FDM con boquilla (nozzle) de 0.4 mm y cama caliente, calibrador vernier (pie de rey) o regla milimétrica metálica, espátula plana flexible de acero inoxidable para despegar piezas, hoja de papel bond estándar (80g) para calibración de cama.",
+    "software": "OpenSCAD (v2021.01+) o Autodesk Tinkercad (web libre), UltiMaker Cura (v5.x) o PrusaSlicer (v2.7+).",
+    "stepsJson": "[{\"step\":1,\"title\":\"Medición Antropométrica y Cálculo de Holguras Críticas\",\"stageObjective\":\"Determinar con precisión de décima de milímetro las cotas del smartphone con funda y calcular las tolerancias de ajuste para modelado.\",\"stageTime\":\"15 minutos\",\"conceptLearned\":\"Antropometría, calibre vernier, holguras mecánicas y contracción del PLA.\",\"stageMaterials\":\"Tu smartphone con funda de uso diario, cable de carga habitual, regla milimétrica o calibrador vernier, libreta de notas.\",\"detail\":\"1. Toma tu teléfono celular CON la funda que usas todos los días. La mayoría de las personas comete el error de medir el teléfono sin funda y luego la pieza no sirve.\\n2. Con el vernier o la regla, mide el grosor total (cota Z) en el punto más grueso (incluyendo bordes de protección de cámara). Ejemplo común: 11.8 mm.\\n3. Añade la HOLGURA MAKER de +2.0 mm para garantizar que el teléfono entre y salga suavemente sin rayarse. Grosor de ranura objetivo = 11.8 + 2.0 = 13.8 mm (redondeamos a 14.0 mm).\\n4. Mide el ancho y grosor del cabezal de plástico de tu cable de carga USB-C o Lightning. El cabezal estándar mide 12 mm de ancho por 6.5 mm de grosor.\\n5. Para el paso de cable, definimos una abertura mínima de 16.0 mm de ancho por 12.0 mm de alto, permitiendo que el cable pase holgado y que el conector pueda enchufarse con el teléfono ya colocado en el soporte.\",\"diagram\":\"  ┌────────────────────────────────────────────────┐\\n  │         MEDIDAS CRÍTICAS DEL SMARTPHONE        │\\n  └────────────────────────────────────────────────┘\\n             Grosor Celular (G): [ 11.5 mm ]\\n             + Holgura (+2.0 mm): [ 13.5 mm ] <── RANURA DEL SOPORTE\\n             \\n             Cabezal Cable USB: [ 12.0 mm ]\\n             + Holgura (+4.0 mm): [ 16.0 mm ] <── VENTANA DE CARGA\\n             \\n   VISTA LATERAL ERGONÓMICA:\\n        ▲\\n        │          /  <── Ángulo óptimo: 65°\\n        │         / \\n        │        /  Respaldo: 80 mm\\n     85 mm      /\\n        │      /\\n        │     ┌───┐ \\n        │     │   │ <── Tope frontal: 15 mm (Grosor ranura: 14 mm)\\n        ▼    ═╧═══╧═══════════ <── Base: 75 mm\\n             ◄──── 75 mm ────►\",\"whyDoWeDoIt\":\"El plástico PLA fundido se contrae aproximadamente un 0.4% al enfriarse y las tolerancias de extrusión de una boquilla de 0.4 mm provocan que los agujeros interiores queden ligeramente más pequeños. Si no sumas holguras en la etapa de diseño, el teléfono entrará a presión y rayará la pantalla o el cable no pasará.\",\"expectedResult\":\"Una ficha de medidas anotada con 4 valores definitivos: Grosor de ranura (14 mm), Ancho de soporte (68 mm), Ancho de ranura de cable (16 mm) y Ángulo (65°).\",\"testing\":\"Corta una pequeña tira de cartón con el ancho de tu ranura anotada (14 mm) y colócala sobre el borde de tu teléfono: debe entrar suavemente dejando un espacio visible de casi 1 mm por cada lado.\",\"commonErrors\":\"Medir el teléfono sin funda o medir el cable por el cable de goma y no por el cabezal rígido de plástico.\",\"errorSolution\":\"Mide siempre el punto más ancho y rígido de cada componente.\",\"professionalTip\":\"Usa una regla metálica apoyada a escuadra sobre una mesa plana si no cuentas con calibrador vernier.\",\"progressEvidence\":\"Hoja con las 4 cotas críticas calculadas y verificadas con cartón.\"},{\"step\":2,\"title\":\"Modelado Paramétrico en OpenSCAD / Tinkercad\",\"stageObjective\":\"Generar la geometría 3D sólida autoportante mediante código paramétrico o primitivas booleanas.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Modelado paramétrico por variables, extrusión lineal, sustracción booleana (difference).\",\"stageMaterials\":\"Computadora con OpenSCAD instalado o navegador web en Tinkercad.com.\",\"detail\":\"Tienes dos opciones oficiales para crear el modelo:\\n\\n• OPCIÓN A (Recomendada - OpenSCAD): Copia el código fuente que dejamos abajo en el editor de OpenSCAD. Ajusta las variables iniciales con las medidas que obtuviste en el Paso 1. Presiona F5 para previsualizar y F6 para compilar el sólido matemático.\\n\\n• OPCIÓN B (Visual - Tinkercad):\\n1. Arrastra una \\\"Caja\\\" roja de 75 mm (largo) x 68 mm (ancho) x 85 mm (alto).\\n2. Arrastra un \\\"Techo\\\" o cuña a 65 grados y usa la herramienta \\\"Hueco\\\" (gris transparente) para cortar la cara posterior del respaldo.\\n3. Arrastra una segunda caja hueca de 14 mm de ancho por 68 mm de profundidad y 20 mm de alto para generar la hendidura donde descansará el teléfono.\\n4. Arrastra un cilindro o caja hueca vertical de 16 mm de ancho centrada en el piso de la ranura para crear el canal de paso del cable USB.\\n5. Selecciona todas las figuras y haz clic en \\\"Agrupar\\\" (Ctrl+G).\",\"codeLanguage\":\"openscad\",\"code\":\"// ====================================================================\\n// PUMAKER · PC PUMA · UNAM\\n// Proyecto 01: Soporte Ergonómico Paramétrico para Smartphone\\n// Código 100% Open Source (OpenSCAD v2021.01+)\\n// ====================================================================\\n\\n$fn = 40; // Suavidad de curvas cilíndricas\\n\\n// --- PARÁMETROS CONFIGURABLES ---\\nancho_soporte      = 68.0;  // [mm] Ancho total del soporte\\ngrosor_ranura      = 14.0;  // [mm] Grosor del teléfono + holgura de 2 mm\\nangulo_inclinacion = 65;    // [grados] 60 a 70 grados ergonómicos\\naltura_respaldo    = 80.0;  // [mm] Longitud del apoyo trasero\\naltura_tope        = 16.0;  // [mm] Altura del labio frontal\\ngrosor_pared       = 5.0;   // [mm] Pared estructural sólida\\nancho_cable_usb    = 16.0;  // [mm] Ancho ventana de carga\\nalto_cable_usb     = 13.0;  // [mm] Altura de ventana de cable\\nlargo_base         = 75.0;  // [mm] Estabilidad contra vuelco\\n\\nmodule perfil_2d() {\\n    polygon(points = [\\n        [0, 0],\\n        [largo_base, 0],\\n        [largo_base, grosor_pared],\\n        [grosor_pared + grosor_ranura, grosor_pared],\\n        [grosor_pared + grosor_ranura + cos(angulo_inclinacion) * altura_respaldo, grosor_pared + sin(angulo_inclinacion) * altura_respaldo],\\n        [cos(angulo_inclinacion) * altura_respaldo, grosor_pared + sin(angulo_inclinacion) * altura_respaldo],\\n        [0, altura_tope]\\n    ]);\\n}\\n\\nmodule soporte_completo() {\\n    difference() {\\n        // 1. Extruir perfil 2D a lo largo del ancho del soporte\\n        linear_extrude(height = ancho_soporte) {\\n            perfil_2d();\\n        }\\n        \\n        // 2. Ranura central pasante para conector USB-C / Lightning\\n        translate([(largo_base - 30)/2, -1, (ancho_soporte - ancho_cable_usb) / 2]) {\\n            cube([35, alto_cable_usb + grosor_pared, ancho_cable_usb]);\\n        }\\n    }\\n}\\n\\n// Generar modelo\\nsoporte_completo();\",\"whyDoWeDoIt\":\"El modelado paramétrico permite que cualquier persona adapte el diseño a su teléfono específico cambiando un número en 5 segundos, en lugar de rehacer todo el dibujo manual desde cero.\",\"expectedResult\":\"Un modelo tridimensional sólido sin aristas abiertas, con la ranura del celular en la parte delantera y el canal de cable centrado en la base.\",\"testing\":\"En OpenSCAD presiona la tecla F6 (Render). La consola inferior debe mostrar \\\"Rendering finished... Total volume: approx. 42000 mm3\\\" sin advertencias de geometrías no-manifold.\",\"commonErrors\":\"Olvidar centrar la ranura del cable USB, haciendo que quede pegada a un costado.\",\"errorSolution\":\"Usa la fórmula (ancho_soporte - ancho_cable_usb) / 2 en la coordenada Z o Y del translate para garantizar simetría perfecta.\",\"professionalTip\":\"Si usas OpenSCAD, puedes presionar F4 para abrir el personalizador visual (Customizer) y cambiar los tamaños con barras deslizantes sin tocar el código.\",\"progressEvidence\":\"Archivo .scad guardado en tu computadora con tu nombre y renderizado con F6.\"},{\"step\":3,\"title\":\"Exportación y Validación de la Malla STL (Inspección Manifold)\",\"stageObjective\":\"Generar el archivo STL milimétrico y verificar que sea una malla cerrada hermética lista para el laminador.\",\"stageTime\":\"10 minutos\",\"conceptLearned\":\"Malla poligonal STL, geometría 2-manifold, escala milimétrica, normales de superficie.\",\"stageMaterials\":\"Computadora con archivo 3D compilado.\",\"detail\":\"1. En OpenSCAD, con la pieza renderizada con F6, ve al menú: Archivo -> Exportar -> Exportar como STL...\\n2. Guarda el archivo con el nombre: \\\"soporte_celular_pumaker_v1.stl\\\".\\n3. Si estás en Tinkercad, haz clic en el botón superior derecho \\\"Exportar\\\" y selecciona el formato \\\".STL\\\".\\n4. Validación de escala: Al exportar, asegúrate de que tu software trabaje en MILÍMETROS. Algunos programas como Blender exportan en metros por defecto, lo que provocaría que en el laminador la pieza se vea microscópica (0.068 mm) o gigante.\",\"diagram\":\"  [CÓDIGO OpenSCAD / Tinkercad]\\n                │\\n                ▼ (Render F6)\\n  [SÓLIDO MATEMÁTICO PURO]\\n                │\\n                ▼ (Exportar)\\n  [MALLA STL DE TRIÁNGULOS] ───> ¿Es 2-Manifold?\\n                                       │\\n                        ┌──────────────┴──────────────┐\\n                        ▼ SÍ                          ▼ NO (Agujeros)\\n                   [Listo para Cura]            [Auto-reparar en 3D Builder]\",\"whyDoWeDoIt\":\"Los laminadores interpretan la superficie de los objetos mediante miles de pequeños triángulos contiguos. Si la malla tiene caras invertidas o vértices abiertos (no-manifold), el laminador no sabrá qué es \\\"adentro\\\" y qué es \\\"afuera\\\", produciendo huecos vacíos en la impresión.\",\"expectedResult\":\"Un archivo .STL de entre 150 KB y 2 MB de tamaño.\",\"testing\":\"Abre el archivo STL con el \\\"Visor 3D\\\" nativo de Windows o con el visor de macOS. Gíralo: todas las superficies deben verse continuas y opacas sin sombras negras invertidas.\",\"commonErrors\":\"Exportar en formato OBJ con texturas innecesarias o exportar sin haber hecho el render final (F6).\",\"errorSolution\":\"En OpenSCAD presiona SIEMPRE F6 antes de presionar F7 (Exportar STL).\",\"professionalTip\":\"Windows 10/11 incluye \\\"3D Builder\\\": si abres tu STL ahí, te avisa inmediatamente con un marco rojo si la pieza tiene errores y la repara en 1 clic.\",\"progressEvidence\":\"Archivo soporte_celular_pumaker_v1.stl validado en tu carpeta de trabajo.\"},{\"step\":4,\"title\":\"Configuración de Laminación Estratégica (Slicing) en Cura/PrusaSlicer\",\"stageObjective\":\"Convertir el archivo STL en instrucciones G-code optimizadas, orientando la pieza de costado para eliminar soportes y maximizar resistencia mecánica.\",\"stageTime\":\"20 minutos\",\"conceptLearned\":\"Orientación de capas contra anisotropía, relleno gyroid, perímetros estructurales, velocidad y temperatura.\",\"stageMaterials\":\"Computadora con UltiMaker Cura o PrusaSlicer y archivo STL exportado.\",\"detail\":\"1. Abre Cura o PrusaSlicer y selecciona tu impresora 3D (ej. Ender 3, Prusa MK3/MK4, Bambu A1).\\n2. Carga el archivo \\\"soporte_celular_pumaker_v1.stl\\\".\\n3. ORIENTACIÓN CRÍTICA: Haz clic sobre la pieza, selecciona la herramienta de ROTAR y gírala 90 grados para que quede completamente ACOSTADA DE COSTADO sobre la cama de impresión.\\n4. Parámetros exactos del perfil en Cura:\\n   • Altura de capa (Layer Height): 0.20 mm (Equilibrio ideal velocidad/resolución).\\n   • Altura de primera capa: 0.24 mm (Aumenta la superficie de contacto para máxima adherencia).\\n   • Líneas de pared (Perímetros): 3 paredes (1.2 mm de grosor sólido).\\n   • Capas superiores e inferiores: 4 capas sólidas.\\n   • Densidad de relleno: 20%.\\n   • Patrón de relleno: \\\"Gyroid\\\" (Giroide: distribuye esfuerzos en las 3 direcciones del espacio y suena más suave al imprimir).\\n   • Temperatura de boquilla: 205°C (para filamento PLA estándar).\\n   • Temperatura de cama: 60°C.\\n   • Velocidad de impresión: 50 mm/s (Primera capa: 20 mm/s).\\n   • SOPORTES: DESACTIVADOS (Al imprimirla de costado, todos los ángulos quedan en 90° o apoyados en la base; no se genera ningún voladizo flotante).\\n5. Haz clic en \\\"Segmentar\\\" (Slice / Laminar).\\n6. Guarda el archivo resultante (.GCODE) en tu tarjeta SD o envíalo por red a la impresora.\",\"diagram\":\"  ORIENTACIÓN INCORRECTA (PARADO):       ORIENTACIÓN CORRECTA (DE COSTADO):\\n  ================================        ==================================\\n        /                                     ▲ Z (Las capas crecen hacia arriba)\\n       /                                      │ ══════════════════════════════\\n      /                                       │ ══════════════════════════════\\n     /  <── Las capas horizontales            │ ══════════════════════════════\\n    ┌───┐   se despegan con la palanca        │ ══════════════════════════════\\n    │   │   del teléfono hacia atrás.         └───────────────────────────────► X\\n    ═════                                        Líneas de filamento paralelas\\n  [ FRÁGIL ANTE ESFUERZO DE FLEXIÓN ]            a la carga. ¡RESISTENCIA x4!\",\"whyDoWeDoIt\":\"En la tecnología FDM, la unión entre capas sucesivas es de naturaleza térmica y siempre tiene menor resistencia a tracción que el filamento continuo. Al colocar el soporte de lado, las fibras plásticas recorren toda la longitud del respaldo, haciendo mecánicamente imposible que se parta con el peso del smartphone.\",\"expectedResult\":\"El laminador reporta: Tiempo estimado: ~1 h 55 min, Consumo de filamento: ~42 g (14.2 metros), Costo aproximado: ~$20 MXN ($1 USD).\",\"testing\":\"Pasa a la pestaña \\\"Vista previa\\\" (Preview) en Cura. Mueve el deslizador vertical de capas capa por capa: comprueba visualmente que NO existan líneas de color rojo dibujándose flotando en el aire sin material previo debajo.\",\"commonErrors\":\"Dejar activada la casilla de \\\"Generar soporte\\\", lo que llenará la ranura del celular de material de soporte que luego cuesta mucho trabajo arrancar y deja rebabas feas.\",\"errorSolution\":\"Desmarca la casilla \\\"Generate Support\\\" en el menú de Soportes.\",\"professionalTip\":\"Activa la opción \\\"Z-Seam Alignment\\\" (Costura en Z) en \\\"Sharpest Corner\\\" (Esquina más pronunciada) para que las marcas de inicio de capa se oculten en las aristas traseras.\",\"progressEvidence\":\"Archivo .gcode guardado en la memoria SD de la impresora.\"},{\"step\":5,\"title\":\"Calibración de Cama y Fabricación FDM (Control de Primera Capa)\",\"stageObjective\":\"Nivelar la plataforma de construcción, desengrasar la superficie y ejecutar la impresión 3D monitoreando la adhesión inicial.\",\"stageTime\":\"2 horas (10 min preparación + 1h 50 min impresión desatendida)\",\"conceptLearned\":\"Nivelación de cama, Z-Offset, fricción de papel, dilatación de cama caliente, velocidad de primera capa.\",\"stageMaterials\":\"Impresora 3D, tarjeta SD con G-code, hoja de papel bond, alcohol isopropílico y servilleta.\",\"detail\":\"1. Limpieza de superficie: Con la cama FRÍA, humedece una servilleta de papel con alcohol isopropílico y frota firmemente toda la superficie para eliminar grasa dactilar.\\n2. Precalienta la máquina a 200°C en boquilla y 60°C en cama caliente desde el menú de la impresora.\\n3. Calibración manual con papel: Coloca la hoja de papel bond entre la boquilla y la cama en las 4 esquinas. Gira las perillas inferiores de la cama hasta que al mover el papel sientas una fricción ligera pero que no lo rompa (aproximadamente 0.1 mm de espacio).\\n4. Inserta la tarjeta SD, selecciona \\\"soporte_celular_pumaker.gcode\\\" y presiona Iniciar Impresión.\\n5. PROTOCOLO DE LOS PRIMEROS 5 MINUTOS (Regla de oro Maker): No te retires de la máquina durante la primera capa. Observa cómo se deposita la falda perimétrica (Skirt). El hilo de plástico debe verse ligeramente aplastado como una cinta plana, no redondo como un espagueti suelto ni transparente/raspado contra el vidrio.\",\"diagram\":\"  DIAGNÓSTICO VISUAL DE LA PRIMERA CAPA:\\n  \\n  [ BOQUILLA MUY ALTA ]        [ BOQUILLA CORRECTA ]       [ BOQUILLA MUY BAJA ]\\n         ┌───┐                        ┌───┐                       ┌───┐\\n         │   │                        │   │                       │   │\\n         └───┘                        └───┘                       └───┘\\n           ▼                            ▼                           ▼\\n        ( ) ( )                      ═════════                   ─── ───\\n     Línea redonda               Línea aplastada             Transparente / \\n     No se pega a la cama        perfecta adherencia         Obstruye extrusor\\n     ¡Peligro de nudo!           ¡RESULTADO ÓPTIMO!          ¡Raya la cama!\",\"whyDoWeDoIt\":\"Más del 80% de las impresiones 3D fallidas se deben a una primera capa desnivelada o sucia. Si la primera capa se ancla sólidamente, el resto de las 600 capas se imprimirán sin ningún riesgo de fallo.\",\"expectedResult\":\"La primera capa se adhiere sólidamente y la máquina avanza capa a capa con un zumbido rítmico suave sin ruidos de chasquido en el motor del extrusor.\",\"testing\":\"Toca suavemente con la uña la línea de purga exterior (Skirt): debe sentirse firme y pegada al vidrio/PEI sin levantarse al tacto.\",\"commonErrors\":\"Ver que las esquinas empiezan a levantarse a la mitad de la impresión por corrientes de aire frío (ventanas abiertas o ventilador prendido).\",\"errorSolution\":\"Cierra ventanas o puertas que generen corrientes de aire directo hacia la impresora durante las primeras horas.\",\"professionalTip\":\"Deja que la cama caliente se enfríe completamente por debajo de 30°C antes de intentar despegar la pieza: el plástico PLA se encoge solo un 0.3% y la pieza literalmente se soltará sola con un \\\"pop\\\" audible sin hacer fuerza.\",\"progressEvidence\":\"Soporte 3D terminado sobre la plataforma de impresión enfriada.\"},{\"step\":6,\"title\":\"Post-procesado, Pruebas de Carga y Validación Ergonómica\",\"stageObjective\":\"Despegar la pieza con seguridad, retirar restos de líneas de purga y validar la estabilidad física con el teléfono y cable de carga en uso real.\",\"stageTime\":\"15 minutos\",\"conceptLearned\":\"Acabado superficial, desbarbado, pruebas estáticas de centro de masa, ergonomía de ángulo de visión.\",\"stageMaterials\":\"Pieza impresa, espátula plana, tu smartphone con funda, cable USB de carga, cargador de pared.\",\"detail\":\"1. Despegado seguro: Si la cama ya está fría (<30°C) y la pieza no se suelta sola, desliza suavemente la espátula plana por una esquina empujando hacia adelante con la mano libre DETRÁS de la herramienta.\\n2. Retira con los dedos la falda perimétrica (Skirt).\\n3. Si quedó alguna pequeña rebaba en la ranura del cable, ráspala suavemente con la uña o una lija fina de grano 400.\\n4. PRUEBA 1 (Paso de cable): Toma el conector de tu cable USB-C o Lightning y pásalo por la ranura inferior desde atrás hacia adelante. Debe pasar libremente y permitir conectarse al puerto inferior del teléfono.\\n5. PRUEBA 2 (Encaje del teléfono): Apoya el smartphone en la ranura. El respaldo debe sostenerlo con un ángulo cómodo de 65° sin que la pantalla quede tapada por el labio frontal.\\n6. PRUEBA 3 (Estabilidad al tacto): Con el teléfono colocado, toca firmemente los botones de volumen laterales y desliza el dedo en la parte superior de la pantalla. El soporte no debe balancearse ni caerse hacia atrás.\\n7. PRUEBA 4 (Orientación horizontal): Coloca el teléfono acostado de lado para ver un video en YouTube. Verifica que los altavoces no queden completamente obstruidos.\",\"diagram\":\"  CHECKLIST DE PRUEBAS FÍSICAS DE LA PIEZA:\\n  \\n  [1. Cable USB] ─────────► Pasa sin forzar ni degollar el cable  [ ✔ ]\\n  [2. Ajuste Teléfono] ───► Entra con funda sin presionar la pantalla [ ✔ ]\\n  [3. Visibilidad] ───────► El labio frontal no tapa los subtítulos   [ ✔ ]\\n  [4. Vuelco] ────────────► Resiste pulsaciones en la zona superior    [ ✔ ]\\n  [5. Acabado] ───────────► Bordes suaves al tacto sin asperezas      [ ✔ ]\",\"whyDoWeDoIt\":\"El control de calidad final verifica que las tolerancias geométricas teóricas se cumplan en el mundo real, garantizando la seguridad de tu dispositivo contra caídas accidentales.\",\"expectedResult\":\"Un accesorio funcional de escritorio que sostiene tu teléfono con elegancia, permite videollamadas con encuadre óptimo y mantiene tu cable de carga organizado sin enredos.\",\"testing\":\"Conecta el cable al cargador de pared y verifica que el teléfono empiece a cargar inmediatamente con el icono de rayo en verde sin desconexiones al mover el teléfono.\",\"commonErrors\":\"Tirar con fuerza de la pieza cuando la cama aún está caliente a 60°C, deformando la base plana del soporte.\",\"errorSolution\":\"Ten paciencia: espera a que baje de 30°C o retira la lámina magnética flexible y dóblala ligeramente.\",\"professionalTip\":\"Si vas a usar el soporte en una mesa muy resbalosa, coloca 4 gotas de silicón caliente o recortes de goma en las esquinas inferiores para convertirlo en una base inamovible.\",\"progressEvidence\":\"Fotografía del soporte terminado sobre tu escritorio con tu teléfono cargando y pantalla encendida.\"}]",
     "filesJson": "[{\"name\":\"soporte_celular_pumaker.stl\",\"url\":\"#\"}]",
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1586769852044-692d6e3703f0?auto=format&fit=crop&w=800&q=80",
-    "expectedResult": "Soporte rígido y estable que sostiene el teléfono vertical u horizontalmente permitiendo conectar el cable de carga.",
-    "license": "Cultura Libre / CC-BY-SA",
-    "tips": "Orienta la pieza de lado en la cama del laminador para evitar que las capas se separen con el peso del teléfono.",
+    "expectedResult": "Soporte rígido de una sola pieza, estable al tacto, con ángulo ergonómico de 65° que sostiene el teléfono vertical u horizontalmente permitiendo conectar el cable de carga sin estrangularlo y sin requerir material de soporte desechable.",
+    "license": "Creative Commons Atribución-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)",
+    "tips": "Orienta la pieza siempre acostada sobre uno de sus flancos laterales en la plataforma del laminador: las líneas de filamento se orientarán paralelas al esfuerzo mecánico multiplicando por 4 la resistencia a flexión.",
     "featured": true,
     "addedAt": "2026-11-26T22:29:41.564Z",
     "updatedAt": "2026-11-26T22:29:41.564Z",
@@ -1022,6 +1022,247 @@ export const fallbackProjects = [
       "slug": "impresion-3d",
       "color": "#2563EB",
       "icon": "Box"
+    },
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, parametrizar, laminar y fabricar mediante impresión 3D FDM un soporte de escritorio ergonómico para smartphone con canal pasante de cable de carga, comprendiendo las tolerancias dimensionales, la anisotropía mecánica de capas y las reglas de diseño para fabricación aditiva (DfAM).",
+      "studentProfile": "Estudiantes, docentes y entusiastas maker sin experiencia previa en modelado 3D ni operación de impresoras.",
+      "learningObjectives": [
+        "Medir con precisión milimétrica las cotas críticas de un dispositivo móvil (grosor con funda, ancho y posición del conector).",
+        "Comprender y aplicar el concepto de tolerancias mecánicas y holguras mínimas (+0.8 mm a +1.2 mm) para ajuste deslizante sin fricción.",
+        "Modelar o parametrizar una geometría sólida con ángulos inclinados estables (65°) y ranuras pasantes en OpenSCAD / Tinkercad.",
+        "Configurar un perfil de laminación en Cura/PrusaSlicer optimizando la orientación de impresión para eliminar soportes y maximizar la resistencia mecánica por orientación de capas.",
+        "Calibrar la primera capa en una impresora 3D FDM para prevenir problemas de adherencia (warping y pata de elefante).",
+        "Evaluar la estabilidad estática del centro de masa del conjunto soporte-celular frente a cargas táctiles en pantalla."
+      ],
+      "steamCompetencies": [
+        "Pensamiento Computacional: Abstracción geométrica y parametrización mediante variables algebraicas en OpenSCAD.",
+        "Ingeniería Mecánica: Comprensión de esfuerzos mecánicos, anisotropía de capas FDM y momentos de vuelco por centro de gravedad.",
+        "Ciencia de Materiales: Comportamiento térmico del ácido poliláctico (PLA), temperatura de transición vítrea (Tg ~60°C) y contracción plástica.",
+        "Diseño y Ergonomía: Optimización del plano visual humano a 65° para reducir fatiga cervical y evitar reflejos luminosos.",
+        "Resolución de Problemas: Diagnóstico y depuración de defectos de fabricación aditiva (warping, patas de elefante y subextrusión)."
+      ],
+      "fundamentals": [
+        {
+          "term": "FDM (Fused Deposition Modeling / Modelado por Deposición Fundida)",
+          "simpleDef": "Es como una pistola de silicón ultra precisa guiada por computadora que dibuja tu objeto hilo por hilo, capa sobre capa.",
+          "technicalDef": "Proceso de fabricación aditiva por extrusión termoplástica continua a través de una boquilla calefactada (200-215°C) que solidifica al contacto con la capa previa.",
+          "analogy": "Construir una pared de ladrillos con cemento fresco donde cada hilera depende del soporte firme de la hilera inferior.",
+          "application": "Determina que la pieza siempre tendrá resolución finita definida por la altura de capa (0.2 mm) y el diámetro de boquilla (0.4 mm)."
+        },
+        {
+          "term": "Anisotropía Mecánica",
+          "simpleDef": "La madera se rompe fácilmente a lo largo de sus vetas; las piezas 3D se parten fácilmente en la unión entre sus capas.",
+          "technicalDef": "Propiedad física en la que las propiedades mecánicas (resistencia a tracción y flexión) varían según la dirección de la carga respecto al eje Z de impresión.",
+          "analogy": "Si intentas separar un rollo de cinta adhesiva capa por capa es fácil, pero si intentas estirar la cinta a lo largo es muy resistente.",
+          "application": "Si imprimimos el soporte parado, el peso del teléfono intentará separar las capas. Al imprimirlo acostado de costado, las líneas continuas de plástico reciben el esfuerzo a compresión/flexión."
+        },
+        {
+          "term": "Regla de los 45° y Voladizos (Overhangs)",
+          "simpleDef": "Si una pared se inclina demasiado hacia afuera sin nada abajo, el plástico fundido se chorreará al vacío.",
+          "technicalDef": "Límite geométrico de voladizo continuo donde cada capa nueva sobresale hasta el 50% del ancho de extrusión de la capa anterior. Ángulos menores a 45° respecto a la horizontal requieren estructuras de soporte desechables.",
+          "analogy": "Subir una escalera: puedes pisar medio escalón sin caerte, pero si pisas en el aire, caes al vacío.",
+          "application": "Nuestro soporte utiliza un ángulo de 65° para el respaldo y biseles a 45°, permitiendo imprimirlo completamente SIN soportes de desperdicio."
+        },
+        {
+          "term": "Contracción Térmica y Tolerancia de Ajuste",
+          "simpleDef": "El plástico caliente se encoge un poquito cuando se enfría; por eso los agujeros siempre quedan más chicos de lo que mediste en la pantalla.",
+          "technicalDef": "Coeficiente de dilatación térmica lineal del PLA (aprox. 68 µm/m·°C) que produce una contracción volumétrica de 0.3% a 0.5% durante la transición vítrea al enfriar.",
+          "analogy": "Como cuando se hornea pan o se enfría una gelatina: el volumen final es ligeramente más compacto que el molde caliente.",
+          "application": "Para que un cable USB de 14 mm entre sin atorarse, la ranura en el modelo 3D debe diseñarse con al menos 15.6 a 16.0 mm (+1.0 mm de holgura)."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Filamento PLA 1.75 mm",
+            "specs": "50 gramos, tolerancia de diámetro ±0.03 mm, color a elección",
+            "why": "Material rígido, biodegradable, sin emanaciones tóxicas y con mínima contracción térmica.",
+            "alternative": "PETG (mayor resistencia térmica para dejar en el auto bajo el sol, imprimir a 235°C)."
+          },
+          {
+            "item": "Alcohol Isopropílico (70% - 99%)",
+            "specs": "10 ml con servilleta de papel desechable sin pelusa",
+            "why": "Remueve aceites y grasas de huellas dactilares que causan que la pieza se despegue de la cama caliente.",
+            "alternative": "Agua tibia con jabón para trastes desengrasante neutro."
+          },
+          {
+            "item": "Adhesivo en barra (PVP)",
+            "specs": "Barra escolar tipo UHU o Pritt",
+            "why": "Asegura la adherencia de la primera capa si la cama es de vidrio liso.",
+            "alternative": "Cama texturizada de PEI magnético (no requiere adhesivo adicional)."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Impresora 3D FDM",
+            "specs": "Volumen mínimo de 100x100x100 mm, boquilla 0.4 mm, cama calefactable a 60°C",
+            "why": "Máquina que depositará el termoplástico fundido de forma automatizada.",
+            "alternative": "Cualquier impresora estilo Ender 3, Prusa MK3/MK4, Bambu Lab, Artillery o similar."
+          },
+          {
+            "item": "Calibrador Vernier (Pie de rey)",
+            "specs": "Resolución 0.05 mm o digital 0.01 mm",
+            "why": "Medición exacta del grosor del teléfono con funda y del cabezal del cable de carga.",
+            "alternative": "Regla metálica escolar milimétrica (con buena iluminación)."
+          },
+          {
+            "item": "Espátula metálica flexible",
+            "specs": "Hoja de acero inoxidable de 0.5 mm de espesor y bordes desbarbados",
+            "why": "Permite deslizarse bajo la pieza enfriada sin dañar la superficie de la cama de impresión.",
+            "alternative": "Plataforma flexible de acero con resorte (doblar ligeramente para soltar la pieza)."
+          },
+          {
+            "item": "Hoja de papel bond de 80g",
+            "specs": "10x10 cm de papel común de oficina",
+            "why": "Calibre estándar de 0.1 mm para nivelar la separación entre boquilla y cama.",
+            "alternative": "Galga de espesores de 0.10 mm."
+          }
+        ],
+        "software": [
+          {
+            "name": "OpenSCAD",
+            "version": "2021.01 o superior (100% Open Source y gratuito)",
+            "url": "https://openscad.org/",
+            "platform": "Windows, macOS, Linux",
+            "installGuide": "Descarga el instalador desde el sitio oficial y ejecútalo. No requiere registro ni conexión a internet."
+          },
+          {
+            "name": "Autodesk Tinkercad (Alternativa gráfica en la nube)",
+            "version": "Última versión web",
+            "url": "https://www.tinkercad.com/",
+            "platform": "Cualquier navegador web (Chrome, Firefox, Edge)",
+            "installGuide": "Crea una cuenta gratuita con correo electrónico para diseñar mediante figuras geométricas 3D arrastrables."
+          },
+          {
+            "name": "UltiMaker Cura o PrusaSlicer",
+            "version": "Cura 5.x / PrusaSlicer 2.7+",
+            "url": "https://ultimaker.com/software/ultimaker-cura/",
+            "platform": "Windows, macOS, Linux",
+            "installGuide": "Software laminador gratuito para convertir tu modelo 3D (.STL) en instrucciones de máquina (.GCODE)."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que el ángulo de 65° no es una casualidad? Es el ángulo áureo ergonómico documentado en diseño industrial de interfaces físicas: sitúa la pantalla perpendicular al eje de la mirada humana cuando estamos sentados en un escritorio con altura de 75 cm, minimizando la tensión del músculo trapecio superior.",
+        "realWorldExample": "Las estaciones de soporte de escáneres médicos y soportes de instrumental en laboratorios de la UNAM utilizan este mismo principio de ángulo y tolerancias mecánicas para permitir que el operador acople y desacople aparatos con una sola mano sin que la base se mueva.",
+        "makerTip": "Si quieres que el soporte tenga un agarre antideslizante absoluto sobre un escritorio de vidrio o madera pulida, pega 4 gotitas de silicón caliente o pequeños recortes de cámara de llanta de bicicleta en las 4 esquinas de la base inferior.",
+        "safetyCaution": "PRECAUCIÓN TÉRMICA Y MECÁNICA: La boquilla de la impresora 3D trabaja a 205°C (capaz de causar quemaduras de segundo grado instantáneas) y la cama a 60°C. NUNCA toques la boquilla con los dedos mientras esté caliente. Al usar la espátula para despegar la pieza, empuja SIEMPRE en dirección opuesta a tu cuerpo y nunca coloques la otra mano enfrente de la hoja."
+      },
+      "troubleshooting": [
+        {
+          "problem": "Pandeo o esquinas inferiores despegadas de la cama (Warping)",
+          "cause": "El aire frío de la habitación o una corriente enfría las capas superiores más rápido que la base, generando contracción y levantando las esquinas.",
+          "check": "Observa la primera capa a los 10 minutos de haber empezado: si los extremos se curvan hacia arriba despegándose del vidrio o PEI.",
+          "solution": "1. Limpia la cama con alcohol isopropílico. 2. Aumenta la temperatura de la cama a 60°C o 65°C para los primeros 5 mm. 3. En el laminador, activa una \"Brim\" (Borde) de 5 mm alrededor de la pieza para aumentar la superficie de anclaje."
+        },
+        {
+          "problem": "El cable USB-C o Lightning no entra en la ranura inferior",
+          "cause": "Subestimación del grosor del plástico del cabezal o ensanchamiento interno por vibración o sobreextrusión.",
+          "check": "Mide la abertura real con el calibrador vernier: si el modelo decía 15 mm pero la pieza física mide 14.1 mm.",
+          "solution": "1. En OpenSCAD, sube la variable ancho_cable_usb a 16.5 mm. 2. En el laminador, activa el ajuste \"Horizontal Expansion\" (Expansión horizontal) en -0.05 mm para compensar la dilatación plástica de orificios."
+        },
+        {
+          "problem": "La pieza se rompió por la mitad al presionar la pantalla del celular",
+          "cause": "Delaminación de capas debida a mala orientación en la cama o temperatura de boquilla demasiado fría (fusión deficiente entre capas).",
+          "check": "La fractura es completamente plana y horizontal, siguiendo exactamente una de las líneas de capa.",
+          "solution": "1. Vuelve a laminar la pieza ORIENTÁNDOLA DE COSTADO sobre la cama. 2. Aumenta la temperatura de boquilla a 208°C o reduce el ventilador de capa al 80% para que las capas se fundan con mayor cohesión molecular."
+        },
+        {
+          "problem": "Pata de Elefante (La base queda más ancha y con rebaba aplastada)",
+          "cause": "La boquilla arrancó demasiado pegada a la cama o la temperatura de la cama caliente está por encima de la temperatura de transición vítrea (Tg).",
+          "check": "Los primeros 0.8 mm de la pieza tienen un labio o faldón que sobresale hacia afuera.",
+          "solution": "1. Ajusta el Z-Offset de la impresora subiéndolo 0.05 mm. 2. En Cura, activa \"Initial Layer Horizontal Expansion\" en -0.15 mm."
+        },
+        {
+          "problem": "Hilillos finos de plástico dentro de la ranura del cable (Stringing / Oozing)",
+          "cause": "El plástico sigue goteando de la boquilla durante los movimientos en vacío por retracción insuficiente o filamento húmedo.",
+          "check": "Se observan pelos o telarañas finas entre los postes del soporte.",
+          "solution": "1. En el laminador, activa la retracción a 5.0 mm a 45 mm/s (para extrusores Bowden) o 0.8 mm a 35 mm/s (para Direct Drive). 2. Pasa rápidamente la flama de un encendedor a 5 cm de distancia durante medio segundo para quemar los hilillos sin deformar la pieza."
+        },
+        {
+          "problem": "El soporte se va de espaldas al presionar la parte superior del teléfono",
+          "cause": "El centro de masa del teléfono queda por detrás del punto de apoyo posterior de la base.",
+          "check": "Coloca el teléfono en el soporte y presiona la barra de notificaciones superior con el dedo: si se levanta la parte delantera.",
+          "solution": "Aumenta la profundidad de la base en OpenSCAD (variable largo_base) de 75 mm a 85 mm para que el polígono de sustentación cubra la vertical del centro de gravedad."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Adaptación a Tablet de 10\" o Lector Kindle",
+          "description": "Utiliza las variables del código OpenSCAD para duplicar el ancho del soporte a 120 mm y extender la base a 95 mm, permitiendo soportar un iPad o tablet escolar con total estabilidad sin volcarse.",
+          "objective": "Comprender la proporcionalidad de masa y la física del centro de gravedad al escalar objetos paramétricos.",
+          "validation": "Coloca una tablet en posición vertical: el soporte debe resistir toques fuertes en la pantalla sin tambalearse."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Cámara de Resonancia Acústica Pasiva (Amplificador Natural)",
+          "description": "Modela un conducto cónico curvado en la base que capture el sonido emitido por la bocina inferior del celular y lo proyecte hacia el frente del usuario, aumentando el volumen en +6 dB a +8 dB sin requerir electricidad.",
+          "objective": "Aplicar conceptos de acústica geométrica y diseño para guiado de ondas sonoras.",
+          "validation": "Reproduce una pista de audio a volumen medio y mide con un sonómetro en tu celular un incremento acústico claro de al menos +5 dB."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Soporte Plegable de Bolsillo con Bisagra Print-in-Place",
+          "description": "Diseña un mecanismo de dos piezas unidas por una bisagra cilíndrica integrada que se imprime en una sola sesión sin ensambles posteriores, con una holgura diametral de 0.35 mm entre eje y camisa.",
+          "objective": "Dominar el diseño de ensambles mecánicos móviles impresos en el sitio (print-in-place tolerances).",
+          "validation": "Al retirar la pieza de la cama, la bisagra debe articular libremente con un chasquido suave sin estar pegada."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Medición y Tolerancias",
+          "initial": "Medidas aproximadas tomadas a ojo. El celular entra forzado o baila holgado.",
+          "achieved": "Medición con calibrador o regla. El teléfono entra con holgura de 1.5 a 2.0 mm y el cable USB pasa sin rozar.",
+          "advanced": "Cálculo analítico de tolerancias mecánicas y contracción del filamento; ajuste perfecto incluso con fundas de uso rudo."
+        },
+        {
+          "criteria": "2. Modelado Paramétrico",
+          "initial": "Uso de formas fijas sin posibilidad de modificación.",
+          "achieved": "Modelo creado con variables en OpenSCAD o Tinkercad modificable en menos de 2 minutos.",
+          "advanced": "Código paramétrico modular con validaciones booleanas, redondeos (fillets) y canal acústico optimizado."
+        },
+        {
+          "criteria": "3. Estrategia de Laminación",
+          "initial": "Laminado en orientación aleatoria requiriendo soportes difíciles de retirar.",
+          "achieved": "Pieza orientada de lado para evitar soportes y maximizar resistencia de capas. Relleno gyroid 20%.",
+          "advanced": "Ajuste fino de expansión horizontal (-0.05 mm), costuras de capa alineadas (sharpest corner) y Z-hop optimizado."
+        },
+        {
+          "criteria": "4. Acabado y Estabilidad",
+          "initial": "Pieza con esquinas levantadas (warping), bordes ásperos y tendencia a volcarse.",
+          "achieved": "Base plana sin pandeo, primera capa uniforme, soporte estable frente a pulsaciones táctiles.",
+          "advanced": "Superficie impecable sin hilillos, bordes biselados suaves al tacto y patas antideslizantes añadidas."
+        },
+        {
+          "criteria": "5. Autonomía y Personalización",
+          "initial": "Copia estricta del modelo sin entender el funcionamiento de las variables.",
+          "achieved": "Capaz de explicar el porqué del ángulo de 65° y modificar el soporte para su modelo específico.",
+          "advanced": "Desarrolló con éxito uno de los retos (adaptación a tablet, bocina acústica o bisagra print-in-place)."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un soporte ergonómico para teléfono móvil de una sola pieza, diseñado matemáticamente para tus dimensiones exactas, con ángulo de visión óptimo a 65° y ranura pasante para cable de carga USB, fabricado en PLA sin material de soporte desperdiciado.",
+        "howItWorks": "Aprovecha la rigidez estructural del plástico PLA impreso con orientación paralela a los momentos de flexión. La ranura inferior distribuye el radio de curvatura natural del cable de carga para evitar que los hilos conductores internos de cobre se degüellen por fatiga mecánica.",
+        "whatYouLearned": [
+          "A calcular tolerancias de ensamble (+0.8 mm a +1.5 mm) compensando la contracción térmica del termoplástico.",
+          "La regla fundamental de la anisotropía en FDM: la resistencia de una pieza 3D depende 100% de la orientación de sus capas.",
+          "A diseñar geometrías autoportantes respetando la regla de los 45° para eliminar soportes desechables.",
+          "A diagnosticar y solucionar defectos reales de manufactura aditiva como warping, pata de elefante y stringing."
+        ],
+        "nextSteps": [
+          {
+            "title": "Organizador Modular de Cables y Memorias USB",
+            "slug": "organizador-modular-cables-usb",
+            "description": "Aplica el cálculo de tolerancias macho-hembra para crear cajoneras y soportes encajables sin tornillos."
+          },
+          {
+            "title": "Pieza de Repuesto: Engrane Paramétrico Reforzado",
+            "slug": "engrane-parametrico-reforzado",
+            "description": "Avanza hacia la cinemática mecánica diseñando dientes de engrane involuta con FreeCAD y OpenSCAD."
+          }
+        ]
+      }
     }
   }
 ];

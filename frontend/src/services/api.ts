@@ -184,7 +184,11 @@ export const api = {
     const data = await safeFetch(`${API_BASE}/projects/${slug}`);
     if (data && data.success) return data;
 
-    const project = fallbackProjects.find((p: any) => p.slug === slug);
+    const normalizedParam = decodeURIComponent(slug).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const project = fallbackProjects.find((p: any) => {
+      const pNorm = (p.slug || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+      return p.slug === slug || pNorm === normalizedParam;
+    });
     if (!project) return { success: false, message: 'Proyecto no encontrado' };
 
     const related = fallbackProjects

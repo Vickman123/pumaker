@@ -61,6 +61,75 @@ export interface ProjectStep {
   diagram?: string;
   image?: string;
   tip?: string;
+  // Campos pedagógicos enriquecidos
+  stageObjective?: string;
+  stageTime?: string;
+  conceptLearned?: string;
+  stageMaterials?: string;
+  whyDoWeDoIt?: string;
+  expectedResult?: string;
+  commonErrors?: string;
+  errorSolution?: string;
+  professionalTip?: string;
+  progressEvidence?: string;
+}
+
+export interface TroubleshootingItem {
+  problem: string;
+  cause: string;
+  check: string;
+  solution: string;
+}
+
+export interface ChallengeItem {
+  level: string; // "Nivel 1 — Modifica" | "Nivel 2 — Mejora" | "Nivel 3 — Crea"
+  title: string;
+  description: string;
+  objective: string;
+  validation: string;
+}
+
+export interface RubricItem {
+  criteria: string;
+  initial: string;
+  achieved: string;
+  advanced: string;
+}
+
+export interface DidacticConcept {
+  term: string;
+  simpleDef: string;
+  technicalDef: string;
+  analogy: string;
+  application: string;
+}
+
+export interface ProjectPedagogy {
+  objectiveGeneral: string;
+  studentProfile: string;
+  learningObjectives: string[];
+  steamCompetencies: string[];
+  fundamentals: DidacticConcept[];
+  workspaceChecklist: {
+    materials: { item: string; specs: string; why: string; alternative?: string }[];
+    tools: { item: string; specs: string; why: string; alternative?: string }[];
+    software: { name: string; version: string; url: string; platform: string; installGuide: string }[];
+  };
+  didacticElements?: {
+    didYouKnow?: string;
+    realWorldExample?: string;
+    makerTip?: string;
+    safetyCaution?: string;
+  };
+  troubleshooting?: TroubleshootingItem[];
+  challenges?: ChallengeItem[];
+  rubric?: RubricItem[];
+  finalReview?: {
+    whatYouBuilt: string;
+    howItWorks: string;
+    whatYouLearned: string[];
+    nextSteps: { title: string; slug: string; description: string }[];
+  };
 }
 
 export interface ProjectFile {
@@ -96,6 +165,7 @@ export interface Project {
   tips?: string;
   featured: boolean;
   addedAt: string;
+  pedagogy?: ProjectPedagogy;
 }
 
 export interface Video {
