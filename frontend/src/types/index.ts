@@ -55,6 +55,12 @@ export interface ProjectStep {
   step: number;
   title: string;
   detail: string;
+  code?: string;
+  codeLanguage?: string;
+  testing?: string;
+  diagram?: string;
+  image?: string;
+  tip?: string;
 }
 
 export interface ProjectFile {

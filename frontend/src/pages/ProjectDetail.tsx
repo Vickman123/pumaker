@@ -8,12 +8,17 @@ import {
   Wrench,
   Cpu,
   Layers,
-  Download,
   CheckCircle2,
   AlertTriangle,
+  FlaskConical,
+  Copy,
+  Check,
+  Lightbulb,
   ExternalLink,
-  ShieldCheck,
-  CheckSquare
+  Code2,
+  CheckSquare,
+  Sparkles,
+  Download
 } from 'lucide-react';
 
 export const ProjectDetail: React.FC = () => {
@@ -22,6 +27,7 @@ export const ProjectDetail: React.FC = () => {
   const [related, setRelated] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -51,11 +57,19 @@ export const ProjectDetail: React.FC = () => {
     }
   };
 
+  const copyToClipboard = (text: string, index: number) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => {
+      setCopiedIndex(null);
+    }, 2500);
+  };
+
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
         <div className="w-8 h-8 border-4 border-puma-gold border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-        <span className="text-sm text-slate-500">Cargando ficha de proyecto...</span>
+        <span className="text-sm text-slate-500">Cargando guía paso a paso del proyecto...</span>
       </div>
     );
   }
@@ -78,6 +92,8 @@ export const ProjectDetail: React.FC = () => {
     steps = [];
   }
 
+  const progressPercent = steps.length > 0 ? Math.round((completedSteps.length / steps.length) * 100) : 0;
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       {/* Botón Volver */}
@@ -94,8 +110,8 @@ export const ProjectDetail: React.FC = () => {
             alt={project.title}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent flex items-end p-6 sm:p-8">
-            <div className="text-white space-y-2">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent flex items-end p-6 sm:p-8">
+            <div className="text-white space-y-3">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="bg-puma-gold text-puma-dark text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
                   {project.category?.name}
@@ -108,10 +124,10 @@ export const ProjectDetail: React.FC = () => {
                   {project.estimatedTime}
                 </span>
               </div>
-              <h1 className="text-2xl sm:text-4xl font-black text-white">
+              <h1 className="text-2xl sm:text-4xl font-black text-white leading-tight">
                 {project.title}
               </h1>
-              <p className="text-xs sm:text-sm text-slate-200 max-w-2xl">
+              <p className="text-xs sm:text-sm text-slate-200 max-w-3xl leading-relaxed">
                 {project.summary}
               </p>
             </div>
@@ -120,84 +136,184 @@ export const ProjectDetail: React.FC = () => {
 
         {/* Ficha técnica: Materiales, herramientas, software */}
         <div className="p-6 sm:p-8 bg-slate-50 border-t border-slate-200 grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
-          <div className="space-y-1">
-            <strong className="text-puma-dark font-bold uppercase tracking-wider flex items-center gap-1.5">
+          <div className="space-y-1.5 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <strong className="text-puma-navy font-bold uppercase tracking-wider flex items-center gap-1.5 text-xs">
               <Layers className="w-4 h-4 text-puma-gold" />
-              <span>Materiales Requeridos:</span>
+              <span>Lista de Materiales (BOM):</span>
             </strong>
             <p className="text-slate-600 leading-relaxed">{project.materials}</p>
           </div>
 
-          <div className="space-y-1">
-            <strong className="text-puma-dark font-bold uppercase tracking-wider flex items-center gap-1.5">
+          <div className="space-y-1.5 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <strong className="text-puma-navy font-bold uppercase tracking-wider flex items-center gap-1.5 text-xs">
               <Wrench className="w-4 h-4 text-puma-gold" />
               <span>Herramientas de Taller:</span>
             </strong>
             <p className="text-slate-600 leading-relaxed">{project.tools}</p>
           </div>
 
-          <div className="space-y-1">
-            <strong className="text-puma-dark font-bold uppercase tracking-wider flex items-center gap-1.5">
+          <div className="space-y-1.5 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <strong className="text-puma-navy font-bold uppercase tracking-wider flex items-center gap-1.5 text-xs">
               <Cpu className="w-4 h-4 text-puma-gold" />
-              <span>Software & Entorno:</span>
+              <span>Software y Entorno:</span>
             </strong>
             <p className="text-slate-600 leading-relaxed">{project.software}</p>
           </div>
         </div>
       </div>
 
-      {/* Pasos de Construcción Guiados */}
-      <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-        <div className="flex items-center justify-between border-b border-slate-200 pb-4">
-          <div>
-            <h2 className="text-xl font-bold text-puma-dark">
-              Instrucciones Paso a Paso
+      {/* Barra de Progreso General */}
+      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-puma-gold" />
+            <h2 className="text-lg font-bold text-puma-dark">
+              Guía de Construcción y Pruebas Paso a Paso
             </h2>
-            <p className="text-xs text-slate-500">
-              Marca las casillas conforme avances para llevar el registro de tu progreso.
-            </p>
           </div>
-          <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-            {completedSteps.length}/{steps.length} completados
+          <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+            {completedSteps.length} de {steps.length} pasos completados ({progressPercent}%)
           </span>
         </div>
+        <p className="text-xs text-slate-500">
+          Sigue las instrucciones, copia los códigos fuente, verifica los diagramas y comprueba el funcionamiento con la sección de validación técnica de cada etapa.
+        </p>
+        <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+          <div
+            className="bg-gradient-to-r from-puma-gold to-emerald-500 h-2.5 transition-all duration-300 rounded-full"
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
+      </div>
 
-        <div className="space-y-4">
-          {steps.map((st, idx) => {
-            const isDone = completedSteps.includes(st.step || idx + 1);
-            return (
-              <div
-                key={idx}
-                onClick={() => toggleStep(st.step || idx + 1)}
-                className={`p-4 rounded-xl border text-xs cursor-pointer transition-all ${
-                  isDone
-                    ? 'bg-emerald-50/70 border-emerald-300'
-                    : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
-                }`}
-              >
-                <div className="flex items-start gap-3">
-                  <div className="mt-0.5">
-                    {isDone ? (
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                    ) : (
-                      <div className="w-5 h-5 rounded border border-slate-300 flex items-center justify-center font-bold text-[10px] text-slate-500">
-                        {st.step || idx + 1}
-                      </div>
-                    )}
+      {/* Lista de Pasos Guiados Detallados */}
+      <div className="space-y-6">
+        {steps.map((st, idx) => {
+          const stepNum = st.step || idx + 1;
+          const isDone = completedSteps.includes(stepNum);
+
+          return (
+            <div
+              key={idx}
+              className={`rounded-2xl border transition-all duration-200 overflow-hidden shadow-sm ${
+                isDone
+                  ? 'bg-slate-50/80 border-emerald-300'
+                  : 'bg-white border-slate-200 hover:border-slate-300 shadow-puma'
+              }`}
+            >
+              {/* Encabezado del Paso */}
+              <div className="p-5 sm:p-6 border-b border-slate-100 flex items-start justify-between gap-4 bg-gradient-to-r from-slate-50/70 to-transparent">
+                <div className="flex items-start gap-3.5">
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs flex-shrink-0 ${
+                    isDone ? 'bg-emerald-600 text-white' : 'bg-puma-navy text-puma-gold shadow-sm'
+                  }`}>
+                    {stepNum}
                   </div>
-                  <div className="flex-1 space-y-1">
-                    <h3 className={`font-bold text-sm ${isDone ? 'line-through text-slate-500' : 'text-puma-dark'}`}>
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-puma-gold-dark block">
+                      Paso {stepNum} de {steps.length}
+                    </span>
+                    <h3 className={`font-bold text-base sm:text-lg ${isDone ? 'line-through text-slate-500' : 'text-puma-dark'}`}>
                       {st.title}
                     </h3>
-                    <p className={`leading-relaxed ${isDone ? 'text-slate-400' : 'text-slate-600'}`}>
-                      {st.detail}
-                    </p>
                   </div>
                 </div>
+
+                <button
+                  onClick={() => toggleStep(stepNum)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors ${
+                    isDone
+                      ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
+                  title={isDone ? 'Marcar como pendiente' : 'Marcar como completado'}
+                >
+                  <CheckCircle2 className={`w-4 h-4 ${isDone ? 'text-emerald-700' : 'text-slate-400'}`} />
+                  <span>{isDone ? '¡Completado!' : 'Marcar listo'}</span>
+                </button>
               </div>
-            );
-          })}
-        </div>
+
+              {/* Cuerpo del Paso con Detalles, Diagramas, Código y Pruebas */}
+              <div className="p-5 sm:p-6 space-y-5 text-xs sm:text-sm">
+                {/* 1. Descripción técnica detallada */}
+                <div className="text-slate-700 leading-relaxed whitespace-pre-line">
+                  {st.detail}
+                </div>
+
+                {/* 2. Diagrama o esquemático (si existe) */}
+                {st.diagram && (
+                  <div className="bg-slate-900 text-slate-200 p-4 rounded-xl border border-slate-800 font-mono text-xs overflow-x-auto shadow-inner">
+                    <div className="text-[11px] font-bold text-puma-gold uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                      <Cpu className="w-3.5 h-3.5" />
+                      <span>Esquemático de Conexión / Mapeo de Pines</span>
+                    </div>
+                    <pre className="text-slate-300 leading-relaxed font-mono whitespace-pre">{st.diagram}</pre>
+                  </div>
+                )}
+
+                {/* 3. Bloque de código real funcional con botón de copiar */}
+                {st.code && (
+                  <div className="rounded-xl overflow-hidden border border-slate-800 bg-[#0B1320] shadow-xl text-xs">
+                    <div className="flex items-center justify-between px-4 py-2.5 bg-[#070D16] border-b border-slate-800/80">
+                      <div className="flex items-center gap-2">
+                        <Code2 className="w-4 h-4 text-puma-gold" />
+                        <span className="font-mono text-xs text-slate-300 font-semibold uppercase">
+                          {st.codeLanguage || 'C++ / Arduino / Python / JS'}
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => copyToClipboard(st.code!, idx)}
+                        className="btn-primary !py-1 !px-3 text-[11px] flex items-center gap-1.5"
+                        title="Copiar código al portapapeles"
+                      >
+                        {copiedIndex === idx ? (
+                          <>
+                            <Check className="w-3.5 h-3.5 text-puma-dark" />
+                            <span>¡Copiado!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5" />
+                            <span>Copiar Código</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    <pre className="p-4 text-slate-200 font-mono text-xs overflow-x-auto leading-relaxed select-all">
+                      <code>{st.code}</code>
+                    </pre>
+                  </div>
+                )}
+
+                {/* 4. SECCIÓN CÓMO PROBARLO Y VALIDARLO */}
+                {st.testing && (
+                  <div className="bg-emerald-50/80 border border-emerald-200/90 rounded-xl p-4 text-xs text-emerald-950 space-y-1.5 shadow-sm">
+                    <div className="font-bold flex items-center gap-1.5 text-emerald-900 uppercase tracking-wide text-[11px]">
+                      <FlaskConical className="w-4 h-4 text-emerald-700" />
+                      <span>Cómo Probarlo y Verificar que Funciona</span>
+                    </div>
+                    <p className="leading-relaxed text-emerald-900/90">
+                      {st.testing}
+                    </p>
+                  </div>
+                )}
+
+                {/* 5. CONSEJO PRÁCTICO O SOLUCIÓN DE ERRORES (TROUBLESHOOTING) */}
+                {st.tip && (
+                  <div className="bg-amber-50/90 border border-amber-200 rounded-xl p-4 text-xs text-amber-950 space-y-1.5 shadow-sm">
+                    <div className="font-bold flex items-center gap-1.5 text-amber-900 uppercase tracking-wide text-[11px]">
+                      <Lightbulb className="w-4 h-4 text-amber-600" />
+                      <span>Consejo Práctico y Solución de Fallas</span>
+                    </div>
+                    <p className="leading-relaxed text-amber-900/90">
+                      {st.tip}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Resultado Esperado y Consejos de Seguridad */}
@@ -205,7 +321,7 @@ export const ProjectDetail: React.FC = () => {
         <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-2">
           <h3 className="font-bold text-sm text-puma-dark uppercase tracking-wider flex items-center gap-1.5">
             <CheckSquare className="w-4 h-4 text-emerald-600" />
-            <span>Resultado Esperado</span>
+            <span>Resultado Esperado de la Práctica</span>
           </h3>
           <p className="text-xs text-slate-600 leading-relaxed">
             {project.expectedResult}
@@ -215,7 +331,7 @@ export const ProjectDetail: React.FC = () => {
         <div className="bg-amber-50 p-6 rounded-xl border border-amber-200 shadow-sm space-y-2">
           <h3 className="font-bold text-sm text-amber-900 uppercase tracking-wider flex items-center gap-1.5">
             <AlertTriangle className="w-4 h-4 text-amber-600" />
-            <span>Consejos y Prevención</span>
+            <span>Consejos de Taller y Seguridad</span>
           </h3>
           <p className="text-xs text-amber-900 leading-relaxed">
             {project.tips || 'Usa siempre equipo de protección personal. Verifica la ventilación adecuada y nunca cortes PVC en el láser ni dejes máquinas térmicas desatendidas.'}
