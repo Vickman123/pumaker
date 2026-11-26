@@ -1,0 +1,33 @@
+{
+  "name": "pumaker",
+  "version": "1.0.0",
+  "description": "PUMAKER — Plataforma abierta de aprendizaje, fabricación e innovación de PC PUMA · UNAM",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -p \"[{name}]\" -n \"BACKEND,FRONTEND\" -c \"cyan.bold,magenta.bold\" \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend\"",
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "build": "npm run build --workspace=backend && npm run build --workspace=frontend",
+    "test": "npm run test --workspace=backend && npm run test --workspace=frontend",
+    "seed": "npm run seed --workspace=backend",
+    "install:all": "npm install && npm install --workspace=backend && npm install --workspace=frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "keywords": [
+    "pumaker",
+    "pc-puma",
+    "unam",
+    "maker",
+    "educacion",
+    "fabricacion-digital",
+    "open-source"
+  ],
+  "author": "PC PUMA - UNAM",
+  "license": "MIT"
+}

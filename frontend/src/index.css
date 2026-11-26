@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Barra de desplazamiento estética en azul marino y dorado */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0B1728;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1E3A5F;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #D6A63B;
+  }
+}
+
+/* Clases de utilidad Pumaker */
+.badge-gold {
+  @apply bg-puma-gold/15 text-puma-gold-dark border border-puma-gold/30 px-2.5 py-0.5 rounded-full text-xs font-semibold;
+}
+
+.badge-blue {
+  @apply bg-blue-50 text-blue-700 border border-blue-200 px-2.5 py-0.5 rounded-full text-xs font-semibold;
+}
+
+.badge-green {
+  @apply bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-0.5 rounded-full text-xs font-semibold;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-puma-gold hover:bg-puma-gold-dark text-puma-dark font-semibold rounded-lg shadow-sm transition-all duration-200 active:scale-[0.98];
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-puma-navy hover:bg-puma-dark text-white font-semibold rounded-lg shadow-sm border border-slate-700 transition-all duration-200 active:scale-[0.98];
+}
+
+.btn-outline {
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-transparent hover:bg-slate-100 text-puma-text font-semibold rounded-lg border border-slate-300 transition-all duration-200 active:scale-[0.98];
+}

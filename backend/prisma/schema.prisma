@@ -1,0 +1,270 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Category {
+  id           String        @id @default(uuid())
+  slug         String        @unique
+  name         String
+  description  String
+  icon         String
+  color        String
+  displayOrder Int           @default(0)
+  subcategories Subcategory[]
+  resources    Resource[]
+  videos       Video[]
+  courses      Course[]
+  projects     Project[]
+  learningPaths LearningPath[]
+  tools        Tool[]
+  simulators   Simulator[]
+  submissions  Submission[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Subcategory {
+  id          String     @id @default(uuid())
+  slug        String     @unique
+  name        String
+  description String?
+  categoryId  String
+  category    Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  resources   Resource[]
+  createdAt   DateTime   @default(now())
+}
+
+model Resource {
+  id                   String        @id @default(uuid())
+  slug                 String        @unique
+  title                String
+  description          String
+  imageUrl             String?
+  url                  String
+  videoUrl             String?
+  categoryId           String
+  category             Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  subcategoryId        String?
+  subcategory          Subcategory?  @relation(fields: [subcategoryId], references: [id])
+  type                 String        // curso, video, tutorial, guia, herramienta, modelo3d, simulador, etc.
+  technology           String        // Arduino, Blender, Impresion 3D, FreeCAD, etc.
+  level                String        // principiante, intermedio, avanzado, todos
+  language             String        @default("es")
+  duration             String?
+  costType             String        @default("gratuito") // gratuito, freemium, de pago
+  requiresRegistration Boolean       @default(false)
+  modality             String        @default("online") // online, presencial, hibrido
+  os                   String?       // web, windows, linux, mac, todos
+  softwareNeeded       String?
+  materialsNeeded      String?
+  license              String        @default("Open Source / CC")
+  author               String
+  institution          String?
+  featured             Boolean       @default(false)
+  validationStatus     String        @default("verificado") // verificado, pendiente, revision
+  clickCount           Int           @default(0)
+  tags                 ResourceTag[]
+  linkChecks           LinkCheck[]
+  addedAt              DateTime      @default(now())
+  lastReviewed         DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+}
+
+model Tag {
+  id        String        @id @default(uuid())
+  name      String        @unique
+  slug      String        @unique
+  resources ResourceTag[]
+}
+
+model ResourceTag {
+  resourceId String
+  tagId      String
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([resourceId, tagId])
+}
+
+model Video {
+  id           String   @id @default(uuid())
+  slug         String   @unique
+  title        String
+  description  String
+  youtubeId    String
+  youtubeUrl   String
+  channelTitle String
+  channelUrl   String
+  categoryId   String
+  category     Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  level        String   @default("principiante")
+  duration     String?
+  isPlaylist   Boolean  @default(false)
+  featured     Boolean  @default(false)
+  addedAt      DateTime @default(now())
+}
+
+model Course {
+  id                 String   @id @default(uuid())
+  slug               String   @unique
+  title              String
+  description        String
+  url                String
+  platform           String
+  instructor         String?
+  categoryId         String
+  category           Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  level              String   @default("principiante")
+  language           String   @default("es")
+  costType           String   @default("gratuito")
+  duration           String?
+  certificateOffered Boolean  @default(false)
+  featured           Boolean  @default(false)
+  addedAt            DateTime @default(now())
+}
+
+model Project {
+  id             String   @id @default(uuid())
+  slug           String   @unique
+  title          String
+  summary        String
+  content        String
+  categoryId     String
+  category       Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  level          String   // principiante, intermedio, avanzado
+  estimatedTime  String
+  materials      String   // Formato JSON o texto
+  tools          String   // Herramientas necesarias
+  software       String   // Software requerido
+  stepsJson      String   // Pasos detallados en JSON
+  filesJson      String?  // Enlaces o nombres de archivos de diseno
+  videoUrl       String?
+  imageUrl       String
+  expectedResult String
+  license        String   @default("Cultura Libre / CC-BY-SA")
+  tips           String?
+  featured       Boolean  @default(false)
+  addedAt        DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model LearningPath {
+  id             String             @id @default(uuid())
+  slug           String             @unique
+  title          String
+  description    String
+  categoryId     String
+  category       Category           @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  level          String             @default("principiante")
+  estimatedHours Int                @default(10)
+  icon           String
+  featured       Boolean            @default(false)
+  steps          LearningPathStep[]
+  createdAt      DateTime           @default(now())
+}
+
+model LearningPathStep {
+  id            String       @id @default(uuid())
+  pathId        String
+  path          LearningPath @relation(fields: [pathId], references: [id], onDelete: Cascade)
+  stepOrder     Int
+  title         String
+  description   String
+  concepts      String       // Conceptos clave
+  practice      String       // Ejercicio o practica sugerida
+  resourcesJson String?      // Recursos recomendados
+  finalProject  String?      // Desafio o proyecto
+}
+
+model Tool {
+  id           String   @id @default(uuid())
+  slug         String   @unique
+  name         String
+  description  String
+  url          String
+  categoryId   String
+  category     Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  licenseType  String   @default("Open Source")
+  isFree       Boolean  @default(true)
+  isOpenSource Boolean  @default(true)
+  platform     String   @default("Multiplataforma")
+  tags         String?
+  createdAt    DateTime @default(now())
+}
+
+model Simulator {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  name        String
+  description String
+  url         String
+  isInternal  Boolean  @default(false)
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  provider    String   // Wokwi, Tinkercad, PUMAKER nativo, etc.
+  tags        String?
+  createdAt   DateTime @default(now())
+}
+
+model Workshop {
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  instructor   String
+  date         String
+  modality     String   @default("virtual")
+  duration     String
+  requirements String
+  maxSeats     Int      @default(30)
+  url          String?
+  status       String   @default("abierto")
+  createdAt    DateTime @default(now())
+}
+
+model Announcement {
+  id          String   @id @default(uuid())
+  title       String
+  content     String
+  type        String   @default("info")
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model AdminUser {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  email        String   @unique
+  passwordHash String
+  role         String   @default("admin")
+  createdAt    DateTime @default(now())
+}
+
+model Submission {
+  id          String   @id @default(uuid())
+  title       String
+  authorName  String
+  authorEmail String
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  description String
+  projectUrl  String
+  status      String   @default("pendiente") // pendiente, aprobada, rechazada
+  reviewNotes String?
+  createdAt   DateTime @default(now())
+}
+
+model LinkCheck {
+  id           String    @id @default(uuid())
+  resourceId   String
+  resource     Resource  @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  url          String
+  statusCode   Int?
+  status       String    @default("activo") // activo, caido, advertencia
+  lastChecked  DateTime  @default(now())
+  errorMessage String?
+}
