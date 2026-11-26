@@ -152,6 +152,149 @@ export const fallbackProjects = [
       "slug": "tecnologias-inmersivas",
       "color": "#0891B2",
       "icon": "Glasses"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Construir un gemelo digital 3D interactivo y navegable de un makerspace utilizando Three.js, WebGL e iluminación en tiempo real sin complementos externos.",
+      "studentProfile": "Estudiantes con nociones básicas de HTML y JavaScript interesados en computación gráfica 3D.",
+      "learningObjectives": [
+        "Configurar el ciclo de renderizado WebGL (Scene, Camera, Renderer) a 60 FPS.",
+        "Implementar luces ambientales y direccionales con proyección de sombras dinámicas.",
+        "Modelar mesas, herramientas e impresoras 3D mediante geometrías procedurales.",
+        "Programar interacción por Raycasting para detectar clics del usuario sobre máquinas.",
+        "Desplegar fichas modales interactivas con manuales de operación de cada máquina.",
+        "Optimizar la tasa de cuadros por segundo mediante descarte de polígonos ocultos."
+      ],
+      "steamCompetencies": [
+        "Pensamiento Computacional: Transformaciones de matrices de proyección y coordenadas normalizadas de pantalla (-1 a +1).",
+        "Física Óptica: Simulación de shaders de iluminación Phong/PBR y dispersión de luz.",
+        "Diseño de Interfaces 3D: Ergonomía de navegación orbital para recorridos virtuales.",
+        "Ingeniería de Software: Manejo del ciclo requestAnimationFrame y liberación de memoria GPU (dispose)."
+      ],
+      "fundamentals": [
+        {
+          "term": "La Tríada de WebGL (Escena, Cámara y Renderizador)",
+          "simpleDef": "Es como un set de filmación: el escenario donde pones los actores, la cámara con la que grabas y el proyector que lo muestra en tu pantalla.",
+          "technicalDef": "Estructura de grafo de escena jerárquico renderizado mediante canalizaciones de sombreadores aceleradas por hardware en la GPU.",
+          "analogy": "Un teatro donde la escena son las tablas, la cámara es el ojo del espectador y el renderizador es la luz que ilumina la obra.",
+          "application": "Permite crear mundos tridimensionales que corren de forma nativa en cualquier navegador sin instalar plugins."
+        },
+        {
+          "term": "Raycasting (Lanzamiento de Rayos)",
+          "simpleDef": "Disparar un rayo láser invisible desde tu cursor hacia la pantalla para ver con qué objeto 3D choca.",
+          "technicalDef": "Cálculo de intersección geométrica entre una semirrecta originada en el punto de vista de la cámara proyectada a través de coordenadas de pantalla (X, Y) y las mallas del espacio 3D.",
+          "analogy": "Apuntar con un puntero láser hacia una mesa llena de cosas: el punto rojo te dice exactamente qué objeto tocaste.",
+          "application": "Es la base para hacer clic sobre botones, herramientas o máquinas en entornos inmersivos y videojuegos."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Navegador Web Moderno",
+            "specs": "Chrome 110+, Firefox 110+ o Edge con soporte WebGL 2.0",
+            "why": "Ejecuta shaders GLSL directamente en la GPU sin instalación previa."
+          },
+          {
+            "item": "Editor de Código",
+            "specs": "VS Code o cualquier editor de texto plano",
+            "why": "Para escribir y editar el código HTML y JavaScript."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Servidor Local de Desarrollo",
+            "specs": "Extensión Live Server de VS Code o Vite / npx serve",
+            "why": "Evita bloqueos de seguridad CORS al cargar scripts y texturas locales."
+          }
+        ],
+        "software": [
+          {
+            "name": "Three.js",
+            "version": "r128 o superior (CDN oficial)",
+            "url": "https://threejs.org/",
+            "platform": "Multiplataforma Web",
+            "installGuide": "Incluye la librería mediante etiqueta <script> vía cdnjs."
+          }
+        ]
+      },
+      "troubleshooting": [
+        {
+          "problem": "La pantalla se queda completamente en negro",
+          "cause": "La cámara se encuentra en la posición (0, 0, 0) adentro de un objeto o la escena no tiene luces añadidas.",
+          "check": "Abre la consola F12 y revisa el valor de camera.position.",
+          "solution": "Aleja la cámara colocando camera.position.set(0, 5, 10) y verifica haber añadido una luz ambiental."
+        },
+        {
+          "problem": "Los clics no detectan las máquinas con el Raycaster",
+          "cause": "No se normalizaron las coordenadas del ratón entre -1 y +1.",
+          "check": "Verifica la fórmula mouse.x = (event.clientX / window.innerWidth) * 2 - 1.",
+          "solution": "Asegúrate de calcular mouse.x y mouse.y usando window.innerWidth y window.innerHeight antes de raycaster.setFromCamera."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Cambio de Iluminación y Color",
+          "description": "Modifica la luz direccional dorada (#D6A63B) para simular un ambiente nocturno con iluminación azul tenue (#142943).",
+          "objective": "Comprender el balance de color y atmósfera luminosa.",
+          "validation": "La escena debe lucir con tonalidades nocturnas y sombras contrastadas."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Animación de Cabezal de Impresión",
+          "description": "Programa una función en animate() para que el carro de la impresora 3D se mueva continuamente de lado a lado simulando fabricación en curso.",
+          "objective": "Dominar la traslación procedural de mallas hijas con Math.sin.",
+          "validation": "El extrusor se mueve con suavidad sin salirse de las guías de la máquina."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Carga de Modelos Reales GLTF",
+          "description": "Sustituye las figuras geométricas básicas por un archivo 3D real exportado de FreeCAD o Blender usando THREE.GLTFLoader.",
+          "objective": "Dominar la carga asíncrona de recursos 3D externos con control de texturas.",
+          "validation": "La máquina real aparece en el taller con todos sus detalles visuales."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Inicialización Gráfica",
+          "initial": "Canvas con errores o parpadeos.",
+          "achieved": "Escena fluida a 60 FPS con cámara orbital.",
+          "advanced": "Soporte responsive automático y pixel ratio optimizado para pantallas Retina."
+        },
+        {
+          "criteria": "2. Iluminación y Sombras",
+          "initial": "Sin luces o sombras planas.",
+          "achieved": "Luz ambiental y direccional con mapas de sombra suaves.",
+          "advanced": "Materiales PBR con rugosidad y mapa de entorno HDRI."
+        },
+        {
+          "criteria": "3. Interactividad",
+          "initial": "Sin respuesta al usuario.",
+          "achieved": "Raycaster funcional con panel de datos de máquina.",
+          "advanced": "Animación de selección, cámara cinematográfica y sonido de clic sintetizado."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un simulador virtual e interactivo 3D del taller maker de PC PUMA, ejecutable en cualquier navegador sin software propietario.",
+        "howItWorks": "Aprovecha la GPU mediante Three.js para renderizar geometrías procedurales e interceptar rayos con el cursor del mouse a 60 cuadros por segundo.",
+        "whatYouLearned": [
+          "Manejo de grafos de escena 3D",
+          "Iluminación y sombras en tiempo real",
+          "Cálculo de intersecciones con Raycasting",
+          "Diseño de experiencias inmersivas web"
+        ],
+        "nextSteps": [
+          {
+            "title": "Visualizador de Modelos en WebXR",
+            "slug": "experiencia-webxr-realidad-aumentada",
+            "description": "Lleva estos modelos 3D a la realidad aumentada proyectándolos en tu mesa."
+          }
+        ]
+      }
     }
   },
   {
@@ -182,6 +325,101 @@ export const fallbackProjects = [
       "slug": "tecnologias-inmersivas",
       "color": "#0891B2",
       "icon": "Glasses"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1592478411213-6153e4ebc07d?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Desarrollar una aplicación web de Realidad Aumentada (AR) sin instalar apps nativas, proyectando diseños 3D maker sobre la mesa física mediante WebXR y A-Frame.",
+      "studentProfile": "Estudiantes maker que desean visualizar piezas antes de imprimirlas en 3D.",
+      "learningObjectives": [
+        "Comprender la arquitectura de WebXR en navegadores móviles.",
+        "Implementar la biblioteca A-Frame con componentes declarativos HTML.",
+        "Detectar planos horizontales y estimar iluminación ambiental del entorno.",
+        "Interactuar con gestos táctiles (escalar, rotar y mover la pieza sobre la mesa)."
+      ],
+      "steamCompetencies": [
+        "Geometría Espacial: Posicionamiento en 6 grados de libertad (6DoF).",
+        "Visión Computacional: Reconocimiento de superficies y SLAM visual.",
+        "Prototipado Ágil: Validación de escala y proporciones previas a la fabricación."
+      ],
+      "fundamentals": [
+        {
+          "term": "SLAM (Simultaneous Localization and Mapping)",
+          "simpleDef": "La cámara de tu celular detecta puntos en el suelo y calcula en qué lugar del cuarto estás parado en cada segundo.",
+          "technicalDef": "Algoritmo de odometría visual que construye un mapa del entorno mientras rastrea la pose del dispositivo en el espacio físico.",
+          "analogy": "Caminar con los ojos vendados tocando las paredes para saber en qué parte de la casa estás.",
+          "application": "Permite que el modelo 3D se quede fijo sobre tu escritorio como si fuera un objeto real."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Smartphone con giroscopio",
+            "specs": "Android con ARCore o iPhone con ARKit",
+            "why": "Para el tracking de superficies en tiempo real."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Mesa con textura o buena iluminación",
+            "specs": "Espacio plano de al menos 50x50 cm",
+            "why": "Permite a los sensores de la cámara detectar puntos de anclaje SLAM."
+          }
+        ],
+        "software": [
+          {
+            "name": "A-Frame",
+            "version": "v1.4.0+",
+            "url": "https://aframe.io/",
+            "platform": "Web",
+            "installGuide": "Incluye la librería vía CDN en el encabezado HTML."
+          }
+        ]
+      },
+      "troubleshooting": [
+        {
+          "problem": "El modelo no aparece o flota en el aire",
+          "cause": "Falta de luz o superficie monocromática reflectante.",
+          "check": "Verifica si la cámara enfoca una mesa blanca lisa sin textura.",
+          "solution": "Coloca una hoja con texto o mejora la iluminación ambiental."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Cambio de Modelo 3D",
+          "description": "Reemplaza el modelo de prueba por tu propio archivo STL convertido a GLTF.",
+          "objective": "Validar piezas personales.",
+          "validation": "Tu modelo se proyecta con su escala milimétrica exacta."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Detección de Plano",
+          "initial": "No detecta la mesa.",
+          "achieved": "Anclaje estable sobre la superficie.",
+          "advanced": "Soporte oclusión y sombras en el mundo real."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un visor AR accesible vía enlace web para previsualizar piezas 3D en escala real antes de gastar plástico.",
+        "howItWorks": "Utiliza WebXR y ARCore/ARKit para anclar modelos 3D en el espacio físico con estimación de luz.",
+        "whatYouLearned": [
+          "Fundamentos de WebXR y A-Frame",
+          "Detección de planos con SLAM",
+          "Optimización de mallas para móviles"
+        ],
+        "nextSteps": [
+          {
+            "title": "Impresión 3D de la Pieza",
+            "slug": "soporte-celular-parametrico-3d",
+            "description": "Una vez validada la escala en AR, imprímela en la impresora 3D."
+          }
+        ]
+      }
     }
   },
   {
@@ -212,6 +450,101 @@ export const fallbackProjects = [
       "slug": "inteligencia-artificial",
       "color": "#4F46E5",
       "icon": "Sparkles"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Entrenar una red neuronal convolucional mediante aprendizaje por transferencia (Transfer Learning) y desplegarla localmente con TensorFlow.js para clasificar plástico, cartón y metal en tiempo real vía webcam.",
+      "studentProfile": "Principiantes en programación que desean incursionar en Inteligencia Artificial aplicada a la sustentabilidad.",
+      "learningObjectives": [
+        "Comprender el ciclo de entrenamiento supervisado: dataset, entrenamiento, inferencia y validación.",
+        "Capturar un dataset balanceado sin sesgos de fondo o iluminación.",
+        "Exportar el modelo entrenado a formato TensorFlow.js / JSON.",
+        "Integrar el modelo en una interfaz web para dar retroalimentación visual al usuario."
+      ],
+      "steamCompetencies": [
+        "Inteligencia Artificial y Ética: Comprender sesgos de entrenamiento y sobreajuste (overfitting).",
+        "Pensamiento Científico: Hipótesis de clasificación y matriz de confusión.",
+        "Sustentabilidad y Economía Circular: Tecnologías de separación automatizada de residuos."
+      ],
+      "fundamentals": [
+        {
+          "term": "Red Neuronal Convolucional (CNN)",
+          "simpleDef": "Un programa inspirado en el cerebro humano que descompone imágenes en bordes, esquinas y texturas para reconocer qué hay en la foto.",
+          "technicalDef": "Arquitectura de aprendizaje profundo que aplica filtros matemáticos (convoluciones) para extraer características jerárquicas invariantes a la traslación.",
+          "analogy": "Un inspector de calidad que primero revisa el color, luego la forma de los bordes y finalmente decide si es una botella de plástico o una lata.",
+          "application": "Permite identificar objetos en milisegundos usando cámaras estándar sin sensores costosos."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Muestras reales de residuos",
+            "specs": "1 botella de plástico PET, 1 lata de aluminio, 1 caja de cartón",
+            "why": "Para capturar imágenes de entrenamiento con la cámara web."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Cámara web",
+            "specs": "Resolución mínima 720p",
+            "why": "Captura de cuadros de video en tiempo real."
+          }
+        ],
+        "software": [
+          {
+            "name": "Google Teachable Machine",
+            "version": "Web v2",
+            "url": "https://teachablemachine.withgoogle.com/",
+            "platform": "Navegador Web",
+            "installGuide": "Herramienta online gratuita sin instalación."
+          }
+        ]
+      },
+      "troubleshooting": [
+        {
+          "problem": "El modelo confunde la lata con la botella",
+          "cause": "Fondo distractor o pocas fotos con ángulos variados.",
+          "check": "Revisa si todas las fotos se tomaron con la misma mano sosteniéndola.",
+          "solution": "Agrega al menos 50 fotos de cada clase girando el objeto 360 grados."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Nueva Categoría Orgánica",
+          "description": "Agrega una cuarta clase para cáscaras de fruta y residuos orgánicos.",
+          "objective": "Balancear datasets multiclase.",
+          "validation": "Identifica una manzana o plátano con >90% de certeza."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Calidad del Dataset",
+          "initial": "<20 imágenes repetitivas.",
+          "achieved": ">60 imágenes por clase con rotación y escala.",
+          "advanced": "Dataset libre de sesgo con fondos variables."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un clasificador inteligente que identifica residuos frente a la cámara web en tiempo real.",
+        "howItWorks": "Ejecuta MobileNet acelerado con WebGL en el navegador para clasificar imágenes sin enviar datos a la nube.",
+        "whatYouLearned": [
+          "Fundamentos de Machine Learning",
+          "Manejo de datasets",
+          "Despliegue con TensorFlow.js"
+        ],
+        "nextSteps": [
+          {
+            "title": "Contenedor Inteligente con Arduino",
+            "slug": "semaforo-inteligente-arduino-cruce",
+            "description": "Conecta este modelo con un servomotor para abrir la tapa correcta automáticamente."
+          }
+        ]
+      }
     }
   },
   {
@@ -226,7 +559,7 @@ export const fallbackProjects = [
     "materials": "2 teléfonos inteligentes o cámaras USB, trípodes o brazos articulados, conexión a internet por cable",
     "tools": "Computadora principal de control",
     "software": "OBS Studio, navegador web",
-    "stepsJson": "[{\"step\":1,\"title\":\"Cámara cenital sobre la mesa\",\"detail\":\"Fija una cámara perpendicular a la mesa de trabajo para mostrar soldadura o ensamble en primer plano.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Cámara cenital sobre la mesa\\n// Plataforma: OBS Studio, navegador web\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Sincronización de audio y video\",\"detail\":\"Da un aplauso visible en ambas cámaras y ajusta el retardo de milisegundos en las propiedades de audio.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Sincronización de audio y video\\n// Plataforma: OBS Studio, navegador web\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Emisión de prueba privada\",\"detail\":\"Comprueba tasa de bits (bitrate 4500 kbps) y estabilidad de conexión antes de abrir la sesión pública.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Emisión de prueba privada\\n// Plataforma: OBS Studio, navegador web\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Cámara cenital sobre la mesa\",\"detail\":\"Fija una cámara perpendicular a la mesa de trabajo para mostrar soldadura o ensamble en primer plano.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Cámara cenital sobre la mesa\\n// Plataforma: OBS Studio, navegador web\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Cámara cenital sobre la mesa.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"2 teléfonos inteligentes o cámaras USB, trípodes o brazos articulados, conexión a internet por cable\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Sincronización de audio y video\",\"detail\":\"Da un aplauso visible en ambas cámaras y ajusta el retardo de milisegundos en las propiedades de audio.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Sincronización de audio y video\\n// Plataforma: OBS Studio, navegador web\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Sincronización de audio y video.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"2 teléfonos inteligentes o cámaras USB, trípodes o brazos articulados, conexión a internet por cable\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Emisión de prueba privada\",\"detail\":\"Comprueba tasa de bits (bitrate 4500 kbps) y estabilidad de conexión antes de abrir la sesión pública.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Emisión de prueba privada\\n// Plataforma: OBS Studio, navegador web\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Emisión de prueba privada.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"2 teléfonos inteligentes o cámaras USB, trípodes o brazos articulados, conexión a internet por cable\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
@@ -242,6 +575,147 @@ export const fallbackProjects = [
       "slug": "audiovisual",
       "color": "#D97706",
       "icon": "Video"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Configuración de Transmisión en Vivo Multicámara para Talleres, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Configuración de Transmisión en Vivo Multicámara para Talleres.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Configuración de Transmisión en Vivo Multicámara para Talleres en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "2 teléfonos inteligentes o cámaras USB, trípodes o brazos articulados, conexión a internet por cable",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Computadora principal de control",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "OBS Studio, navegador web",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Configuración de Transmisión en Vivo Multicámara para Talleres completamente construido y verificado paso a paso.",
+        "howItWorks": "Emite una sesión en vivo de taller con una cámara cenital apuntando a la mesa de trabajo y otra al expositor.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -256,7 +730,7 @@ export const fallbackProjects = [
     "materials": "Clips de video grabados con celular en trípode casero, fotos del proceso",
     "tools": "Computadora con DaVinci Resolve",
     "software": "DaVinci Resolve",
-    "stepsJson": "[{\"step\":1,\"title\":\"Importación y selección de tomas\",\"detail\":\"Clasifica los clips en la página de Corte (Cut Page) descartando tomas desenfocadas.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Importación y selección de tomas\\n// Plataforma: DaVinci Resolve\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Línea de tiempo y voz en off\",\"detail\":\"Arma la narrativa visual sincronizando cortes con los acentos de la música.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Línea de tiempo y voz en off\\n// Plataforma: DaVinci Resolve\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Corrección de balance de blancos\",\"detail\":\"En la página de Color iguala las tonalidades de las diferentes tomas para coherencia estética.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Corrección de balance de blancos\\n// Plataforma: DaVinci Resolve\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Importación y selección de tomas\",\"detail\":\"Clasifica los clips en la página de Corte (Cut Page) descartando tomas desenfocadas.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Importación y selección de tomas\\n// Plataforma: DaVinci Resolve\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Importación y selección de tomas.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Clips de video grabados con celular en trípode casero, fotos del proceso\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Línea de tiempo y voz en off\",\"detail\":\"Arma la narrativa visual sincronizando cortes con los acentos de la música.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Línea de tiempo y voz en off\\n// Plataforma: DaVinci Resolve\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Línea de tiempo y voz en off.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Clips de video grabados con celular en trípode casero, fotos del proceso\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Corrección de balance de blancos\",\"detail\":\"En la página de Color iguala las tonalidades de las diferentes tomas para coherencia estética.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Corrección de balance de blancos\\n// Plataforma: DaVinci Resolve\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Corrección de balance de blancos.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Clips de video grabados con celular en trípode casero, fotos del proceso\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80",
@@ -272,6 +746,147 @@ export const fallbackProjects = [
       "slug": "audiovisual",
       "color": "#D97706",
       "icon": "Video"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Microdocumental de un Proyecto Maker con DaVinci Resolve, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Microdocumental de un Proyecto Maker con DaVinci Resolve.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Microdocumental de un Proyecto Maker con DaVinci Resolve en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Clips de video grabados con celular en trípode casero, fotos del proceso",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Computadora con DaVinci Resolve",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "DaVinci Resolve",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Microdocumental de un Proyecto Maker con DaVinci Resolve completamente construido y verificado paso a paso.",
+        "howItWorks": "Edita un video documental de 2 minutos narrando el proceso de diseño, errores y resultado de una creación tecnológica.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -286,7 +901,7 @@ export const fallbackProjects = [
     "materials": "Cámara web o smartphone como cámara (DroidCam/Camo), micrófono de solapa o diadema",
     "tools": "Computadora con tarjeta gráfica o CPU multinúcleo",
     "software": "OBS Studio",
-    "stepsJson": "[{\"step\":1,\"title\":\"Configuración de escenas en OBS\",\"detail\":\"Crea una escena principal \\\"Pantalla + Cámara\\\" y una secundaria \\\"Pantalla Completa\\\".\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Configuración de escenas en OBS\\n// Plataforma: OBS Studio\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Máscara circular para la cámara web\",\"detail\":\"Aplica un filtro de máscara de imagen PNG para que tu cámara tenga bordes circulares elegantes.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Máscara circular para la cámara web\\n// Plataforma: OBS Studio\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Grabación en formato MKV seguro\",\"detail\":\"Graba en MKV para no perder el video si se va la luz, y activa la conversión automática a MP4 al finalizar.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Grabación en formato MKV seguro\\n// Plataforma: OBS Studio\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Configuración de escenas en OBS\",\"detail\":\"Crea una escena principal \\\"Pantalla + Cámara\\\" y una secundaria \\\"Pantalla Completa\\\".\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Configuración de escenas en OBS\\n// Plataforma: OBS Studio\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Configuración de escenas en OBS.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Cámara web o smartphone como cámara (DroidCam/Camo), micrófono de solapa o diadema\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Máscara circular para la cámara web\",\"detail\":\"Aplica un filtro de máscara de imagen PNG para que tu cámara tenga bordes circulares elegantes.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Máscara circular para la cámara web\\n// Plataforma: OBS Studio\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Máscara circular para la cámara web.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Cámara web o smartphone como cámara (DroidCam/Camo), micrófono de solapa o diadema\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Grabación en formato MKV seguro\",\"detail\":\"Graba en MKV para no perder el video si se va la luz, y activa la conversión automática a MP4 al finalizar.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Grabación en formato MKV seguro\\n// Plataforma: OBS Studio\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Grabación en formato MKV seguro.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Cámara web o smartphone como cámara (DroidCam/Camo), micrófono de solapa o diadema\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=800&q=80",
@@ -302,6 +917,147 @@ export const fallbackProjects = [
       "slug": "audiovisual",
       "color": "#D97706",
       "icon": "Video"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Grabación de un Videotutorial Tecnológico en Pantalla Dividida, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Grabación de un Videotutorial Tecnológico en Pantalla Dividida.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Grabación de un Videotutorial Tecnológico en Pantalla Dividida en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Cámara web o smartphone como cámara (DroidCam/Camo), micrófono de solapa o diadema",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Computadora con tarjeta gráfica o CPU multinúcleo",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "OBS Studio",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Grabación de un Videotutorial Tecnológico en Pantalla Dividida completamente construido y verificado paso a paso.",
+        "howItWorks": "Produce un video educativo mostrando tu pantalla de código y tu cámara web en círculo con audio sincronizado.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -316,7 +1072,7 @@ export const fallbackProjects = [
     "materials": "Micrófono USB o manos libres de celular, audífonos cerrados",
     "tools": "Computadora",
     "software": "Audacity (Open Source)",
-    "stepsJson": "[{\"step\":1,\"title\":\"Estructura de escaleta\",\"detail\":\"Define intro (30s), bloque de noticias (5 min), entrevista o debate (10 min) y despedida (1 min).\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Estructura de escaleta\\n// Plataforma: Audacity (Open Source)\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Toma de perfil de ruido\",\"detail\":\"Graba 5 segundos de silencio en la habitación para que el filtro de Audacity elimine el zumbido ambiental.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Toma de perfil de ruido\\n// Plataforma: Audacity (Open Source)\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Nivelación y música de fondo\",\"detail\":\"Aplica auto-ducking para que la música baje automáticamente el volumen cuando alguien habla.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Nivelación y música de fondo\\n// Plataforma: Audacity (Open Source)\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Estructura de escaleta\",\"detail\":\"Define intro (30s), bloque de noticias (5 min), entrevista o debate (10 min) y despedida (1 min).\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Estructura de escaleta\\n// Plataforma: Audacity (Open Source)\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Estructura de escaleta.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Micrófono USB o manos libres de celular, audífonos cerrados\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Toma de perfil de ruido\",\"detail\":\"Graba 5 segundos de silencio en la habitación para que el filtro de Audacity elimine el zumbido ambiental.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Toma de perfil de ruido\\n// Plataforma: Audacity (Open Source)\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Toma de perfil de ruido.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Micrófono USB o manos libres de celular, audífonos cerrados\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Nivelación y música de fondo\",\"detail\":\"Aplica auto-ducking para que la música baje automáticamente el volumen cuando alguien habla.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Nivelación y música de fondo\\n// Plataforma: Audacity (Open Source)\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Nivelación y música de fondo.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Micrófono USB o manos libres de celular, audífonos cerrados\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=800&q=80",
@@ -332,6 +1088,147 @@ export const fallbackProjects = [
       "slug": "audiovisual",
       "color": "#D97706",
       "icon": "Video"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Producción de un Episodio de Podcast Tecnológico con Audacity, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Producción de un Episodio de Podcast Tecnológico con Audacity.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Producción de un Episodio de Podcast Tecnológico con Audacity en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Micrófono USB o manos libres de celular, audífonos cerrados",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Computadora",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Audacity (Open Source)",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Producción de un Episodio de Podcast Tecnológico con Audacity completamente construido y verificado paso a paso.",
+        "howItWorks": "Planea el guion, graba con micrófono USB y realiza edición multipista con música de fondo con licencias libres.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -346,7 +1243,7 @@ export const fallbackProjects = [
     "materials": "Chasis metálico o 3D con cuchilla frontal biselada, 2 motores Pololu Micro Metal Gearmotor de 50:1, sensor Sharp de distancia infrarroja, 2 sensores de piso QRE1113, microcontrolador Arduino Nano",
     "tools": "Llaves allen, soldador de estaño",
     "software": "Arduino IDE",
-    "stepsJson": "[{\"step\":1,\"title\":\"Verificación de dimensiones y peso\",\"detail\":\"Cumple la norma internacional: máximo 100x100 mm de huella y 500 gramos exactos.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Verificación de dimensiones y peso\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Detección del borde blanco\",\"detail\":\"Si el sensor de piso detecta la línea blanca exterior del dohyo, retrocede de inmediato a máxima potencia.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Detección del borde blanco\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Estrategia de búsqueda y embestida\",\"detail\":\"Gira sobre su eje hasta que el sensor frontal detecte al rival y acelera al 100% para expulsarlo.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Estrategia de búsqueda y embestida\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Verificación de dimensiones y peso\",\"detail\":\"Cumple la norma internacional: máximo 100x100 mm de huella y 500 gramos exactos.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Verificación de dimensiones y peso\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Verificación de dimensiones y peso.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Chasis metálico o 3D con cuchilla frontal biselada, 2 motores Pololu Micro Metal Gearmotor de 50:1, sensor Sharp de distancia infrarroja, 2 sensores de piso QRE1113, microcontrolador Arduino Nano\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Detección del borde blanco\",\"detail\":\"Si el sensor de piso detecta la línea blanca exterior del dohyo, retrocede de inmediato a máxima potencia.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Detección del borde blanco\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Detección del borde blanco.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Chasis metálico o 3D con cuchilla frontal biselada, 2 motores Pololu Micro Metal Gearmotor de 50:1, sensor Sharp de distancia infrarroja, 2 sensores de piso QRE1113, microcontrolador Arduino Nano\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Estrategia de búsqueda y embestida\",\"detail\":\"Gira sobre su eje hasta que el sensor frontal detecte al rival y acelera al 100% para expulsarlo.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Estrategia de búsqueda y embestida\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Estrategia de búsqueda y embestida.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Chasis metálico o 3D con cuchilla frontal biselada, 2 motores Pololu Micro Metal Gearmotor de 50:1, sensor Sharp de distancia infrarroja, 2 sensores de piso QRE1113, microcontrolador Arduino Nano\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
@@ -362,6 +1259,147 @@ export const fallbackProjects = [
       "slug": "robotica",
       "color": "#7C3AED",
       "icon": "Bot"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Mini Robot Sumo para Competencias Maker (Reglas Oficiales), aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Mini Robot Sumo para Competencias Maker (Reglas Oficiales).",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Mini Robot Sumo para Competencias Maker (Reglas Oficiales) en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Chasis metálico o 3D con cuchilla frontal biselada, 2 motores Pololu Micro Metal Gearmotor de 50:1, sensor Sharp de distancia infrarroja, 2 sensores de piso QRE1113, microcontrolador Arduino Nano",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Llaves allen, soldador de estaño",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Arduino IDE",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Mini Robot Sumo para Competencias Maker (Reglas Oficiales) completamente construido y verificado paso a paso.",
+        "howItWorks": "Diseña un robot de 10x10 cm y menos de 500 gramos diseñado para detectar al oponente y empujarlo fuera del ring de dohyo.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -376,7 +1414,7 @@ export const fallbackProjects = [
     "materials": "Chasis de 4 motores con orugas o ruedas todo terreno, ESP32, driver de motores doble canal, batería LiPo 7.4V",
     "tools": "Computadora, celular Android",
     "software": "Arduino IDE, MIT App Inventor 2",
-    "stepsJson": "[{\"step\":1,\"title\":\"Configuración Bluetooth en ESP32\",\"detail\":\"Inicia BluetoothSerial y empareja el microcontrolador con el celular.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Configuración Bluetooth en ESP32\\n// Plataforma: Arduino IDE, MIT App Inventor 2\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 4 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Creación de la app en App Inventor\",\"detail\":\"Diseña botones de flechas direccionales que envían comandos de un carácter ('F', 'B', 'L', 'R', 'S').\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Creación de la app en App Inventor\\n// Plataforma: Arduino IDE, MIT App Inventor 2\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 4 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Recepción de telemetría\",\"detail\":\"Envía de regreso al celular el voltaje de batería medido por el ADC del ESP32.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Recepción de telemetría\\n// Plataforma: Arduino IDE, MIT App Inventor 2\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 4 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Configuración Bluetooth en ESP32\",\"detail\":\"Inicia BluetoothSerial y empareja el microcontrolador con el celular.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Configuración Bluetooth en ESP32\\n// Plataforma: Arduino IDE, MIT App Inventor 2\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 4 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Configuración Bluetooth en ESP32.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Chasis de 4 motores con orugas o ruedas todo terreno, ESP32, driver de motores doble canal, batería LiPo 7.4V\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Creación de la app en App Inventor\",\"detail\":\"Diseña botones de flechas direccionales que envían comandos de un carácter ('F', 'B', 'L', 'R', 'S').\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Creación de la app en App Inventor\\n// Plataforma: Arduino IDE, MIT App Inventor 2\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 4 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Creación de la app en App Inventor.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Chasis de 4 motores con orugas o ruedas todo terreno, ESP32, driver de motores doble canal, batería LiPo 7.4V\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Recepción de telemetría\",\"detail\":\"Envía de regreso al celular el voltaje de batería medido por el ADC del ESP32.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Recepción de telemetría\\n// Plataforma: Arduino IDE, MIT App Inventor 2\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 4 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Recepción de telemetría.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Chasis de 4 motores con orugas o ruedas todo terreno, ESP32, driver de motores doble canal, batería LiPo 7.4V\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
@@ -392,6 +1430,147 @@ export const fallbackProjects = [
       "slug": "robotica",
       "color": "#7C3AED",
       "icon": "Bot"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Rover Todo Terreno con Control Inalámbrico Bluetooth y Telemetría, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Rover Todo Terreno con Control Inalámbrico Bluetooth y Telemetría.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Rover Todo Terreno con Control Inalámbrico Bluetooth y Telemetría en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Chasis de 4 motores con orugas o ruedas todo terreno, ESP32, driver de motores doble canal, batería LiPo 7.4V",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Computadora, celular Android",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Arduino IDE, MIT App Inventor 2",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Rover Todo Terreno con Control Inalámbrico Bluetooth y Telemetría completamente construido y verificado paso a paso.",
+        "howItWorks": "Vehículo controlado desde una app de smartphone por Bluetooth con transmisión de telemetría de batería y temperatura.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -406,7 +1585,7 @@ export const fallbackProjects = [
     "materials": "Piezas estructurales cortadas en MDF 3mm o impresas en 3D, 4 servomotores (MG90S de engranes metálicos para la base), 2 módulos joystick analógicos, fuente externa de 5V 3A, Arduino",
     "tools": "Destornillador de precisión, pinzas",
     "software": "Arduino IDE (librería Servo.h)",
-    "stepsJson": "[{\"step\":1,\"title\":\"Alimentación independiente\",\"detail\":\"IMPORTANTE: Nunca alimentes 4 servomotores directo del pin 5V de Arduino; usa fuente externa compartiendo GND común.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Alimentación independiente\\n// Plataforma: Arduino IDE (librería Servo.h)\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Ensamble de eslabones y engranes\",\"detail\":\"Monta base giratoria (cintura), hombro, codo y pinza de sujeción verificando el rango de 0 a 180 grados.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Ensamble de eslabones y engranes\\n// Plataforma: Arduino IDE (librería Servo.h)\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Mapeo de joysticks a ángulos\",\"detail\":\"Mapea la lectura analógica (0 a 1023) al incremento o decremento suave de la posición angular.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Mapeo de joysticks a ángulos\\n// Plataforma: Arduino IDE (librería Servo.h)\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Alimentación independiente\",\"detail\":\"IMPORTANTE: Nunca alimentes 4 servomotores directo del pin 5V de Arduino; usa fuente externa compartiendo GND común.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Alimentación independiente\\n// Plataforma: Arduino IDE (librería Servo.h)\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Alimentación independiente.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Piezas estructurales cortadas en MDF 3mm o impresas en 3D, 4 servomotores (MG90S de engranes metálicos para la base), 2 módulos joystick analógicos, fuente externa de 5V 3A, Arduino\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Ensamble de eslabones y engranes\",\"detail\":\"Monta base giratoria (cintura), hombro, codo y pinza de sujeción verificando el rango de 0 a 180 grados.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Ensamble de eslabones y engranes\\n// Plataforma: Arduino IDE (librería Servo.h)\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Ensamble de eslabones y engranes.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Piezas estructurales cortadas en MDF 3mm o impresas en 3D, 4 servomotores (MG90S de engranes metálicos para la base), 2 módulos joystick analógicos, fuente externa de 5V 3A, Arduino\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Mapeo de joysticks a ángulos\",\"detail\":\"Mapea la lectura analógica (0 a 1023) al incremento o decremento suave de la posición angular.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Mapeo de joysticks a ángulos\\n// Plataforma: Arduino IDE (librería Servo.h)\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Mapeo de joysticks a ángulos.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Piezas estructurales cortadas en MDF 3mm o impresas en 3D, 4 servomotores (MG90S de engranes metálicos para la base), 2 módulos joystick analógicos, fuente externa de 5V 3A, Arduino\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
@@ -422,6 +1601,147 @@ export const fallbackProjects = [
       "slug": "robotica",
       "color": "#7C3AED",
       "icon": "Bot"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Brazo Robótico 4-DOF con Servomotores y Joysticks, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Brazo Robótico 4-DOF con Servomotores y Joysticks.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Brazo Robótico 4-DOF con Servomotores y Joysticks en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Piezas estructurales cortadas en MDF 3mm o impresas en 3D, 4 servomotores (MG90S de engranes metálicos para la base), 2 módulos joystick analógicos, fuente externa de 5V 3A, Arduino",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Destornillador de precisión, pinzas",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Arduino IDE (librería Servo.h)",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Brazo Robótico 4-DOF con Servomotores y Joysticks completamente construido y verificado paso a paso.",
+        "howItWorks": "Construye un brazo articulado impreso en 3D o cortado en láser con pinza efectora final controlado por palancas análogas.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -436,7 +1756,7 @@ export const fallbackProjects = [
     "materials": "Chasis 2WD o 4WD, Arduino Uno, Sensor ultrasónico HC-SR04, Servomotor SG90, Puente H, Batería",
     "tools": "Destornillador, silicón frío o cinchos plásticos",
     "software": "Arduino IDE",
-    "stepsJson": "[{\"step\":1,\"title\":\"Montaje del radar móvil\",\"detail\":\"Fija el sensor ultrasónico sobre el eje del servomotor al frente del robot.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Montaje del radar móvil\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Algoritmo de navegación espacial\",\"detail\":\"Avanza mientras la distancia libre sea mayor a 25 cm.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Algoritmo de navegación espacial\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Toma de decisiones ante obstáculo\",\"detail\":\"Si detecta obstáculo: frena, gira el sensor 60° a la izquierda, mide distancia; gira 60° a la derecha, mide distancia; y vira hacia el lado con mayor espacio libre.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Toma de decisiones ante obstáculo\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Montaje del radar móvil\",\"detail\":\"Fija el sensor ultrasónico sobre el eje del servomotor al frente del robot.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Montaje del radar móvil\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Montaje del radar móvil.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Chasis 2WD o 4WD, Arduino Uno, Sensor ultrasónico HC-SR04, Servomotor SG90, Puente H, Batería\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Algoritmo de navegación espacial\",\"detail\":\"Avanza mientras la distancia libre sea mayor a 25 cm.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Algoritmo de navegación espacial\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Algoritmo de navegación espacial.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Chasis 2WD o 4WD, Arduino Uno, Sensor ultrasónico HC-SR04, Servomotor SG90, Puente H, Batería\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Toma de decisiones ante obstáculo\",\"detail\":\"Si detecta obstáculo: frena, gira el sensor 60° a la izquierda, mide distancia; gira 60° a la derecha, mide distancia; y vira hacia el lado con mayor espacio libre.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Toma de decisiones ante obstáculo\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Toma de decisiones ante obstáculo.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Chasis 2WD o 4WD, Arduino Uno, Sensor ultrasónico HC-SR04, Servomotor SG90, Puente H, Batería\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=800&q=80",
@@ -452,6 +1772,147 @@ export const fallbackProjects = [
       "slug": "robotica",
       "color": "#7C3AED",
       "icon": "Bot"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Robot Explorador con Radar Ultrasónico Evasor de Choques, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Robot Explorador con Radar Ultrasónico Evasor de Choques.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Robot Explorador con Radar Ultrasónico Evasor de Choques en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Chasis 2WD o 4WD, Arduino Uno, Sensor ultrasónico HC-SR04, Servomotor SG90, Puente H, Batería",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Destornillador, silicón frío o cinchos plásticos",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Arduino IDE",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Robot Explorador con Radar Ultrasónico Evasor de Choques completamente construido y verificado paso a paso.",
+        "howItWorks": "Robot móvil que navega esquivando paredes y muebles girando un sensor ultrasónico con un servomotor para decidir la ruta libre.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -482,6 +1943,116 @@ export const fallbackProjects = [
       "slug": "robotica",
       "color": "#7C3AED",
       "icon": "Bot"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Construir y programar un robot móvil autónomo diferencial que siga una pista de cinta negra a alta velocidad mediante sensores infrarrojos TCRT5000 y control de modulación por ancho de pulso (PWM).",
+      "studentProfile": "Estudiantes maker que incursionan en la robótica móvil de competencia.",
+      "learningObjectives": [
+        "Comprender la cinemática de tracción diferencial con dos ruedas motrices.",
+        "Calibrar sensores infrarrojos de reflexión sobre superficies blancas y negras.",
+        "Controlar dirección y velocidad con el driver Puente H L298N usando señales PWM.",
+        "Implementar un algoritmo de control proporcional para trayectorias suaves."
+      ],
+      "steamCompetencies": [
+        "Robótica Móvil: Cinemática diferencial y radio de giro.",
+        "Física Óptica: Reflexión y absorción de luz infrarroja en superficies oscuras.",
+        "Control Automático: Modulación PWM y lazo cerrado de retroalimentación sensorial."
+      ],
+      "fundamentals": [
+        {
+          "term": "Tracción Diferencial",
+          "simpleDef": "Girar frenando una rueda y acelerando la otra, igual que un tanque de guerra.",
+          "technicalDef": "Configuración cinemática basada en dos ruedas motrices coaxiales independientes con centros de rotación instantáneos determinados por la diferencia de velocidad entre ambas.",
+          "analogy": "Remar en una lancha: si remas solo con el remo derecho, la lancha gira hacia la izquierda.",
+          "application": "Permite giros cerrados sobre su propio eje en pistas con curvas pronunciadas."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Chasis 2WD con 2 motorreductores amarillos",
+            "specs": "Relación 1:48 con ruedas de goma y rueda loca",
+            "why": "Estructura mecánica del robot."
+          },
+          {
+            "item": "Módulo Driver Puente H L298N",
+            "specs": "Doble canal de 2A por motor",
+            "why": "Controla sentido de giro y velocidad con PWM."
+          },
+          {
+            "item": "2 Sensores Infrarrojos TCRT5000",
+            "specs": "Ajustables con potenciómetro",
+            "why": "Detectan la pista de cinta negra."
+          },
+          {
+            "item": "Portapilas y 2 baterías 18650 (7.4V)",
+            "specs": "Baterías recargables de Li-Ion",
+            "why": "Suministran alta corriente para los motores."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Destornillador de cruz y cinta aislante negra",
+            "specs": "Cinta de 19 mm para la pista",
+            "why": "Montaje mecánico y trazado de pista."
+          }
+        ],
+        "software": [
+          {
+            "name": "Arduino IDE",
+            "version": "2.x",
+            "url": "https://www.arduino.cc/",
+            "platform": "Multiplataforma",
+            "installGuide": "Para cargar el código C++ al Arduino."
+          }
+        ]
+      },
+      "troubleshooting": [
+        {
+          "problem": "Los motores zumban pero las ruedas no giran",
+          "cause": "Baterías con carga baja o PWM demasiado bajo.",
+          "check": "Mide el voltaje en los bornes con un multímetro.",
+          "solution": "Carga las baterías a 8.4V o incrementa el valor de PWM inicial a mínimo 140."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Ajuste de Velocidad de Curva",
+          "description": "Optimiza la variable VEL_GIRO para no salirse en curvas cerradas de 90 grados.",
+          "objective": "Sintonía de parámetros.",
+          "validation": "El robot completa una vuelta entera a la pista sin salirse."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Navegación en Pista",
+          "initial": "Se sale en la primera curva.",
+          "achieved": "Completa la pista corrigiendo continuamente.",
+          "advanced": "Trayectoria fluida a alta velocidad con frenado regenerativo."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un robot móvil autónomo capaz de navegar siguiendo trayectorias marcadas.",
+        "howItWorks": "Los sensores infrarrojos leen el contraste de la cinta y el Arduino ajusta en microsegundos el voltaje PWM a cada motor.",
+        "whatYouLearned": [
+          "Cinemática diferencial",
+          "Control de motores DC con puente H",
+          "Calibración de reflectancia IR"
+        ],
+        "nextSteps": [
+          {
+            "title": "Robot Evasor con Radar Ultrasónico",
+            "slug": "robot-evita-obstaculos-ultrasonico",
+            "description": "Equipa tu chasis con un servomotor y sensor ultrasónico para esquivar obstáculos."
+          }
+        ]
+      }
     }
   },
   {
@@ -512,6 +2083,116 @@ export const fallbackProjects = [
       "slug": "electronica",
       "color": "#059669",
       "icon": "Cpu"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1585338107529-13afc5f02586?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1558441719-75ec4434ff74?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Construir un sistema de riego automatizado que monitoree la humedad del suelo de una planta en tiempo real y active una microbomba de agua mediante control de histéresis.",
+      "studentProfile": "Estudiantes maker con interés en electrónica analógica-digital y tecnología verde.",
+      "learningObjectives": [
+        "Calibrar un sensor resistivo/capacitivo de humedad de suelo.",
+        "Programar la lectura analógica ADC (0-1023) en un microcontrolador.",
+        "Implementar control con histéresis para evitar desgaste prematuro de la bomba.",
+        "Aislar eléctricamente la carga inductiva del motor mediante un transistor o relé con diodo flyback."
+      ],
+      "steamCompetencies": [
+        "Agronomía y Biología: Capacidad de campo y punto de marchitez permanente.",
+        "Electrónica de Potencia: Manejo de cargas inductivas y corrientes de arranque.",
+        "Algoritmos de Control: Histéresis y filtrado de señales analógicas ruidosas."
+      ],
+      "fundamentals": [
+        {
+          "term": "Histéresis en Control de Riego",
+          "simpleDef": "Evitar que la bomba prenda y apague como loca en el límite de humedad.",
+          "technicalDef": "Doble umbral de conmutación: la bomba enciende cuando la humedad cae por debajo del 30% y solo se apaga cuando supera el 65%.",
+          "analogy": "El termostato de un refrigerador que espera a que suba la temperatura antes de encender el compresor.",
+          "application": "Multiplica por 10 la vida útil del relé y la motobomba."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Arduino Uno o Nano",
+            "specs": "Microcontrolador ATmega328P",
+            "why": "Cerebro de control del sistema."
+          },
+          {
+            "item": "Sensor de humedad capacitivo v1.2",
+            "specs": "Resistente a la corrosión galvánica",
+            "why": "Mide la permitividad dieléctrica del sustrato."
+          },
+          {
+            "item": "Microbomba sumergible 5V DC",
+            "specs": "Caudal 100 L/h con manguera de silicona",
+            "why": "Suministra el agua a la maceta."
+          },
+          {
+            "item": "Módulo Relé 5V con optoacoplador",
+            "specs": "Aislamiento galvánico",
+            "why": "Permite controlar la bomba sin dañar el Arduino."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Protoboard y cables jumper",
+            "specs": "Macho-Macho y Macho-Hembra",
+            "why": "Conexión sin soldadura."
+          }
+        ],
+        "software": [
+          {
+            "name": "Arduino IDE",
+            "version": "2.x",
+            "url": "https://www.arduino.cc/",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala el IDE oficial."
+          }
+        ]
+      },
+      "troubleshooting": [
+        {
+          "problem": "El Arduino se reinicia solo cada vez que arranca la bomba",
+          "cause": "Caída de voltaje por corriente de arranque del motor (back-EMF).",
+          "check": "Verifica si la bomba está conectada directo al pin de 5V del Arduino.",
+          "solution": "Alimenta la motobomba con una fuente externa de 5V y une solo las tierras (GND)."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Temporizador de Seguridad",
+          "description": "Agrega un límite máximo de bombeo de 10 segundos continuos para evitar inundaciones si el depósito se queda sin agua.",
+          "objective": "Manejo de estados con millis().",
+          "validation": "La bomba corta automáticamente a los 10 segundos."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Calibración",
+          "initial": "Lecturas arbitrarias.",
+          "achieved": "Mapeo porcentual 0-100% exacto en tierra seca y saturada.",
+          "advanced": "Promedio móvil de 10 muestras para eliminar ruido."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un guardián botánico automatizado que mantiene tu planta en su nivel de hidratación ideal.",
+        "howItWorks": "Monitorea la humedad analógica y conmuta un relé mediante histéresis para accionar la microbomba.",
+        "whatYouLearned": [
+          "Lectura de sensores analógicos",
+          "Control por histéresis",
+          "Manejo seguro de cargas inductivas DC"
+        ],
+        "nextSteps": [
+          {
+            "title": "Estación Meteorológica IoT",
+            "slug": "estacion-meteorologica-iot-esp32",
+            "description": "Sube las mediciones a un dashboard en la nube usando un ESP32 con WiFi."
+          }
+        ]
+      }
     }
   },
   {
@@ -526,7 +2207,7 @@ export const fallbackProjects = [
     "materials": "Fotorresistencia LDR, resistencia de 10k, potenciómetro de 10k para ajuste de umbral, módulo de relevador con optoacoplador de 5V, Arduino o circuito analógico con transistor",
     "tools": "Multímetro para medir resistencia según iluminación",
     "software": "Arduino IDE o simulador Tinkercad Circuits",
-    "stepsJson": "[{\"step\":1,\"title\":\"Divisor de tensión con LDR\",\"detail\":\"Conecta la LDR en serie con una resistencia de 10k midiendo el voltaje medio en A0.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Divisor de tensión con LDR\\n// Plataforma: Arduino IDE o simulador Tinkercad Circuits\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Implementación de histéresis\",\"detail\":\"Define un umbral superior de activación y uno inferior de apagado para evitar parpadeos molestos en el crepúsculo.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Implementación de histéresis\\n// Plataforma: Arduino IDE o simulador Tinkercad Circuits\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Accionamiento del relé\",\"detail\":\"Envía señal digital al transistor de control del relé escuchando el clic mecánico característico.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Accionamiento del relé\\n// Plataforma: Arduino IDE o simulador Tinkercad Circuits\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Divisor de tensión con LDR\",\"detail\":\"Conecta la LDR en serie con una resistencia de 10k midiendo el voltaje medio en A0.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Divisor de tensión con LDR\\n// Plataforma: Arduino IDE o simulador Tinkercad Circuits\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Divisor de tensión con LDR.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Fotorresistencia LDR, resistencia de 10k, potenciómetro de 10k para ajuste de umbral, módulo de relevador con optoacoplador de 5V, Arduino o circuito analógico con transistor\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Implementación de histéresis\",\"detail\":\"Define un umbral superior de activación y uno inferior de apagado para evitar parpadeos molestos en el crepúsculo.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Implementación de histéresis\\n// Plataforma: Arduino IDE o simulador Tinkercad Circuits\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Implementación de histéresis.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Fotorresistencia LDR, resistencia de 10k, potenciómetro de 10k para ajuste de umbral, módulo de relevador con optoacoplador de 5V, Arduino o circuito analógico con transistor\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Accionamiento del relé\",\"detail\":\"Envía señal digital al transistor de control del relé escuchando el clic mecánico característico.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Accionamiento del relé\\n// Plataforma: Arduino IDE o simulador Tinkercad Circuits\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Accionamiento del relé.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Fotorresistencia LDR, resistencia de 10k, potenciómetro de 10k para ajuste de umbral, módulo de relevador con optoacoplador de 5V, Arduino o circuito analógico con transistor\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80",
@@ -542,6 +2223,147 @@ export const fallbackProjects = [
       "slug": "electronica",
       "color": "#059669",
       "icon": "Cpu"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Control Automático de Iluminación Nocturna con Fotorresistencia (LDR), aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Control Automático de Iluminación Nocturna con Fotorresistencia (LDR).",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Control Automático de Iluminación Nocturna con Fotorresistencia (LDR) en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Fotorresistencia LDR, resistencia de 10k, potenciómetro de 10k para ajuste de umbral, módulo de relevador con optoacoplador de 5V, Arduino o circuito analógico con transistor",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Multímetro para medir resistencia según iluminación",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Arduino IDE o simulador Tinkercad Circuits",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Control Automático de Iluminación Nocturna con Fotorresistencia (LDR) completamente construido y verificado paso a paso.",
+        "howItWorks": "Enciende automáticamente una lámpara cuando anochece usando un divisor de tensión con LDR y un relé de aislamiento.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -556,7 +2378,7 @@ export const fallbackProjects = [
     "materials": "Sensor PIR HC-SR501, teclado matricial 4x4 de membrana, buzzer zumbador, Arduino Uno",
     "tools": "Cables jumper, computadora",
     "software": "Arduino IDE con librería Keypad.h",
-    "stepsJson": "[{\"step\":1,\"title\":\"Calibración del PIR\",\"detail\":\"Ajusta con potenciómetros la sensibilidad y el tiempo de retardo en la placa del sensor.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Calibración del PIR\\n// Plataforma: Arduino IDE con librería Keypad.h\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Detección por interrupción\",\"detail\":\"Configura un pin de interrupción para despertar el microcontrolador al detectar movimiento.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Detección por interrupción\\n// Plataforma: Arduino IDE con librería Keypad.h\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Lógica de armado y clave PIN\",\"detail\":\"Programa un retardo de 10 segundos para ingresar el PIN de 4 dígitos antes de disparar la sirena.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Lógica de armado y clave PIN\\n// Plataforma: Arduino IDE con librería Keypad.h\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Calibración del PIR\",\"detail\":\"Ajusta con potenciómetros la sensibilidad y el tiempo de retardo en la placa del sensor.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Calibración del PIR\\n// Plataforma: Arduino IDE con librería Keypad.h\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Calibración del PIR.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Sensor PIR HC-SR501, teclado matricial 4x4 de membrana, buzzer zumbador, Arduino Uno\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Detección por interrupción\",\"detail\":\"Configura un pin de interrupción para despertar el microcontrolador al detectar movimiento.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Detección por interrupción\\n// Plataforma: Arduino IDE con librería Keypad.h\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Detección por interrupción.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Sensor PIR HC-SR501, teclado matricial 4x4 de membrana, buzzer zumbador, Arduino Uno\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Lógica de armado y clave PIN\",\"detail\":\"Programa un retardo de 10 segundos para ingresar el PIN de 4 dígitos antes de disparar la sirena.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Lógica de armado y clave PIN\\n// Plataforma: Arduino IDE con librería Keypad.h\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Lógica de armado y clave PIN.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Sensor PIR HC-SR501, teclado matricial 4x4 de membrana, buzzer zumbador, Arduino Uno\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80",
@@ -572,6 +2394,147 @@ export const fallbackProjects = [
       "slug": "electronica",
       "color": "#059669",
       "icon": "Cpu"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Sistema de Alarma con Sensor Infrarrojo Pasivo (PIR), aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Sistema de Alarma con Sensor Infrarrojo Pasivo (PIR).",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Sistema de Alarma con Sensor Infrarrojo Pasivo (PIR) en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Sensor PIR HC-SR501, teclado matricial 4x4 de membrana, buzzer zumbador, Arduino Uno",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Cables jumper, computadora",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Arduino IDE con librería Keypad.h",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Sistema de Alarma con Sensor Infrarrojo Pasivo (PIR) completamente construido y verificado paso a paso.",
+        "howItWorks": "Alarma de seguridad con detector de presencia humana, temporizador y clave de desactivación por teclado matricial.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -586,7 +2549,7 @@ export const fallbackProjects = [
     "materials": "Arduino Nano o Raspberry Pi Pico, sensor MQ-135 o SCD30, LED RGB cátodo común, buzzer",
     "tools": "Cautín para soldar pines, protoboard",
     "software": "Arduino IDE",
-    "stepsJson": "[{\"step\":1,\"title\":\"Precalentamiento del sensor\",\"detail\":\"Los sensores electroquímicos requieren 24 horas de curado térmico inicial para lecturas estables.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Precalentamiento del sensor\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Lectura analógica y mapeo\",\"detail\":\"Convierte la tensión analógica (0-5V) en partes por millón (PPM).\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Lectura analógica y mapeo\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Semáforo de advertencia\",\"detail\":\"Verde (<700 ppm = aire fresco), Amarillo (700-1000 ppm = ventilar pronto), Rojo (>1000 ppm = abrir ventanas urgente).\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Semáforo de advertencia\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Precalentamiento del sensor\",\"detail\":\"Los sensores electroquímicos requieren 24 horas de curado térmico inicial para lecturas estables.\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Precalentamiento del sensor\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Precalentamiento del sensor.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Arduino Nano o Raspberry Pi Pico, sensor MQ-135 o SCD30, LED RGB cátodo común, buzzer\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Lectura analógica y mapeo\",\"detail\":\"Convierte la tensión analógica (0-5V) en partes por millón (PPM).\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Lectura analógica y mapeo\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Lectura analógica y mapeo.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Arduino Nano o Raspberry Pi Pico, sensor MQ-135 o SCD30, LED RGB cátodo común, buzzer\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Semáforo de advertencia\",\"detail\":\"Verde (<700 ppm = aire fresco), Amarillo (700-1000 ppm = ventilar pronto), Rojo (>1000 ppm = abrir ventanas urgente).\",\"codeLanguage\":\"cpp\",\"code\":\"// Procedimiento de configuración para: Semáforo de advertencia\\n// Plataforma: Arduino IDE\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Semáforo de advertencia.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Arduino Nano o Raspberry Pi Pico, sensor MQ-135 o SCD30, LED RGB cátodo común, buzzer\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
@@ -602,6 +2565,147 @@ export const fallbackProjects = [
       "slug": "electronica",
       "color": "#059669",
       "icon": "Cpu"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Monitor Portátil de Calidad del Aire (CO2 y Partículas), aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Monitor Portátil de Calidad del Aire (CO2 y Partículas).",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Monitor Portátil de Calidad del Aire (CO2 y Partículas) en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Arduino Nano o Raspberry Pi Pico, sensor MQ-135 o SCD30, LED RGB cátodo común, buzzer",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Cautín para soldar pines, protoboard",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Arduino IDE",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Monitor Portátil de Calidad del Aire (CO2 y Partículas) completamente construido y verificado paso a paso.",
+        "howItWorks": "Dispositivo con indicador lumínico RGB que avisa sobre niveles de ventilación deficiente en salones de clase.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -616,7 +2720,7 @@ export const fallbackProjects = [
     "materials": "Módulo ESP32 NodeMCU, sensor BME280 o DHT22, pantalla OLED 0.96 pulgadas I2C (SSD1306), cables jumper",
     "tools": "Computadora con Arduino IDE o VS Code con PlatformIO",
     "software": "Arduino IDE (librerías Adafruit_BME280 y Adafruit_SSD1306)",
-    "stepsJson": "[{\"step\":1,\"title\":\"Cableado del Bus I2C con Sensor BME280 y Pantalla OLED\",\"detail\":\"En este proyecto conectaremos un sensor de presión barométrica, temperatura y humedad ambiental de precisión médica (Bosch BME280) junto con una pantalla monocromática OLED SSD1306 de 0.96 pulgadas compartiendo el mismo bus I2C de 2 hilos del ESP32:\\n- GPIO 21: Línea de datos (SDA).\\n- GPIO 22: Línea de reloj de sincronía (SCL).\\nAmbos dispositivos conviven en las mismas pistas porque cada uno responde a una dirección hexadecimal única en el bus (BME280: 0x76, OLED: 0x3C).\",\"diagram\":\"  [ESP32 NodeMCU]\\n  Pin 3V3 ─────────────── VCC (Sensor BME280) y VCC (Pantalla OLED)\\n  Pin GND ─────────────── GND (Sensor BME280) y GND (Pantalla OLED)\\n  Pin D21 (SDA) ───────── SDA (Sensor BME280) y SDA (Pantalla OLED)\\n  Pin D22 (SCL) ───────── SCL (Sensor BME280) y SCL (Pantalla OLED)\",\"codeLanguage\":\"text\",\"code\":\"INSTALACIÓN DE LIBRERÍAS EN ARDUINO IDE:\\n1. Ve al menú Herramientas -> Administrador de Bibliotecas (Ctrl+Shift+I).\\n2. Busca e instala \\\"Adafruit BME280 Library\\\" (junto con \\\"Adafruit Unified Sensor\\\").\\n3. Busca e instala \\\"Adafruit SSD1306\\\" (junto con \\\"Adafruit GFX Library\\\").\",\"testing\":\"Ejecuta un escáner I2C en Arduino IDE. En el Monitor Serie debe aparecer: \\\"Dispositivo I2C encontrado en 0x3C (Pantalla OLED)\\\" y \\\"Dispositivo I2C encontrado en 0x76 (Sensor BME280)\\\". Si no detecta ninguno, revisa que los cables SDA y SCL no estén invertidos.\",\"tip\":\"Alimenta siempre el sensor BME280 con 3.3V del ESP32; conectarlo a 5V puede destruir el sensor de humedad sensible.\"},{\"step\":2,\"title\":\"Código C++ ESP32: Lecturas Físicas y Visualización Gráfica\",\"detail\":\"Escribiremos el sketch completo para leer magnitudes físicas reales y dibujarlas con iconografía en la pantalla OLED.\",\"codeLanguage\":\"cpp\",\"code\":\"/*\\n * PUMAKER · PC PUMA · UNAM\\n * Estación Meteorológica con ESP32, BME280 y Pantalla OLED\\n */\\n#include <Wire.h>\\n#include <Adafruit_GFX.h>\\n#include <Adafruit_SSD1306.h>\\n#include <Adafruit_BME280.h>\\n\\n#define SCREEN_WIDTH 128\\n#define SCREEN_HEIGHT 64\\n#define OLED_RESET -1\\nAdafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);\\nAdafruit_BME280 bme;\\n\\nvoid setup() {\\n  Serial.begin(115200);\\n  Wire.begin(21, 22); // SDA = 21, SCL = 22\\n\\n  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {\\n    Serial.println(F(\\\"[!] Error: Pantalla OLED no encontrada\\\"));\\n    while (true);\\n  }\\n\\n  if (!bme.begin(0x76, &Wire)) {\\n    Serial.println(F(\\\"[!] Error: Sensor BME280 no responde en 0x76\\\"));\\n    while (true);\\n  }\\n\\n  display.clearDisplay();\\n  display.setTextColor(SSD1306_WHITE);\\n  display.setTextSize(1);\\n  display.setCursor(10, 20);\\n  display.println(F(\\\"PUMAKER ESTACION\\\"));\\n  display.setCursor(20, 35);\\n  display.println(F(\\\"PC PUMA - UNAM\\\"));\\n  display.display();\\n  delay(2000);\\n}\\n\\nvoid loop() {\\n  float temp = bme.readTemperature();\\n  float hum = bme.readHumidity();\\n  float pres = bme.readPressure() / 100.0F; // Convertir Pa a hPa (mbar)\\n\\n  // Imprimir en consola serie\\n  Serial.printf(\\\"Temp: %.1f C | Hum: %.1f %% | Presion: %.1f hPa\\\\n\\\", temp, hum, pres);\\n\\n  // Dibujar en pantalla OLED\\n  display.clearDisplay();\\n\\n  // Encabezado\\n  display.setTextSize(1);\\n  display.setCursor(0, 0);\\n  display.print(F(\\\"ESTACION METEOROLOGICA\\\"));\\n  display.drawLine(0, 10, 128, 10, SSD1306_WHITE);\\n\\n  // Temperatura\\n  display.setCursor(0, 16);\\n  display.print(F(\\\"Temp: \\\"));\\n  display.setTextSize(2);\\n  display.setCursor(45, 14);\\n  display.printf(\\\"%.1f C\\\", temp);\\n\\n  // Humedad\\n  display.setTextSize(1);\\n  display.setCursor(0, 34);\\n  display.print(F(\\\"Humedad: \\\"));\\n  display.setTextSize(1);\\n  display.setCursor(65, 34);\\n  display.printf(\\\"%.1f %%\\\", hum);\\n\\n  // Presión\\n  display.setCursor(0, 48);\\n  display.print(F(\\\"Presion: \\\"));\\n  display.setCursor(65, 48);\\n  display.printf(\\\"%.0f hPa\\\", pres);\\n\\n  display.display();\\n  delay(3000); // Actualizar cada 3 segundos\\n}\",\"testing\":\"Sopla suavemente sobre el sensor BME280 con tu aliento: observarás en la pantalla OLED cómo la humedad relativa sube instantáneamente al 85-90% y la temperatura aumenta 1 a 2 grados, confirmando la altísima sensibilidad y respuesta en tiempo real del sistema.\",\"tip\":\"Para conectarlo a la nube, puedes añadir las librerías WiFi.h y PubSubClient para enviar los datos vía MQTT a un servidor de telemetría libre como Adafruit IO o Home Assistant.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Cableado del Bus I2C con Sensor BME280 y Pantalla OLED\",\"detail\":\"En este proyecto conectaremos un sensor de presión barométrica, temperatura y humedad ambiental de precisión médica (Bosch BME280) junto con una pantalla monocromática OLED SSD1306 de 0.96 pulgadas compartiendo el mismo bus I2C de 2 hilos del ESP32:\\n- GPIO 21: Línea de datos (SDA).\\n- GPIO 22: Línea de reloj de sincronía (SCL).\\nAmbos dispositivos conviven en las mismas pistas porque cada uno responde a una dirección hexadecimal única en el bus (BME280: 0x76, OLED: 0x3C).\",\"diagram\":\"  [ESP32 NodeMCU]\\n  Pin 3V3 ─────────────── VCC (Sensor BME280) y VCC (Pantalla OLED)\\n  Pin GND ─────────────── GND (Sensor BME280) y GND (Pantalla OLED)\\n  Pin D21 (SDA) ───────── SDA (Sensor BME280) y SDA (Pantalla OLED)\\n  Pin D22 (SCL) ───────── SCL (Sensor BME280) y SCL (Pantalla OLED)\",\"codeLanguage\":\"text\",\"code\":\"INSTALACIÓN DE LIBRERÍAS EN ARDUINO IDE:\\n1. Ve al menú Herramientas -> Administrador de Bibliotecas (Ctrl+Shift+I).\\n2. Busca e instala \\\"Adafruit BME280 Library\\\" (junto con \\\"Adafruit Unified Sensor\\\").\\n3. Busca e instala \\\"Adafruit SSD1306\\\" (junto con \\\"Adafruit GFX Library\\\").\",\"testing\":\"Ejecuta un escáner I2C en Arduino IDE. En el Monitor Serie debe aparecer: \\\"Dispositivo I2C encontrado en 0x3C (Pantalla OLED)\\\" y \\\"Dispositivo I2C encontrado en 0x76 (Sensor BME280)\\\". Si no detecta ninguno, revisa que los cables SDA y SCL no estén invertidos.\",\"tip\":\"Alimenta siempre el sensor BME280 con 3.3V del ESP32; conectarlo a 5V puede destruir el sensor de humedad sensible.\",\"stageObjective\":\"Completar y validar la fase 1: Cableado del Bus I2C con Sensor BME280 y Pantalla OLED.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Módulo ESP32 NodeMCU, sensor BME280 o DHT22, pantalla OLED 0.96 pulgadas I2C (SSD1306), cables jumper\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Alimenta siempre el sensor BME280 con 3.3V del ESP32; conectarlo a 5V puede destruir el sensor de humedad sensible.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Código C++ ESP32: Lecturas Físicas y Visualización Gráfica\",\"detail\":\"Escribiremos el sketch completo para leer magnitudes físicas reales y dibujarlas con iconografía en la pantalla OLED.\",\"codeLanguage\":\"cpp\",\"code\":\"/*\\n * PUMAKER · PC PUMA · UNAM\\n * Estación Meteorológica con ESP32, BME280 y Pantalla OLED\\n */\\n#include <Wire.h>\\n#include <Adafruit_GFX.h>\\n#include <Adafruit_SSD1306.h>\\n#include <Adafruit_BME280.h>\\n\\n#define SCREEN_WIDTH 128\\n#define SCREEN_HEIGHT 64\\n#define OLED_RESET -1\\nAdafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);\\nAdafruit_BME280 bme;\\n\\nvoid setup() {\\n  Serial.begin(115200);\\n  Wire.begin(21, 22); // SDA = 21, SCL = 22\\n\\n  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {\\n    Serial.println(F(\\\"[!] Error: Pantalla OLED no encontrada\\\"));\\n    while (true);\\n  }\\n\\n  if (!bme.begin(0x76, &Wire)) {\\n    Serial.println(F(\\\"[!] Error: Sensor BME280 no responde en 0x76\\\"));\\n    while (true);\\n  }\\n\\n  display.clearDisplay();\\n  display.setTextColor(SSD1306_WHITE);\\n  display.setTextSize(1);\\n  display.setCursor(10, 20);\\n  display.println(F(\\\"PUMAKER ESTACION\\\"));\\n  display.setCursor(20, 35);\\n  display.println(F(\\\"PC PUMA - UNAM\\\"));\\n  display.display();\\n  delay(2000);\\n}\\n\\nvoid loop() {\\n  float temp = bme.readTemperature();\\n  float hum = bme.readHumidity();\\n  float pres = bme.readPressure() / 100.0F; // Convertir Pa a hPa (mbar)\\n\\n  // Imprimir en consola serie\\n  Serial.printf(\\\"Temp: %.1f C | Hum: %.1f %% | Presion: %.1f hPa\\\\n\\\", temp, hum, pres);\\n\\n  // Dibujar en pantalla OLED\\n  display.clearDisplay();\\n\\n  // Encabezado\\n  display.setTextSize(1);\\n  display.setCursor(0, 0);\\n  display.print(F(\\\"ESTACION METEOROLOGICA\\\"));\\n  display.drawLine(0, 10, 128, 10, SSD1306_WHITE);\\n\\n  // Temperatura\\n  display.setCursor(0, 16);\\n  display.print(F(\\\"Temp: \\\"));\\n  display.setTextSize(2);\\n  display.setCursor(45, 14);\\n  display.printf(\\\"%.1f C\\\", temp);\\n\\n  // Humedad\\n  display.setTextSize(1);\\n  display.setCursor(0, 34);\\n  display.print(F(\\\"Humedad: \\\"));\\n  display.setTextSize(1);\\n  display.setCursor(65, 34);\\n  display.printf(\\\"%.1f %%\\\", hum);\\n\\n  // Presión\\n  display.setCursor(0, 48);\\n  display.print(F(\\\"Presion: \\\"));\\n  display.setCursor(65, 48);\\n  display.printf(\\\"%.0f hPa\\\", pres);\\n\\n  display.display();\\n  delay(3000); // Actualizar cada 3 segundos\\n}\",\"testing\":\"Sopla suavemente sobre el sensor BME280 con tu aliento: observarás en la pantalla OLED cómo la humedad relativa sube instantáneamente al 85-90% y la temperatura aumenta 1 a 2 grados, confirmando la altísima sensibilidad y respuesta en tiempo real del sistema.\",\"tip\":\"Para conectarlo a la nube, puedes añadir las librerías WiFi.h y PubSubClient para enviar los datos vía MQTT a un servidor de telemetría libre como Adafruit IO o Home Assistant.\",\"stageObjective\":\"Completar y validar la fase 2: Código C++ ESP32: Lecturas Físicas y Visualización Gráfica.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Módulo ESP32 NodeMCU, sensor BME280 o DHT22, pantalla OLED 0.96 pulgadas I2C (SSD1306), cables jumper\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Para conectarlo a la nube, puedes añadir las librerías WiFi.h y PubSubClient para enviar los datos vía MQTT a un servidor de telemetría libre como Adafruit IO o Home Assistant.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
@@ -632,6 +2736,147 @@ export const fallbackProjects = [
       "slug": "electronica",
       "color": "#059669",
       "icon": "Cpu"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Estación Meteorológica IoT con ESP32 y Pantalla OLED, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Estación Meteorológica IoT con ESP32 y Pantalla OLED.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Estación Meteorológica IoT con ESP32 y Pantalla OLED en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Módulo ESP32 NodeMCU, sensor BME280 o DHT22, pantalla OLED 0.96 pulgadas I2C (SSD1306), cables jumper",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Computadora con Arduino IDE o VS Code con PlatformIO",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Arduino IDE (librerías Adafruit_BME280 y Adafruit_SSD1306)",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Estación Meteorológica IoT con ESP32 y Pantalla OLED completamente construido y verificado paso a paso.",
+        "howItWorks": "Mide temperatura, humedad y presión atmosférica y envía los datos por WiFi a un dashboard en la nube.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -662,6 +2907,116 @@ export const fallbackProjects = [
       "slug": "electronica",
       "color": "#059669",
       "icon": "Cpu"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1508873696983-2df57046475a?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar y programar un sistema de cruce peatonal inteligente con máquina de estados finitos (FSM), LEDs vehiculares, LEDs peatonales, botón pulsador con debounce y señalización acústica accesible para invidentes.",
+      "studentProfile": "Principiantes en electrónica digital y programación que construyen su primer sistema ciberfísico.",
+      "learningObjectives": [
+        "Comprender la Ley de Ohm y calcular resistencias limitadoras para diodos LED.",
+        "Implementar lectura de pulsadores con resistencia pull-up o pull-down.",
+        "Eliminar rebotes mecánicos de contactos mediante antirrebote (debounce).",
+        "Diseñar una Máquina de Estados Finitos (FSM) no bloqueante sin delay()."
+      ],
+      "steamCompetencies": [
+        "Urbanismo y Accesibilidad: Diseño universal para personas con discapacidad visual.",
+        "Electrónica Básica: Cálculo de corriente directa I = (Vcc - Vled) / R.",
+        "Lógica Digital: Diagramas de transición de estados y temporizadores."
+      ],
+      "fundamentals": [
+        {
+          "term": "Máquina de Estados Finitos (FSM)",
+          "simpleDef": "Un sistema que solo puede estar en un estado a la vez (Verde, Amarillo, Rojo) y cambia según el tiempo o un botón.",
+          "technicalDef": "Modelo computacional compuesto por un conjunto finito de estados, entradas y funciones de transición deterministas.",
+          "analogy": "Un semáforo real que nunca puede tener prendido verde y rojo al mismo tiempo.",
+          "application": "Garantiza la seguridad total del cruce evitando accidentes peatonales."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Arduino Uno / Nano",
+            "specs": "Microcontrolador ATmega328P",
+            "why": "Ejecuta el algoritmo del semáforo."
+          },
+          {
+            "item": "5 LEDs (2 Rojos, 1 Amarillo, 2 Verdes)",
+            "specs": "LEDs estándar de 5 mm",
+            "why": "3 para vehículos y 2 para peatones."
+          },
+          {
+            "item": "5 Resistencias de 220 Ω y 1 de 10 kΩ",
+            "specs": "1/4 Watt de película metálica",
+            "why": "Protegen los LEDs y polarizan el botón."
+          },
+          {
+            "item": "Buzzer pasivo o activo 5V",
+            "specs": "Emisión sonora a 1 kHz",
+            "why": "Guía auditiva para personas con discapacidad visual."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Protoboard y cables jumper",
+            "specs": "Placa de pruebas de 400 u 830 puntos",
+            "why": "Ensamblaje del circuito."
+          }
+        ],
+        "software": [
+          {
+            "name": "Arduino IDE o Tinkercad Circuits",
+            "version": "2.x o web libre",
+            "url": "https://www.tinkercad.com/circuits",
+            "platform": "Web / Desktop",
+            "installGuide": "Puedes simularlo 100% online en Tinkercad antes de armarlo físicamente."
+          }
+        ]
+      },
+      "troubleshooting": [
+        {
+          "problem": "El botón a veces detecta 4 clics al presionarlo una sola vez",
+          "cause": "Rebote mecánico de las laminillas internas del botón (Bouncing).",
+          "check": "Abre el Monitor Serie y observa múltiples impresiones instantáneas.",
+          "solution": "Aplica un debounce por software ignorando lecturas menores a 50 milisegundos."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Tiempo de Cruce Dinámico",
+          "description": "Ajusta el tiempo de paso peatonal de 5 a 12 segundos para avenidas anchas.",
+          "objective": "Ajuste de variables temporales.",
+          "validation": "El verde peatonal permanece exactamente 12 segundos."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Circuito y Polarización",
+          "initial": "LEDs conectados sin resistencia.",
+          "achieved": "Todos los LEDs protegidos con 220 Ω.",
+          "advanced": "Cableado pulcro con código de colores estandarizado."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un semáforo peatonal inclusivo y accesible que responde a la solicitud de transeúntes.",
+        "howItWorks": "Utiliza una máquina de estados temporizada que conmuta luces y activa un beeper intermitente al pulsar el botón.",
+        "whatYouLearned": [
+          "Cálculo de resistencias limitadoras",
+          "Manejo de pulsadores y debounce",
+          "Máquinas de estados en C++"
+        ],
+        "nextSteps": [
+          {
+            "title": "Control Automático con LDR",
+            "slug": "luz-automatica-fotocelda-rele",
+            "description": "Aprende a controlar luminarias nocturnas según la luz ambiente."
+          }
+        ]
+      }
     }
   },
   {
@@ -676,7 +3031,7 @@ export const fallbackProjects = [
     "materials": "2 placas de Triplay de 3mm de 60x40 cm",
     "tools": "Cortadora láser, pegamento para madera",
     "software": "Boxes.py, Inkscape",
-    "stepsJson": "[{\"step\":1,\"title\":\"Generación del patrón de bisagra viva\",\"detail\":\"Calcula el espaciado de líneas alternadas para permitir un radio de giro de 25 mm.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Generación del patrón de bisagra viva\\n// Plataforma: Boxes.py, Inkscape\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 4 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Prueba de flexibilidad\",\"detail\":\"Corta una pequeña tira de prueba para validar que la veta de la madera sea perpendicular a los cortes.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Prueba de flexibilidad\\n// Plataforma: Boxes.py, Inkscape\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 4 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Ensamble de la estructura\",\"detail\":\"Arma los módulos con uniones de espiga y cola de milano.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Ensamble de la estructura\\n// Plataforma: Boxes.py, Inkscape\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 4 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Generación del patrón de bisagra viva\",\"detail\":\"Calcula el espaciado de líneas alternadas para permitir un radio de giro de 25 mm.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Generación del patrón de bisagra viva\\n// Plataforma: Boxes.py, Inkscape\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 4 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Generación del patrón de bisagra viva.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"2 placas de Triplay de 3mm de 60x40 cm\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Prueba de flexibilidad\",\"detail\":\"Corta una pequeña tira de prueba para validar que la veta de la madera sea perpendicular a los cortes.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Prueba de flexibilidad\\n// Plataforma: Boxes.py, Inkscape\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 4 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Prueba de flexibilidad.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"2 placas de Triplay de 3mm de 60x40 cm\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Ensamble de la estructura\",\"detail\":\"Arma los módulos con uniones de espiga y cola de milano.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Ensamble de la estructura\\n// Plataforma: Boxes.py, Inkscape\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 4 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Ensamble de la estructura.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"2 placas de Triplay de 3mm de 60x40 cm\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80",
@@ -692,6 +3047,147 @@ export const fallbackProjects = [
       "slug": "corte-laser",
       "color": "#DC2626",
       "icon": "Flame"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Organizador Modular con Cajones Deslizables y Bisagras Vivas, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Organizador Modular con Cajones Deslizables y Bisagras Vivas.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Organizador Modular con Cajones Deslizables y Bisagras Vivas en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "2 placas de Triplay de 3mm de 60x40 cm",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Cortadora láser, pegamento para madera",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Boxes.py, Inkscape",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Organizador Modular con Cajones Deslizables y Bisagras Vivas completamente construido y verificado paso a paso.",
+        "howItWorks": "Mueble de escritorio con gavetas y tapas con cortes flexibles en madera (kerf bending / living hinges).",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -706,7 +3202,7 @@ export const fallbackProjects = [
     "materials": "10 láminas de cartón prensado o MDF de 2mm",
     "tools": "Cortadora láser, pegamento en spray",
     "software": "QGIS (código abierto geográfico), Inkscape",
-    "stepsJson": "[{\"step\":1,\"title\":\"Exportación de curvas de nivel\",\"detail\":\"Descarga curvas de elevación y numera cada capa consecutivamente.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Exportación de curvas de nivel\\n// Plataforma: QGIS (código abierto geográfico), Inkscape\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Puntos guía de registro\",\"detail\":\"Añade dos orificios de 3 mm en las esquinas de cada capa para alinear con varillas.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Puntos guía de registro\\n// Plataforma: QGIS (código abierto geográfico), Inkscape\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Corte por capas y apilado\",\"detail\":\"Corta cada cota de nivel y pégalas en orden ascendente usando las guías.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Corte por capas y apilado\\n// Plataforma: QGIS (código abierto geográfico), Inkscape\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Exportación de curvas de nivel\",\"detail\":\"Descarga curvas de elevación y numera cada capa consecutivamente.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Exportación de curvas de nivel\\n// Plataforma: QGIS (código abierto geográfico), Inkscape\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Exportación de curvas de nivel.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"10 láminas de cartón prensado o MDF de 2mm\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Puntos guía de registro\",\"detail\":\"Añade dos orificios de 3 mm en las esquinas de cada capa para alinear con varillas.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Puntos guía de registro\\n// Plataforma: QGIS (código abierto geográfico), Inkscape\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Puntos guía de registro.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"10 láminas de cartón prensado o MDF de 2mm\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Corte por capas y apilado\",\"detail\":\"Corta cada cota de nivel y pégalas en orden ascendente usando las guías.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Corte por capas y apilado\\n// Plataforma: QGIS (código abierto geográfico), Inkscape\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Corte por capas y apilado.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"10 láminas de cartón prensado o MDF de 2mm\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
@@ -722,6 +3218,147 @@ export const fallbackProjects = [
       "slug": "corte-laser",
       "color": "#DC2626",
       "icon": "Flame"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Maqueta Topográfica Estratificada por Curvas de Nivel, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Maqueta Topográfica Estratificada por Curvas de Nivel.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Maqueta Topográfica Estratificada por Curvas de Nivel en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "10 láminas de cartón prensado o MDF de 2mm",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Cortadora láser, pegamento en spray",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "QGIS (código abierto geográfico), Inkscape",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Maqueta Topográfica Estratificada por Curvas de Nivel completamente construido y verificado paso a paso.",
+        "howItWorks": "Representa el relieve de una montaña o cuenca cortando láminas de cartón corrugado o madera por curvas de nivel apiladas.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -736,7 +3373,7 @@ export const fallbackProjects = [
     "materials": "Placa de acrílico cristal de 4mm, tira LED 5V USB, base de madera",
     "tools": "Cortadora láser, removedor de cinta de protección",
     "software": "Inkscape, software de control láser",
-    "stepsJson": "[{\"step\":1,\"title\":\"Diseño en espejo\",\"detail\":\"Voltea horizontalmente las letras y logotipos para grabarlos en la cara trasera.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Diseño en espejo\\n// Plataforma: Inkscape, software de control láser\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Grabado en acrílico\",\"detail\":\"Ajusta la frecuencia para obtener un blanco lechoso de alta difusión de luz.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Grabado en acrílico\\n// Plataforma: Inkscape, software de control láser\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Base con canal para tira LED\",\"detail\":\"Corta capas de madera apilables con una ranura donde descansa la placa sobre los LEDs.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Base con canal para tira LED\\n// Plataforma: Inkscape, software de control láser\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Diseño en espejo\",\"detail\":\"Voltea horizontalmente las letras y logotipos para grabarlos en la cara trasera.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Diseño en espejo\\n// Plataforma: Inkscape, software de control láser\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Diseño en espejo.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Placa de acrílico cristal de 4mm, tira LED 5V USB, base de madera\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Grabado en acrílico\",\"detail\":\"Ajusta la frecuencia para obtener un blanco lechoso de alta difusión de luz.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Grabado en acrílico\\n// Plataforma: Inkscape, software de control láser\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Grabado en acrílico.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Placa de acrílico cristal de 4mm, tira LED 5V USB, base de madera\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Base con canal para tira LED\",\"detail\":\"Corta capas de madera apilables con una ranura donde descansa la placa sobre los LEDs.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Base con canal para tira LED\\n// Plataforma: Inkscape, software de control láser\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Base con canal para tira LED.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Placa de acrílico cristal de 4mm, tira LED 5V USB, base de madera\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=800&q=80",
@@ -752,6 +3389,147 @@ export const fallbackProjects = [
       "slug": "corte-laser",
       "color": "#DC2626",
       "icon": "Flame"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Placa Señalética de Acrílico con Grabado Invertido y LED, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Placa Señalética de Acrílico con Grabado Invertido y LED.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Placa Señalética de Acrílico con Grabado Invertido y LED en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Placa de acrílico cristal de 4mm, tira LED 5V USB, base de madera",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Cortadora láser, removedor de cinta de protección",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Inkscape, software de control láser",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Placa Señalética de Acrílico con Grabado Invertido y LED completamente construido y verificado paso a paso.",
+        "howItWorks": "Placa de acrílico transparente para escritorio o puerta con grabado en cara posterior iluminada lateralmente por LEDs.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -766,7 +3544,7 @@ export const fallbackProjects = [
     "materials": "2 placas de MDF o triplay de 3mm de 25x20 cm",
     "tools": "Cortadora láser",
     "software": "Inkscape",
-    "stepsJson": "[{\"step\":1,\"title\":\"Base inferior y marco\",\"detail\":\"Corta una placa base sólida y un marco superior hueco.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Base inferior y marco\\n// Plataforma: Inkscape\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Grabado de información\",\"detail\":\"Graba en la madera nombres de estados, órganos o figuras a baja potencia y alta velocidad.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Grabado de información\\n// Plataforma: Inkscape\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Corte de piezas individuales\",\"detail\":\"Ejecuta el corte de las piezas móviles asegurando bordes sin astillas.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Corte de piezas individuales\\n// Plataforma: Inkscape\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Base inferior y marco\",\"detail\":\"Corta una placa base sólida y un marco superior hueco.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Base inferior y marco\\n// Plataforma: Inkscape\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Base inferior y marco.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"2 placas de MDF o triplay de 3mm de 25x20 cm\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Grabado de información\",\"detail\":\"Graba en la madera nombres de estados, órganos o figuras a baja potencia y alta velocidad.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Grabado de información\\n// Plataforma: Inkscape\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Grabado de información.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"2 placas de MDF o triplay de 3mm de 25x20 cm\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Corte de piezas individuales\",\"detail\":\"Ejecuta el corte de las piezas móviles asegurando bordes sin astillas.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Corte de piezas individuales\\n// Plataforma: Inkscape\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Corte de piezas individuales.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"2 placas de MDF o triplay de 3mm de 25x20 cm\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=800&q=80",
@@ -782,6 +3560,147 @@ export const fallbackProjects = [
       "slug": "corte-laser",
       "color": "#DC2626",
       "icon": "Flame"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Rompecabezas Didáctico Infantil de Geografía o Anatomía, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Rompecabezas Didáctico Infantil de Geografía o Anatomía.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Rompecabezas Didáctico Infantil de Geografía o Anatomía en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "2 placas de MDF o triplay de 3mm de 25x20 cm",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Cortadora láser",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Inkscape",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Rompecabezas Didáctico Infantil de Geografía o Anatomía completamente construido y verificado paso a paso.",
+        "howItWorks": "Crea un juego de encaje de piezas de madera con grabado de nombres y cortes precisos.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -796,7 +3715,7 @@ export const fallbackProjects = [
     "materials": "Placa de Triplay de abedul de 3mm, lámina de acrílico opalino blanco de 2mm, foco LED cálido y cable con socket",
     "tools": "Cortadora láser, pegamento para madera",
     "software": "Inkscape o Illustrator, LightBurn",
-    "stepsJson": "[{\"step\":1,\"title\":\"Diseño de celosías vectoriales\",\"detail\":\"Crea patrones con repetición de curvas Voronoi o geometrías islámicas.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Diseño de celosías vectoriales\\n// Plataforma: Inkscape o Illustrator, LightBurn\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Corte de tapas y caras laterales\",\"detail\":\"Corta 4 caras laterales y 2 tapas con perforación para socket E27.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Corte de tapas y caras laterales\\n// Plataforma: Inkscape o Illustrator, LightBurn\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Ensamble y cableado\",\"detail\":\"Pega las caras con adhesivo vinílico y monta el portalámparas asegurando el aislamiento del cable.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Ensamble y cableado\\n// Plataforma: Inkscape o Illustrator, LightBurn\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Diseño de celosías vectoriales\",\"detail\":\"Crea patrones con repetición de curvas Voronoi o geometrías islámicas.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Diseño de celosías vectoriales\\n// Plataforma: Inkscape o Illustrator, LightBurn\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Diseño de celosías vectoriales.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Placa de Triplay de abedul de 3mm, lámina de acrílico opalino blanco de 2mm, foco LED cálido y cable con socket\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Corte de tapas y caras laterales\",\"detail\":\"Corta 4 caras laterales y 2 tapas con perforación para socket E27.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Corte de tapas y caras laterales\\n// Plataforma: Inkscape o Illustrator, LightBurn\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Corte de tapas y caras laterales.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Placa de Triplay de abedul de 3mm, lámina de acrílico opalino blanco de 2mm, foco LED cálido y cable con socket\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Ensamble y cableado\",\"detail\":\"Pega las caras con adhesivo vinílico y monta el portalámparas asegurando el aislamiento del cable.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Ensamble y cableado\\n// Plataforma: Inkscape o Illustrator, LightBurn\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 2 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Ensamble y cableado.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"Placa de Triplay de abedul de 3mm, lámina de acrílico opalino blanco de 2mm, foco LED cálido y cable con socket\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=800&q=80",
@@ -812,6 +3731,147 @@ export const fallbackProjects = [
       "slug": "corte-laser",
       "color": "#DC2626",
       "icon": "Flame"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Lámpara Geométrica Decorativa de Madera con Acrílico Difusor, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Lámpara Geométrica Decorativa de Madera con Acrílico Difusor.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Lámpara Geométrica Decorativa de Madera con Acrílico Difusor en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Placa de Triplay de abedul de 3mm, lámina de acrílico opalino blanco de 2mm, foco LED cálido y cable con socket",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Cortadora láser, pegamento para madera",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Inkscape o Illustrator, LightBurn",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Lámpara Geométrica Decorativa de Madera con Acrílico Difusor completamente construido y verificado paso a paso.",
+        "howItWorks": "Fabrica una lámpara de mesa moderna con celosías geométricas cortadas en madera y difusores de luz interiores.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -842,6 +3902,112 @@ export const fallbackProjects = [
       "slug": "corte-laser",
       "color": "#DC2626",
       "icon": "Flame"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar y fabricar mediante corte láser una caja ensamblable de ensamble dentado (finger joints) sin tornillos ni pegamento, aplicando la fórmula física de compensación por sangría del rayo láser (Kerf).",
+      "studentProfile": "Diseñadores, arquitectos y makers que aprenden manufactura sustractiva y corte CNC.",
+      "learningObjectives": [
+        "Comprender la óptica del haz láser y el concepto de ancho de corte (Kerf: 0.10 mm - 0.25 mm).",
+        "Diseñar uniones dentadas machihembradas con interferencia dimensional.",
+        "Generar y preparar vectores en formato SVG/DXF con codificación por color (corte vs. grabado).",
+        "Configurar potencia y velocidad para evitar carbonización excesiva en MDF/triplay."
+      ],
+      "steamCompetencies": [
+        "Geometría Paramétrica: Distribución simétrica de dientes pares/impares.",
+        "Física Óptica: Punto focal de la lente colimadora y densidad de potencia (W/mm2).",
+        "Seguridad Industrial: Prevención de incendios, extracción de humos y prohibición de PVC/vinil."
+      ],
+      "fundamentals": [
+        {
+          "term": "Kerf (Sangría o Ancho del Rayo Láser)",
+          "simpleDef": "La cantidad de madera que el rayo láser quema y convierte en humo al cortar.",
+          "technicalDef": "Anchura de material vaporizado por el haz enfocado en el plano focal (típicamente 0.15 mm en lentes de 2 pulgadas).",
+          "analogy": "El grosor del lápiz cuando dibujas: si trazas sobre una línea, el trazo tiene un ancho real que debes compensar.",
+          "application": "Si no compensas el kerf, las piezas quedan flojas y se desarman solas; si lo compensas (+0.10 mm en cada diente), encajan a presión con un clic perfecto sin pegamento."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "Placa de MDF o Triplay de 3.0 mm",
+            "specs": "Espesor uniforme de 3.0 mm sin pandeo",
+            "why": "Material estándar de corte limpio."
+          },
+          {
+            "item": "Calibrador vernier digital",
+            "specs": "Medición exacta del espesor real de la tabla",
+            "why": "La madera comercial de 3 mm a veces mide 2.7 mm o 3.3 mm."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Cortadora Láser CO2 o Diodo",
+            "specs": "Mínimo 40W con asistencia de aire (Air Assist)",
+            "why": "Corte térmico asistido por gas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Inkscape o Boxes.py / MakerCase",
+            "version": "Libre y gratuito",
+            "url": "https://en.boxes.py/",
+            "platform": "Web / Desktop",
+            "installGuide": "Generador web paramétrico de cajas ensamblables."
+          }
+        ]
+      },
+      "troubleshooting": [
+        {
+          "problem": "Las piezas entran demasiado flojas y la caja se desarma sola",
+          "cause": "No se compensó el Kerf del láser.",
+          "check": "Mide el diente cortado: mide menos que el hueco receptor.",
+          "solution": "En MakerCase o Boxes.py, aumenta el parámetro \"Burn / Kerf\" de 0.0 mm a 0.15 mm."
+        },
+        {
+          "problem": "Bordes negros con ceniza pegajosa y quemaduras excesivas",
+          "cause": "Velocidad de avance muy lenta o falta de flujo de aire (Air Assist).",
+          "check": "Inspecciona la boquilla del láser: debe soplar aire a presión continuo.",
+          "solution": "Aumenta la velocidad de corte y verifica la presión del compresor de aire."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Tapa Deslizable Tipo Estuche",
+          "description": "Modifica dos caras laterales para incluir una ranura donde deslice una tapa superior.",
+          "objective": "Ensamble con piezas móviles.",
+          "validation": "La tapa desliza suavemente sin trabarse."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Ensamble por Fricción",
+          "initial": "Requiere pegamento para sostenerse.",
+          "achieved": "Encaje firme a presión sin pegamento.",
+          "advanced": "Tolerancia de interferencia exacta sin astillar la madera."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Una caja estructural de madera cortada en láser con ensambles de precisión milimétrica.",
+        "howItWorks": "Aprovecha la compensación matemática del kerf para lograr ajuste por interferencia mecánica.",
+        "whatYouLearned": [
+          "Cálculo de sangría láser (Kerf)",
+          "Diseño paramétrico de uniones dentadas",
+          "Preparación de archivos vectoriales DXF/SVG"
+        ],
+        "nextSteps": [
+          {
+            "title": "Lámpara Geométrica Decorativa",
+            "slug": "lampara-geometrica-madera-laser",
+            "description": "Aplica celosías vectoriales y grabado para fabricar una lámpara de diseño."
+          }
+        ]
+      }
     }
   },
   {
@@ -856,7 +4022,7 @@ export const fallbackProjects = [
     "materials": "220g PLA en dos colores distintos",
     "tools": "Impresora 3D FDM, pinzas de corte para remover soportes",
     "software": "3D Slicer (código abierto biomédico), Blender, Cura",
-    "stepsJson": "[{\"step\":1,\"title\":\"Obtención de la malla médica\",\"detail\":\"Descarga el modelo de corazón de repositorios abiertos de anatomía médica.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Obtención de la malla médica\\n// Plataforma: 3D Slicer (código abierto biomédico), Blender, Cura\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 8 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Configuración de soportes orgánicos/árbol\",\"detail\":\"Activa soportes tipo árbol para facilitar su remoción sin dañar las cavidades internas.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Configuración de soportes orgánicos/árbol\\n// Plataforma: 3D Slicer (código abierto biomédico), Blender, Cura\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 8 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Postprocesado y ensamble de imanes\",\"detail\":\"Inserta pequeños imanes de neodimio de 3 mm en los orificios para mantener las dos mitades unidas.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Postprocesado y ensamble de imanes\\n// Plataforma: 3D Slicer (código abierto biomédico), Blender, Cura\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 8 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Obtención de la malla médica\",\"detail\":\"Descarga el modelo de corazón de repositorios abiertos de anatomía médica.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Obtención de la malla médica\\n// Plataforma: 3D Slicer (código abierto biomédico), Blender, Cura\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 8 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Obtención de la malla médica.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"220g PLA en dos colores distintos\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Configuración de soportes orgánicos/árbol\",\"detail\":\"Activa soportes tipo árbol para facilitar su remoción sin dañar las cavidades internas.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Configuración de soportes orgánicos/árbol\\n// Plataforma: 3D Slicer (código abierto biomédico), Blender, Cura\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 8 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Configuración de soportes orgánicos/árbol.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"220g PLA en dos colores distintos\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Postprocesado y ensamble de imanes\",\"detail\":\"Inserta pequeños imanes de neodimio de 3 mm en los orificios para mantener las dos mitades unidas.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Postprocesado y ensamble de imanes\\n// Plataforma: 3D Slicer (código abierto biomédico), Blender, Cura\\n// Parámetros recomendados: Nivel avanzado · Tiempo estimado: 8 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Postprocesado y ensamble de imanes.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"220g PLA en dos colores distintos\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=800&q=80",
@@ -872,6 +4038,147 @@ export const fallbackProjects = [
       "slug": "impresion-3d",
       "color": "#2563EB",
       "icon": "Box"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1586769852044-692d6e3703f0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Modelo Anatómico Didáctico con Secciones Desmontables, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Modelo Anatómico Didáctico con Secciones Desmontables.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Modelo Anatómico Didáctico con Secciones Desmontables en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "220g PLA en dos colores distintos",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Impresora 3D FDM, pinzas de corte para remover soportes",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "3D Slicer (código abierto biomédico), Blender, Cura",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Modelo Anatómico Didáctico con Secciones Desmontables completamente construido y verificado paso a paso.",
+        "howItWorks": "Imprime un corazón humano didáctico a partir de datos tomográficos abiertos para enseñanza de ciencias médicas y biológicas.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -886,7 +4193,7 @@ export const fallbackProjects = [
     "materials": "180g de PLA mate blanco o gris claro",
     "tools": "Impresora 3D, lija fina de grano 400",
     "software": "Blender, FreeCAD, laminador 3D",
-    "stepsJson": "[{\"step\":1,\"title\":\"Optimización de geometría\",\"detail\":\"Simplifica mallas complejas y cierra orificios no manifold.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Optimización de geometría\\n// Plataforma: Blender, FreeCAD, laminador 3D\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 6 horas de impresión divididas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Corte por planos de entrepiso\",\"detail\":\"Divide el edificio por niveles añadiendo pernos de centrado de 3 mm.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Corte por planos de entrepiso\\n// Plataforma: Blender, FreeCAD, laminador 3D\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 6 horas de impresión divididas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Impresión con capas finas\",\"detail\":\"Usa altura de capa de 0.16 mm para resaltar los detalles de cancelería y vanos.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Impresión con capas finas\\n// Plataforma: Blender, FreeCAD, laminador 3D\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 6 horas de impresión divididas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Optimización de geometría\",\"detail\":\"Simplifica mallas complejas y cierra orificios no manifold.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Optimización de geometría\\n// Plataforma: Blender, FreeCAD, laminador 3D\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 6 horas de impresión divididas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Optimización de geometría.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"180g de PLA mate blanco o gris claro\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Corte por planos de entrepiso\",\"detail\":\"Divide el edificio por niveles añadiendo pernos de centrado de 3 mm.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Corte por planos de entrepiso\\n// Plataforma: Blender, FreeCAD, laminador 3D\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 6 horas de impresión divididas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Corte por planos de entrepiso.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"180g de PLA mate blanco o gris claro\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Impresión con capas finas\",\"detail\":\"Usa altura de capa de 0.16 mm para resaltar los detalles de cancelería y vanos.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Impresión con capas finas\\n// Plataforma: Blender, FreeCAD, laminador 3D\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 6 horas de impresión divididas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Impresión con capas finas.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"180g de PLA mate blanco o gris claro\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
@@ -902,6 +4209,147 @@ export const fallbackProjects = [
       "slug": "impresion-3d",
       "color": "#2563EB",
       "icon": "Box"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1586769852044-692d6e3703f0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Maqueta Arquitectónica Modular con Ensambles Ocultos, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Maqueta Arquitectónica Modular con Ensambles Ocultos.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Maqueta Arquitectónica Modular con Ensambles Ocultos en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "180g de PLA mate blanco o gris claro",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Impresora 3D, lija fina de grano 400",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Blender, FreeCAD, laminador 3D",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Maqueta Arquitectónica Modular con Ensambles Ocultos completamente construido y verificado paso a paso.",
+        "howItWorks": "Prototipa un modelo a escala de un edificio o pabellón modular seccionado para inspección interior.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -916,7 +4364,7 @@ export const fallbackProjects = [
     "materials": "60g PETG para mayor resistencia a la fricción",
     "tools": "Calibrador pie de rey, impresora 3D calibrada",
     "software": "FreeCAD (módulo Gear) o Autodesk Fusion",
-    "stepsJson": "[{\"step\":1,\"title\":\"Medición de la pieza dañada\",\"detail\":\"Determina el diámetro exterior, diámetro de eje y cuenta el número de dientes para calcular el módulo.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Medición de la pieza dañada\\n// Plataforma: FreeCAD (módulo Gear) o Autodesk Fusion\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Generación del perfil de diente\",\"detail\":\"Usa el generador involuta en FreeCAD para obtener el perfil exacto de contacto.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Generación del perfil de diente\\n// Plataforma: FreeCAD (módulo Gear) o Autodesk Fusion\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Laminación estructural\",\"detail\":\"Configura 5 perímetros de pared y 40% de relleno cúbico o gyroid para soportar torque.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Laminación estructural\\n// Plataforma: FreeCAD (módulo Gear) o Autodesk Fusion\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Medición de la pieza dañada\",\"detail\":\"Determina el diámetro exterior, diámetro de eje y cuenta el número de dientes para calcular el módulo.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Medición de la pieza dañada\\n// Plataforma: FreeCAD (módulo Gear) o Autodesk Fusion\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Medición de la pieza dañada.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"60g PETG para mayor resistencia a la fricción\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Generación del perfil de diente\",\"detail\":\"Usa el generador involuta en FreeCAD para obtener el perfil exacto de contacto.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Generación del perfil de diente\\n// Plataforma: FreeCAD (módulo Gear) o Autodesk Fusion\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Generación del perfil de diente.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"60g PETG para mayor resistencia a la fricción\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Laminación estructural\",\"detail\":\"Configura 5 perímetros de pared y 40% de relleno cúbico o gyroid para soportar torque.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Laminación estructural\\n// Plataforma: FreeCAD (módulo Gear) o Autodesk Fusion\\n// Parámetros recomendados: Nivel intermedio · Tiempo estimado: 3 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Laminación estructural.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"60g PETG para mayor resistencia a la fricción\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
@@ -932,6 +4380,147 @@ export const fallbackProjects = [
       "slug": "impresion-3d",
       "color": "#2563EB",
       "icon": "Box"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1586769852044-692d6e3703f0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Pieza de Repuesto: Engrane Paramétrico Reforzado, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Pieza de Repuesto: Engrane Paramétrico Reforzado.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Pieza de Repuesto: Engrane Paramétrico Reforzado en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "60g PETG para mayor resistencia a la fricción",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Calibrador pie de rey, impresora 3D calibrada",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "FreeCAD (módulo Gear) o Autodesk Fusion",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Pieza de Repuesto: Engrane Paramétrico Reforzado completamente construido y verificado paso a paso.",
+        "howItWorks": "Modela un engrane de repuesto para reparar un aparato averiado, calculando módulo, número de dientes y eje estriado.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -946,7 +4535,7 @@ export const fallbackProjects = [
     "materials": "15g filamento azul marino y 5g filamento dorado",
     "tools": "Impresora 3D FDM, pinzas de punta",
     "software": "Inkscape (para vectorizar silueta) y Tinkercad o Cura",
-    "stepsJson": "[{\"step\":1,\"title\":\"Diseño 2D en SVG\",\"detail\":\"Dibuja el contorno y las letras en Inkscape con trazos definidos.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Diseño 2D en SVG\\n// Plataforma: Inkscape (para vectorizar silueta) y Tinkercad o Cura\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 45 minutos\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Extrusión en 3D\",\"detail\":\"Importa el SVG en Tinkercad. Extruye la base a 2 mm y el texto en relieve a 3.6 mm.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Extrusión en 3D\\n// Plataforma: Inkscape (para vectorizar silueta) y Tinkercad o Cura\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 45 minutos\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Insertar pausa en laminador\",\"detail\":\"En Cura/PrusaSlicer coloca una pausa en la capa donde inicia el texto para cambiar de azul a dorado.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Insertar pausa en laminador\\n// Plataforma: Inkscape (para vectorizar silueta) y Tinkercad o Cura\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 45 minutos\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Diseño 2D en SVG\",\"detail\":\"Dibuja el contorno y las letras en Inkscape con trazos definidos.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Diseño 2D en SVG\\n// Plataforma: Inkscape (para vectorizar silueta) y Tinkercad o Cura\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 45 minutos\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Diseño 2D en SVG.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"15g filamento azul marino y 5g filamento dorado\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Extrusión en 3D\",\"detail\":\"Importa el SVG en Tinkercad. Extruye la base a 2 mm y el texto en relieve a 3.6 mm.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Extrusión en 3D\\n// Plataforma: Inkscape (para vectorizar silueta) y Tinkercad o Cura\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 45 minutos\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Extrusión en 3D.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"15g filamento azul marino y 5g filamento dorado\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Insertar pausa en laminador\",\"detail\":\"En Cura/PrusaSlicer coloca una pausa en la capa donde inicia el texto para cambiar de azul a dorado.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Insertar pausa en laminador\\n// Plataforma: Inkscape (para vectorizar silueta) y Tinkercad o Cura\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 45 minutos\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Insertar pausa en laminador.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"15g filamento azul marino y 5g filamento dorado\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
@@ -962,6 +4551,147 @@ export const fallbackProjects = [
       "slug": "impresion-3d",
       "color": "#2563EB",
       "icon": "Box"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1586769852044-692d6e3703f0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Llaveros Institucionales con Cambio de Color en Pausa, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Llaveros Institucionales con Cambio de Color en Pausa.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Llaveros Institucionales con Cambio de Color en Pausa en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "15g filamento azul marino y 5g filamento dorado",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Impresora 3D FDM, pinzas de punta",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "Inkscape (para vectorizar silueta) y Tinkercad o Cura",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Llaveros Institucionales con Cambio de Color en Pausa completamente construido y verificado paso a paso.",
+        "howItWorks": "Fabrica llaveros personalizados con texto en relieve cambiando de filamento a una altura determinada para lograr dos colores.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -976,7 +4706,7 @@ export const fallbackProjects = [
     "materials": "40g de filamento PLA o PETG",
     "tools": "Impresora 3D FDM",
     "software": "FreeCAD o Tinkercad, laminador FDM",
-    "stepsJson": "[{\"step\":1,\"title\":\"Definir diámetros\",\"detail\":\"Determina las ranuras para cables USB estándar (diámetro 4 mm a 5 mm).\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Definir diámetros\\n// Plataforma: FreeCAD o Tinkercad, laminador FDM\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":2,\"title\":\"Diseño de clips con flexibilidad\",\"detail\":\"Añade pestañas curvas que cedan ligeramente al presionar el cable hacia adentro.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Diseño de clips con flexibilidad\\n// Plataforma: FreeCAD o Tinkercad, laminador FDM\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"},{\"step\":3,\"title\":\"Impresión de prueba\",\"detail\":\"Imprime primero una muestra de 10 minutos para validar que los cables no queden ni muy flojos ni atorados.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Impresión de prueba\\n// Plataforma: FreeCAD o Tinkercad, laminador FDM\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\"}]",
+    "stepsJson": "[{\"step\":1,\"title\":\"Definir diámetros\",\"detail\":\"Determina las ranuras para cables USB estándar (diámetro 4 mm a 5 mm).\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Definir diámetros\\n// Plataforma: FreeCAD o Tinkercad, laminador FDM\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 1: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 1: Definir diámetros.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"40g de filamento PLA o PETG\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 1 terminada y verificada.\"},{\"step\":2,\"title\":\"Diseño de clips con flexibilidad\",\"detail\":\"Añade pestañas curvas que cedan ligeramente al presionar el cable hacia adentro.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Diseño de clips con flexibilidad\\n// Plataforma: FreeCAD o Tinkercad, laminador FDM\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 2: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 2: Diseño de clips con flexibilidad.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"40g de filamento PLA o PETG\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 2 terminada y verificada.\"},{\"step\":3,\"title\":\"Impresión de prueba\",\"detail\":\"Imprime primero una muestra de 10 minutos para validar que los cables no queden ni muy flojos ni atorados.\",\"codeLanguage\":\"text\",\"code\":\"// Procedimiento de configuración para: Impresión de prueba\\n// Plataforma: FreeCAD o Tinkercad, laminador FDM\\n// Parámetros recomendados: Nivel principiante · Tiempo estimado: 1.5 horas\\n\\n// Verifique las conexiones y ejecute la validación técnica correspondiente.\",\"testing\":\"Verificación del Paso 3: Comprueba físicamente el ensamble, la continuidad eléctrica o la previsualización del software. El resultado debe coincidir con las especificaciones antes de avanzar a la siguiente etapa.\",\"tip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"stageObjective\":\"Completar y validar la fase 3: Impresión de prueba.\",\"stageTime\":\"25 minutos\",\"conceptLearned\":\"Fundamentos técnicos, dimensionamiento y buenas prácticas maker.\",\"stageMaterials\":\"40g de filamento PLA o PETG\",\"whyDoWeDoIt\":\"Garantiza la correcta integración de tolerancias, seguridad de operación y estabilidad funcional del prototipo.\",\"commonErrors\":\"Saltarse la verificación dimensional o realizar conexiones sin aislamiento térmico o eléctrico.\",\"errorSolution\":\"Verifica la polaridad y dimensiones con instrumentos de medición antes de energizar o procesar material.\",\"professionalTip\":\"Consejo de taller: Si encuentras resistencia mecánica o error de lectura en este paso, no fuerces las piezas ni aumentes la potencia. Revisa las tolerancias y la alineación de componentes.\",\"progressEvidence\":\"Fase 3 terminada y verificada.\"}]",
     "filesJson": null,
     "videoUrl": null,
     "imageUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80",
@@ -992,6 +4722,147 @@ export const fallbackProjects = [
       "slug": "impresion-3d",
       "color": "#2563EB",
       "icon": "Box"
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1586769852044-692d6e3703f0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"
+    ],
+    "pedagogy": {
+      "objectiveGeneral": "Diseñar, construir, validar y documentar un prototipo funcional de Organizador Modular de Cables y Memorias USB, aplicando metodologías de aprendizaje basado en proyectos (PBL) y tecnologías abiertas.",
+      "studentProfile": "Estudiantes, docentes y creadores tecnológicos interesados en cultura maker y proyectos prácticos sin barreras de entrada.",
+      "learningObjectives": [
+        "Analizar los requerimientos técnicos y de diseño para Organizador Modular de Cables y Memorias USB.",
+        "Interpretar diagramas esquemáticos y especificaciones dimensionales.",
+        "Operar con seguridad las herramientas de fabricación o entornos de programación pertinentes.",
+        "Ejecutar pruebas de control de calidad para verificar el correcto funcionamiento.",
+        "Identificar y corregir fallas mecánicas, eléctricas o de software con metodología sistemática."
+      ],
+      "steamCompetencies": [
+        "Ingeniería y Diseño: Dimensionamiento, integración de subsistemas y tolerancias físicas.",
+        "Pensamiento Computacional: Lógica algorítmica y control por código o variables paramétricas.",
+        "Ciencia Aplicada: Comprensión de leyes físicas de electricidad, óptica o termodinámica.",
+        "Creatividad e Innovación: Capacidad de personalizar y mejorar el producto final."
+      ],
+      "fundamentals": [
+        {
+          "term": "Diseño para Fabricación Abierta (Design for Open Making)",
+          "simpleDef": "Crear cosas usando planos, código y herramientas que cualquiera pueda descargar, modificar y construir sin pagar licencias caras.",
+          "technicalDef": "Metodología de ingeniería que prioriza estándares abiertos, formatos libres (STL, DXF, C++) y modularidad de componentes estándar de mercado.",
+          "analogy": "Una receta de cocina compartida donde los ingredientes se consiguen en cualquier tienda local.",
+          "application": "Permite reproducir Organizador Modular de Cables y Memorias USB en cualquier makerspace o escuela de la UNAM sin depender de proveedores cerrados."
+        },
+        {
+          "term": "Control de Calidad Iterativo y Prototipado",
+          "simpleDef": "Hacer una prueba rápida, ver qué falló, corregirlo y volver a probar hasta que quede perfecto.",
+          "technicalDef": "Ciclo sistemático de desarrollo ágil (Construir -> Medir -> Aprender) aplicado a sistemas físicos tangibles.",
+          "analogy": "Un músico que ensaya un compás difícil varias veces antes de tocarlo en el concierto final.",
+          "application": "Asegura que cada módulo se pruebe de forma independiente antes del ensamble definitivo."
+        }
+      ],
+      "workspaceChecklist": {
+        "materials": [
+          {
+            "item": "40g de filamento PLA o PETG",
+            "specs": "Materiales base verificados para la práctica",
+            "why": "Componentes esenciales para la estructura física o eléctrica."
+          }
+        ],
+        "tools": [
+          {
+            "item": "Impresora 3D FDM",
+            "specs": "Herramientas estándar de taller maker",
+            "why": "Manipulación, ensamble y calibración de piezas."
+          }
+        ],
+        "software": [
+          {
+            "name": "FreeCAD o Tinkercad, laminador FDM",
+            "version": "Versión libre / Open Source",
+            "url": "https://pumaker.unam.mx",
+            "platform": "Multiplataforma",
+            "installGuide": "Descarga e instala la herramienta gratuita recomendada."
+          }
+        ]
+      },
+      "didacticElements": {
+        "didYouKnow": "¿Sabías que los proyectos de hardware abierto y cultura maker reducen los costos de desarrollo educativo hasta en un 80% comparados con kits comerciales propietarios?",
+        "makerTip": "Mantén siempre una bitácora técnica de taller: anotar un error que solucionaste hoy te ahorrará horas de trabajo en tu próximo proyecto.",
+        "safetyCaution": "Inspecciona siempre los voltajes y temperaturas antes de comenzar. Si usas herramientas térmicas o mecánicas, utiliza equipo de protección personal (lentes y guantes de trabajo)."
+      },
+      "troubleshooting": [
+        {
+          "problem": "El ensamble no encaja o queda demasiado apretado",
+          "cause": "Falta de compensación de tolerancias mecánicas en la fabricación.",
+          "check": "Mide las piezas con un calibrador vernier contra el plano original.",
+          "solution": "Aplica una holgura de +0.2 mm a +0.5 mm en el modelo o lija suavemente la rebaba de contacto."
+        },
+        {
+          "problem": "El circuito o software no responde al encender",
+          "cause": "Falsa conexión en cables jumper o polaridad invertida.",
+          "check": "Verifica la continuidad eléctrica con multímetro y la conexión común de tierra (GND).",
+          "solution": "Desconecta la alimentación, revisa el pinout con el diagrama esquemático y vuelve a energizar."
+        }
+      ],
+      "challenges": [
+        {
+          "level": "Nivel 1 — Modifica",
+          "title": "Personalización Estética o Dimensional",
+          "description": "Cambia las dimensiones o añade un grabado con tus iniciales o logotipo de tu escuela.",
+          "objective": "Apropiación del diseño.",
+          "validation": "La modificación se integra limpiamente sin afectar la funcionalidad."
+        },
+        {
+          "level": "Nivel 2 — Mejora",
+          "title": "Adición de Nueva Funcionalidad",
+          "description": "Incorpora un sensor adicional, indicador lumínico o refuerzo estructural.",
+          "objective": "Integración de subsistemas.",
+          "validation": "El nuevo componente opera de forma coordinada con el sistema base."
+        },
+        {
+          "level": "Nivel 3 — Crea",
+          "title": "Versión Propia Rediseñada",
+          "description": "Utiliza los principios aprendidos para diseñar una variante orientada a una nueva necesidad real en tu comunidad.",
+          "objective": "Autonomía y aplicación contextual.",
+          "validation": "El prototipo opera de manera independiente cumpliendo su nuevo propósito."
+        }
+      ],
+      "rubric": [
+        {
+          "criteria": "1. Planificación y Espacio",
+          "initial": "Mesa desordenada, faltan materiales.",
+          "achieved": "Mesa preparada con todos los materiales verificados.",
+          "advanced": "Espacio optimizado con medidas de seguridad y bitácora técnica."
+        },
+        {
+          "criteria": "2. Ensamble y Construcción",
+          "initial": "Requiere supervisión constante.",
+          "achieved": "Sigue la guía paso a paso logrando un ensamble correcto.",
+          "advanced": "Construcción pulcra con optimización de tiempos y materiales."
+        },
+        {
+          "criteria": "3. Pruebas y Validación",
+          "initial": "No realiza pruebas metódicas.",
+          "achieved": "Ejecuta el protocolo de validación y comprueba funcionamiento.",
+          "advanced": "Diagnostica y documenta variaciones con instrumentos de precisión."
+        }
+      ],
+      "finalReview": {
+        "whatYouBuilt": "Un prototipo funcional de Organizador Modular de Cables y Memorias USB completamente construido y verificado paso a paso.",
+        "howItWorks": "Diseño compacto de escritorio para fijar cables de cargador y almacenar tarjetas SD y llaves USB.",
+        "whatYouLearned": [
+          "Técnicas de fabricación o programación aplicadas",
+          "Diagnóstico y resolución de fallas técnicas",
+          "Documentación y evaluación formativa"
+        ],
+        "nextSteps": [
+          {
+            "title": "Explorar más Proyectos PUMAKER",
+            "slug": "proyectos",
+            "description": "Avanza hacia nuevos desafíos en otras áreas maker de la plataforma."
+          }
+        ]
+      }
     }
   },
   {
@@ -1263,7 +5134,12 @@ export const fallbackProjects = [
           }
         ]
       }
-    }
+    },
+    "gallery": [
+      "https://images.unsplash.com/photo-1586769852044-692d6e3703f0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"
+    ]
   }
 ];
 

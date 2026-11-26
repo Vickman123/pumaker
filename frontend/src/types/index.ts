@@ -160,6 +160,7 @@ export interface Project {
   filesJson?: string;
   videoUrl?: string;
   imageUrl: string;
+  gallery?: string[];
   expectedResult: string;
   license: string;
   tips?: string;

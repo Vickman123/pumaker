@@ -974,6 +974,36 @@ export const ProjectDetail: React.FC = () => {
         </div>
       )}
 
+      {/* Galería Visual Técnica del Proyecto (3 Imágenes Clave) */}
+      {project.gallery && project.gallery.length > 0 && (
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="font-bold text-base sm:text-lg text-puma-dark flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-puma-gold" />
+              <span>Galería Visual y Fases de Construcción ({project.gallery.length} perspectivas)</span>
+            </h3>
+            <span className="text-[11px] text-slate-500 font-medium">Modelado · Fabricación · Prototipo Final</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {project.gallery.map((imgUrl, gIdx) => (
+              <div key={gIdx} className="group relative rounded-xl overflow-hidden border border-slate-200 bg-slate-900 aspect-video shadow-sm">
+                <img
+                  src={imgUrl}
+                  alt={`Fase ${gIdx + 1} - ${project.title}`}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-3">
+                  <span className="text-[11px] font-semibold text-white drop-shadow">
+                    {gIdx === 0 ? '1. Geometría y Modelo CAD' : gIdx === 1 ? '2. Proceso y Fabricación' : '3. Prototipo en Uso Real'}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Advertencia de Seguridad en Taller */}
       <div className="bg-amber-50 p-6 rounded-2xl border border-amber-200 shadow-sm space-y-2">
         <h3 className="font-bold text-sm text-amber-900 uppercase tracking-wider flex items-center gap-1.5">
