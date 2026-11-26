@@ -8,6 +8,16 @@ export default {
   theme: {
     extend: {
       colors: {
+        lab: {
+          dark: '#0B0F14',      // Deep Graphite
+          charcoal: '#141B24',  // Charcoal
+          surface: '#1B2532',   // Surface
+          white: '#F4F2EC',     // Warm White
+          gray: '#929EAD',      // Technical Gray
+          amber: '#F5B82E',     // Maker Amber
+          cyan: '#35D5FF',      // Electric Cyan
+          green: '#57DF9A',     // Signal Green
+        },
         puma: {
           dark: '#0B1728',     // Azul marino profundo
           navy: '#142943',     // Azul institucional oscuro
