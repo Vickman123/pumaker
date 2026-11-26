@@ -19,8 +19,10 @@ import { AdminDashboard } from './pages/AdminDashboard';
 import { NotFound } from './pages/NotFound';
 
 export const App: React.FC = () => {
+  const basename = (import.meta as any).env?.BASE_URL || '/';
+
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <div className="min-h-screen flex flex-col bg-puma-surface text-puma-text">
         <Navbar />
         <main className="flex-1">
