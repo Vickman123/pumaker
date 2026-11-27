@@ -11,14 +11,14 @@ export const Videoteca: React.FC = () => {
   const [activeVideo, setActiveVideo] = useState<Video | null>(null);
 
   const channels = [
-    { name: 'Teaching Tech', url: 'https://www.youtube.com/@TeachingTech', area: 'Impresión 3D' },
-    { name: 'CNC Kitchen', url: 'https://www.youtube.com/@CNCkitchen', area: 'Resistencia Materiales' },
-    { name: 'Ben Eater', url: 'https://www.youtube.com/@BenEater', area: 'Electrónica e Informática' },
-    { name: 'GreatScott!', url: 'https://www.youtube.com/@GreatScottLab', area: 'Electrónica DIY' },
-    { name: 'Trotec Laser', url: 'https://www.youtube.com/@TrotecLaserEngraving', area: 'Corte Láser' },
-    { name: 'LightBurn Software', url: 'https://www.youtube.com/@LightBurnSoftware', area: 'Software Láser' },
-    { name: 'Blender Official', url: 'https://www.youtube.com/@BlenderOfficial', area: 'Modelado 3D' },
-    { name: 'OBS Project', url: 'https://www.youtube.com/@OBSProject', area: 'Streaming & Video' }
+    { name: 'Control 3D', url: 'https://www.youtube.com/@Control3D', area: 'Impresión 3D y Materiales' },
+    { name: 'Bitwise Ar', url: 'https://www.youtube.com/@BitwiseAr', area: 'Arduino y Robótica' },
+    { name: 'El Profe García', url: 'https://www.youtube.com/@ElprofeGarcia', area: 'Electrónica y Sensores' },
+    { name: 'LZR Studio', url: 'https://www.youtube.com/@LZRStudio', area: 'Corte y Grabado Láser' },
+    { name: 'Jaime Cortezo', url: 'https://www.youtube.com/@JaimeCortezo', area: 'Edición en DaVinci Resolve' },
+    { name: 'Aura Prods', url: 'https://www.youtube.com/@AuraProds', area: 'Modelado 3D en Blender' },
+    { name: 'PuntoTech MX', url: 'https://www.youtube.com', area: 'Calibración y Taller 3D' },
+    { name: 'SinapTec', url: 'https://www.youtube.com', area: 'ESP32 e Internet de las Cosas' }
   ];
 
   useEffect(() => {
