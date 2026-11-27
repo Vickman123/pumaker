@@ -6,6 +6,7 @@ export const MakerLabHeroCanvas: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
   const [hasWebGL, setHasWebGL] = useState<boolean>(true);
   const [isLoadingModel, setIsLoadingModel] = useState<boolean>(true);
+  const [isInteracting, setIsInteracting] = useState<boolean>(false);
 
   useEffect(() => {
     const container = mountRef.current;
@@ -151,7 +152,62 @@ export const MakerLabHeroCanvas: React.FC = () => {
     gridHelper.position.y = -2.3;
     scene.add(gridHelper);
 
-    // 6. Viewport Visibility Observer (Pausar animación fuera de pantalla)
+    // 6. Control interactivo de arrastre (Click and Drag en X e Y)
+    let isDragging = false;
+    let prevPointerX = 0;
+    let prevPointerY = 0;
+    let currentRotX = 0;
+    let currentRotY = 0;
+    let targetRotX = 0;
+    let targetRotY = 0;
+    let autoRotationSpeed = 0.16;
+
+    const onPointerDown = (e: PointerEvent) => {
+      // Solo botón principal del mouse o toque
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      isDragging = true;
+      setIsInteracting(true);
+      prevPointerX = e.clientX;
+      prevPointerY = e.clientY;
+      container.setPointerCapture?.(e.pointerId);
+    };
+
+    const onPointerMove = (e: PointerEvent) => {
+      if (!isDragging) return;
+      const deltaX = e.clientX - prevPointerX;
+      const deltaY = e.clientY - prevPointerY;
+
+      // Sensibilidad suave y precisa de rotación en ambos ejes
+      const sensitivity = 0.0075;
+      targetRotY += deltaX * sensitivity;
+      targetRotX += deltaY * sensitivity;
+
+      // Limitar la inclinación vertical (arriba y abajo) para una experiencia ergonómica
+      const maxPitch = Math.PI * 0.44;
+      targetRotX = Math.max(-maxPitch, Math.min(maxPitch, targetRotX));
+
+      prevPointerX = e.clientX;
+      prevPointerY = e.clientY;
+    };
+
+    const onPointerUp = (e: PointerEvent) => {
+      if (isDragging) {
+        isDragging = false;
+        setIsInteracting(false);
+        try {
+          container.releasePointerCapture?.(e.pointerId);
+        } catch {
+          // ignore if already released
+        }
+      }
+    };
+
+    container.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
+
+    // 7. Viewport Visibility Observer (Pausar animación fuera de pantalla)
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
@@ -160,7 +216,7 @@ export const MakerLabHeroCanvas: React.FC = () => {
     );
     observer.observe(container);
 
-    // 7. Resize Handler
+    // 8. Resize Handler
     const handleResize = () => {
       if (!container) return;
       const w = container.clientWidth;
@@ -172,7 +228,7 @@ export const MakerLabHeroCanvas: React.FC = () => {
 
     window.addEventListener('resize', handleResize);
 
-    // 8. Bucle de Animación — ROTACIÓN SUAVE Y LENTA EXCLUSIVA (Sin mouse)
+    // 9. Bucle de Animación con Damping e inercia táctil
     const clock = new THREE.Clock();
 
     const animate = () => {
@@ -180,14 +236,22 @@ export const MakerLabHeroCanvas: React.FC = () => {
 
       if (!isVisible) return;
 
-      const time = clock.getElapsedTime();
+      const delta = Math.min(clock.getDelta(), 0.1);
 
-      // Rotación continua lenta y elegante
-      modelGroup.rotation.y = time * 0.16;
-      modelGroup.rotation.x = Math.sin(time * 0.35) * 0.04;
+      // Si el usuario no está arrastrando activamente, rota suavemente sobre el eje Y
+      if (!isDragging) {
+        targetRotY += autoRotationSpeed * delta;
+      }
+
+      // Interpolación suave (damping / inercia de arrastre)
+      currentRotX += (targetRotX - currentRotX) * 0.12;
+      currentRotY += (targetRotY - currentRotY) * 0.12;
+
+      modelGroup.rotation.x = currentRotX;
+      modelGroup.rotation.y = currentRotY;
 
       // Partículas flotando suavemente
-      particleSystem.rotation.y = time * 0.015;
+      particleSystem.rotation.y += delta * 0.04;
 
       renderer.render(scene, camera);
     };
@@ -196,6 +260,10 @@ export const MakerLabHeroCanvas: React.FC = () => {
 
     // Cleanup
     return () => {
+      container.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerUp);
       window.removeEventListener('resize', handleResize);
       observer.disconnect();
       cancelAnimationFrame(animationFrameId);
@@ -224,7 +292,7 @@ export const MakerLabHeroCanvas: React.FC = () => {
   }
 
   return (
-    <div className="w-full h-full relative">
+    <div className="w-full h-full relative select-none">
       {isLoadingModel && (
         <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
           <div className="flex flex-col items-center gap-2 bg-white/90 px-4 py-2.5 rounded-xl border border-puma-gold/30 shadow-sm backdrop-blur-sm">
@@ -235,10 +303,21 @@ export const MakerLabHeroCanvas: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Indicador interactivo para el usuario */}
+      <div className="absolute bottom-4 left-4 z-10 pointer-events-none transition-opacity duration-300">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 border border-slate-200/90 shadow-sm backdrop-blur-sm text-[10px] font-mono text-puma-dark">
+          <span className={`w-2 h-2 rounded-full ${isInteracting ? 'bg-amber-500 scale-125' : 'bg-emerald-500'} transition-all`} />
+          <span className="font-medium">
+            {isInteracting ? 'Explorando 3D...' : 'Arrastra para rotar 360° (arriba / abajo / lados)'}
+          </span>
+        </div>
+      </div>
+
       <div
         ref={mountRef}
-        className="w-full h-full min-h-[480px] lg:min-h-[640px] relative pointer-events-none"
-        aria-label="Modelo 3D del emblema PUMAKER"
+        className="w-full h-full min-h-[480px] lg:min-h-[640px] relative pointer-events-auto cursor-grab active:cursor-grabbing touch-none"
+        aria-label="Modelo 3D interactivo del emblema PUMAKER - Clic y arrastra para rotar"
         role="img"
       />
     </div>

@@ -228,7 +228,7 @@ export const Home: React.FC = () => {
             </div>
           </div>
 
-          {/* Columna Derecha: Three.js Escultura Emblemática (Rotación lenta autónoma sin mouse) */}
+          {/* Columna Derecha: Three.js Escultura Emblemática (Interactivo: Clic y arrastra para rotar) */}
           <div className="lg:col-span-6 relative w-full h-[450px] sm:h-[520px] lg:h-[620px] flex items-center justify-center">
             {/* Marco técnico decorativo */}
             <div className="absolute inset-0 border border-slate-200/90 rounded-3xl pointer-events-none overflow-hidden bg-gradient-to-b from-white/70 via-slate-50/50 to-white/90 shadow-sm backdrop-blur-sm">
@@ -236,7 +236,7 @@ export const Home: React.FC = () => {
                 [KINETIC_CORE // MESH_01]
               </div>
               <div className="absolute bottom-3 right-4 text-[10px] font-mono text-amber-600 tracking-widest uppercase font-semibold">
-                AUTONOMOUS 3D ROTATION
+                INTERACTIVE · 3D ORBIT
               </div>
               <span className="absolute top-2 right-2 text-slate-300 text-xs font-mono">+</span>
               <span className="absolute bottom-2 left-2 text-slate-300 text-xs font-mono">+</span>
