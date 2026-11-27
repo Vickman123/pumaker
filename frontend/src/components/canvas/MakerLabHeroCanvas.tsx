@@ -27,47 +27,47 @@ export const MakerLabHeroCanvas: React.FC = () => {
     let isVisible = true;
     let animationFrameId: number;
 
-    // 1. Scene, Camera, Renderer
+    // 1. Scene, Camera, Renderer (Luminoso, limpio y transparente)
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x0b0f14, 0.035);
+    scene.fog = new THREE.FogExp2(0xf8fafc, 0.03);
 
     const width = container.clientWidth || window.innerWidth;
     const height = container.clientHeight || 650;
 
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    camera.position.set(0, 0.4, 7.2);
+    camera.position.set(0, 0.35, 7.2);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.35;
+    renderer.toneMappingExposure = 1.25;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
-    // 2. Studio Lighting (Tailored for Graphite Enamel & Satin Gold Alloy)
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.8);
+    // 2. Studio Lighting (Dorado, Blanco y Azul Marino)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2.4);
     scene.add(ambientLight);
 
-    // Key Golden Warm Light
-    const goldKeyLight = new THREE.DirectionalLight(0xf5b82e, 3.2);
+    // Luz Principal Dorada Cálida
+    const goldKeyLight = new THREE.DirectionalLight(0xf5b82e, 3.5);
     goldKeyLight.position.set(5, 7, 6);
     goldKeyLight.castShadow = true;
     scene.add(goldKeyLight);
 
-    // Fill Cyan Tech Light
-    const cyanFillLight = new THREE.PointLight(0x35d5ff, 2.8, 14);
-    cyanFillLight.position.set(-5, -2, 4);
-    scene.add(cyanFillLight);
+    // Luz de Relleno Azul Marino Institucional
+    const navyFillLight = new THREE.PointLight(0x142943, 3.0, 15);
+    navyFillLight.position.set(-5, -2, 4);
+    scene.add(navyFillLight);
 
-    // Rim / Backlight for metallic contours
-    const rimLight = new THREE.DirectionalLight(0xffffff, 2.0);
-    rimLight.position.set(0, 6, -6);
+    // Luz Cenital Blanca
+    const rimLight = new THREE.DirectionalLight(0xffffff, 2.2);
+    rimLight.position.set(0, 7, -5);
     scene.add(rimLight);
 
-    // Soft Bottom Bounce Light
-    const bottomLight = new THREE.PointLight(0xd6a63b, 1.5, 8);
+    // Luz Inferior Amarilla Suave
+    const bottomLight = new THREE.PointLight(0xd6a63b, 1.8, 8);
     bottomLight.position.set(0, -3, 2);
     scene.add(bottomLight);
 
@@ -86,7 +86,7 @@ export const MakerLabHeroCanvas: React.FC = () => {
       (gltf) => {
         const root = gltf.scene;
 
-        // Auto calculate bounding box, scale and center
+        // Auto calcular bounding box, escala y centrado
         const bbox = new THREE.Box3().setFromObject(root);
         const center = new THREE.Vector3();
         bbox.getCenter(center);
@@ -100,7 +100,7 @@ export const MakerLabHeroCanvas: React.FC = () => {
         root.position.y = -center.y * targetScale;
         root.position.z = -center.z * targetScale;
 
-        // Enhance materials
+        // Mejorar materiales para el fondo blanco/claro
         root.traverse((node) => {
           if ((node as THREE.Mesh).isMesh) {
             const mesh = node as THREE.Mesh;
@@ -109,8 +109,8 @@ export const MakerLabHeroCanvas: React.FC = () => {
 
             if (mesh.material) {
               const mat = mesh.material as THREE.MeshStandardMaterial;
-              mat.roughness = Math.max(0.2, mat.roughness ?? 0.3);
-              mat.metalness = Math.min(0.9, mat.metalness ?? 0.7);
+              mat.roughness = Math.max(0.18, mat.roughness ?? 0.25);
+              mat.metalness = Math.min(0.85, mat.metalness ?? 0.75);
               mat.needsUpdate = true;
             }
           }
@@ -126,8 +126,8 @@ export const MakerLabHeroCanvas: React.FC = () => {
       }
     );
 
-    // 5. Ambient Particles Field
-    const particleCount = 140;
+    // 5. Partículas sutiles doradas y azules
+    const particleCount = 120;
     const particlePositions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount; i++) {
       particlePositions[i * 3] = (Math.random() - 0.5) * 12;
@@ -138,37 +138,20 @@ export const MakerLabHeroCanvas: React.FC = () => {
     const particleGeo = new THREE.BufferGeometry();
     particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
     const particleMat = new THREE.PointsMaterial({
-      color: 0x929ead,
-      size: 0.03,
+      color: 0xd6a63b,
+      size: 0.035,
       transparent: true,
-      opacity: 0.5
+      opacity: 0.6
     });
     const particleSystem = new THREE.Points(particleGeo, particleMat);
     scene.add(particleSystem);
 
-    // Floor Technical Grid
-    const gridHelper = new THREE.GridHelper(16, 20, 0xf5b82e, 0x141b24);
-    gridHelper.position.y = -2.4;
+    // Cuadrícula Técnica en Gris Claro y Dorado
+    const gridHelper = new THREE.GridHelper(16, 20, 0xd6a63b, 0xcbd5e1);
+    gridHelper.position.y = -2.3;
     scene.add(gridHelper);
 
-    // 6. Interactive Mouse Damping
-    let targetX = 0;
-    let targetY = 0;
-    let currentX = 0;
-    let currentY = 0;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-
-      targetX = x * 0.45;
-      targetY = y * 0.35;
-    };
-
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-
-    // 7. Viewport Visibility Observer (pause when out of view)
+    // 6. Viewport Visibility Observer (Pausar animación fuera de pantalla)
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
@@ -177,7 +160,7 @@ export const MakerLabHeroCanvas: React.FC = () => {
     );
     observer.observe(container);
 
-    // 8. Resize Handler
+    // 7. Resize Handler
     const handleResize = () => {
       if (!container) return;
       const w = container.clientWidth;
@@ -189,7 +172,7 @@ export const MakerLabHeroCanvas: React.FC = () => {
 
     window.addEventListener('resize', handleResize);
 
-    // 9. Animation Loop
+    // 8. Bucle de Animación — ROTACIÓN SUAVE Y LENTA EXCLUSIVA (Sin mouse)
     const clock = new THREE.Clock();
 
     const animate = () => {
@@ -199,15 +182,11 @@ export const MakerLabHeroCanvas: React.FC = () => {
 
       const time = clock.getElapsedTime();
 
-      // Smooth mouse easing
-      currentX += (targetX - currentX) * 0.05;
-      currentY += (targetY - currentY) * 0.05;
+      // Rotación continua lenta y elegante
+      modelGroup.rotation.y = time * 0.16;
+      modelGroup.rotation.x = Math.sin(time * 0.35) * 0.04;
 
-      // Rotate model
-      modelGroup.rotation.y = currentX + time * 0.22;
-      modelGroup.rotation.x = currentY + Math.sin(time * 0.5) * 0.06;
-
-      // Floating particles
+      // Partículas flotando suavemente
       particleSystem.rotation.y = time * 0.015;
 
       renderer.render(scene, camera);
@@ -217,7 +196,6 @@ export const MakerLabHeroCanvas: React.FC = () => {
 
     // Cleanup
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
       observer.disconnect();
       cancelAnimationFrame(animationFrameId);
@@ -235,10 +213,10 @@ export const MakerLabHeroCanvas: React.FC = () => {
 
   if (!hasWebGL) {
     return (
-      <div className="w-full h-full flex items-center justify-center p-8 bg-gradient-to-br from-lab-dark via-lab-charcoal to-lab-surface relative overflow-hidden">
-        <div className="w-64 h-64 rounded-full border border-lab-amber/30 border-dashed animate-spin [animation-duration:25s] flex items-center justify-center">
-          <span className="font-mono text-xs text-lab-amber tracking-widest uppercase font-bold">
-            PUMAKER 3D LAB
+      <div className="w-full h-full flex items-center justify-center p-8 bg-slate-50 relative overflow-hidden">
+        <div className="w-64 h-64 rounded-full border border-puma-gold/40 border-dashed animate-spin [animation-duration:25s] flex items-center justify-center">
+          <span className="font-mono text-xs text-puma-dark font-bold uppercase tracking-widest">
+            PUMAKER 3D
           </span>
         </div>
       </div>
@@ -249,9 +227,9 @@ export const MakerLabHeroCanvas: React.FC = () => {
     <div className="w-full h-full relative">
       {isLoadingModel && (
         <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-          <div className="flex flex-col items-center gap-2 bg-lab-charcoal/80 px-4 py-2.5 rounded-xl border border-lab-amber/30 backdrop-blur-sm">
-            <div className="w-5 h-5 border-2 border-lab-amber border-t-transparent rounded-full animate-spin" />
-            <span className="text-[11px] font-mono text-lab-amber uppercase tracking-wider">
+          <div className="flex flex-col items-center gap-2 bg-white/90 px-4 py-2.5 rounded-xl border border-puma-gold/30 shadow-sm backdrop-blur-sm">
+            <div className="w-5 h-5 border-2 border-puma-gold border-t-transparent rounded-full animate-spin" />
+            <span className="text-[11px] font-mono text-puma-dark uppercase tracking-wider font-semibold">
               Cargando Modelo 3D...
             </span>
           </div>
@@ -259,7 +237,7 @@ export const MakerLabHeroCanvas: React.FC = () => {
       )}
       <div
         ref={mountRef}
-        className="w-full h-full min-h-[480px] lg:min-h-[640px] relative pointer-events-auto cursor-grab active:cursor-grabbing"
+        className="w-full h-full min-h-[480px] lg:min-h-[640px] relative pointer-events-none"
         aria-label="Modelo 3D del emblema PUMAKER"
         role="img"
       />
